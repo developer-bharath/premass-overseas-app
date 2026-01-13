@@ -1,0 +1,891 @@
+{
+  "uk": {
+    "name": "United Kingdom",
+    "flag": "🇬🇧",
+    "heroDescription": "Globally recognised degrees, world-class universities, and strong post-study work opportunities.",
+    "whyStudy": "The UK offers academic excellence, industry-aligned education, and global career recognition. Home to some of the world's oldest and most prestigious institutions, UK degrees are valued by employers worldwide.",
+    "description": "The United Kingdom is one of the world's leading education destinations, offering a rich academic heritage combined with modern innovation.",
+    "tagline": "Excellence, Heritage & Global Opportunities",
+    
+    "universities": [
+      "University of Oxford",
+      "University of Cambridge",
+      "Imperial College London",
+      "University College London",
+      "University of Manchester",
+      "London School of Economics",
+      "University of Edinburgh",
+      "King's College London",
+      "University of Bristol",
+      "University of Warwick"
+    ],
+    
+    "topCourses": [
+      "Business & Management",
+      "Computer Science",
+      "Engineering",
+      "Healthcare & Medicine",
+      "Law",
+      "Data Science",
+      "Finance & Economics",
+      "Architecture",
+      "Psychology",
+      "Artificial Intelligence"
+    ],
+    
+    "intakes": ["January", "May", "September"],
+    
+    "degreeTypes": {
+      "bachelor": {
+        "duration": "3 years",
+        "description": "Undergraduate degree programs"
+      },
+      "master": {
+        "duration": "1-2 years",
+        "description": "Postgraduate degree programs (MA, MSc, MBA)"
+      },
+      "phd": {
+        "duration": "3-4 years",
+        "description": "Research-based doctoral programs"
+      }
+    },
+    
+    "visa": {
+      "type": "UK Student Visa (Tier 4 / Student Route)",
+      "duration": "Duration of course + 4-6 months grace period",
+      "description": "UK Student Visa with Graduate Route post-study work rights.",
+      "processTime": "3-4 weeks (Standard), 5-10 days (Priority)",
+      "requirements": [
+        "Offer letter from recognised UK institution",
+        "Proof of financial support (£40,000+ per year)",
+        "English language proficiency (IELTS 6.0+)",
+        "Valid passport",
+        "Health insurance (Immigration Health Surcharge)"
+      ]
+    },
+    
+    "workRights": {
+      "duringStudies": "Up to 20 hours per week during term time, full-time during official holidays",
+      "postStudies": "Graduate Route: 2 years post-study work right for Bachelor's/Master's graduates, 3 years for PhD graduates",
+      "restrictions": "No self-employment or professional sports during studies",
+      "description": "Generous work rights for skill development and career building"
+    },
+    
+    "tuitionFees": {
+      "domestic": "£9,250 - £15,000 per year",
+      "international": "£15,000 - £40,000+ per year (varies by course and university)",
+      "byField": {
+        "engineering": "£20,000 - £30,000",
+        "mba": "£30,000 - £50,000",
+        "medicine": "£30,000 - £40,000",
+        "arts": "£15,000 - £25,000"
+      }
+    },
+    
+    "livingCosts": {
+      "accommodation": "£600 - £1,200 per month",
+      "food": "£200 - £400 per month",
+      "transport": "£100 - £150 per month",
+      "utilities": "£80 - £150 per month",
+      "entertainment": "£100 - £200 per month",
+      "total": "£1,080 - £2,100 per month (£12,960 - £25,200 per year)"
+    },
+    
+    "scholarships": [
+      "Chevening Scholarship (UK Government) - Full funding",
+      "British Council Scholarships",
+      "University-specific scholarships (Oxford, Cambridge, LSE)",
+      "Commonwealth Scholarships",
+      "Erasmus+ Grants (EU/EEA students)",
+      "TATA Scholarships",
+      "Inlaks Shivdasani Foundation"
+    ],
+    
+    "highlights": [
+      "World's highest-ranked universities (Oxford, Cambridge, LSE)",
+      "Shortest course durations in Western world (1-2 years for Master's)",
+      "Strong reputation with global employers",
+      "Access to world-class research facilities",
+      "Extensive extracurricular activities and networking",
+      "Rich cultural heritage and modern innovation",
+      "Post-study work rights with Graduate Route",
+      "Multicultural student population",
+      "Strong support for international students"
+    ],
+    
+    "jobMarket": {
+      "averageSalary": "£28,000 - £40,000 starting",
+      "topIndustries": ["Finance", "Tech", "Consulting", "Healthcare", "Engineering"],
+      "employmentRate": "95% employment within 6 months of graduation"
+    },
+    
+    "climate": "Temperate maritime climate - mild winters and cool summers, frequent rainfall",
+    
+    "bestCities": [
+      {
+        "name": "London",
+        "description": "Global financial hub, cultural centre, best job opportunities",
+        "livingCost": "Higher (£1,500+ per month)"
+      },
+      {
+        "name": "Edinburgh",
+        "description": "Historic city, vibrant culture, lower living costs",
+        "livingCost": "Moderate (£900-1,200 per month)"
+      },
+      {
+        "name": "Manchester",
+        "description": "Growing tech hub, affordable, strong universities",
+        "livingCost": "Affordable (£800-1,000 per month)"
+      },
+      {
+        "name": "Oxford/Cambridge",
+        "description": "Ancient academic institutions, tight-knit communities",
+        "livingCost": "Moderate (£1,000-1,300 per month)"
+      }
+    ],
+    
+    "applicationProcess": [
+      "Step 1: Research universities and programs (6-12 months before intake)",
+      "Step 2: Prepare documents (transcripts, essays, references)",
+      "Step 3: Submit applications via UCAS (for undergraduates) or directly to university (postgraduates)",
+      "Step 4: Attend interviews (for competitive programs)",
+      "Step 5: Receive offer letter (Conditional or Unconditional)",
+      "Step 6: Secure CAS (Confirmation of Acceptance for Studies)",
+      "Step 7: Apply for Student Visa",
+      "Step 8: Arrange accommodation and travel"
+    ],
+    
+    "whyPremassUK": [
+      "Direct relationships with 100+ UK universities",
+      "Expert guidance on UK application process",
+      "Guaranteed admission support with high success rate",
+      "Visa documentation expertise",
+      "Scholarship identification and application support",
+      "Pre-departure orientation and accommodation support",
+      "Post-arrival mentorship and career guidance"
+    ]
+  },
+
+  "usa": {
+    "name": "United States",
+    "flag": "🇺🇸",
+    "heroDescription": "Flexible education system, cutting-edge research, and global career exposure.",
+    "whyStudy": "The USA provides innovation-driven education and extensive post-study work options. With diverse educational institutions and strong ties to the global economy, US degrees open doors worldwide.",
+    "description": "The United States offers the world's largest education system with endless possibilities for academic specialization and career advancement.",
+    "tagline": "Innovation, Diversity & Unlimited Opportunities",
+    
+    "universities": [
+      "Harvard University",
+      "Stanford University",
+      "MIT",
+      "University of California, Berkeley",
+      "California Institute of Technology",
+      "Princeton University",
+      "Yale University",
+      "University of Chicago",
+      "Columbia University",
+      "University of Pennsylvania"
+    ],
+    
+    "topCourses": [
+      "Computer Science",
+      "Data Science",
+      "MBA",
+      "Engineering",
+      "Life Sciences",
+      "Business Analytics",
+      "Artificial Intelligence",
+      "Finance",
+      "Healthcare Administration",
+      "Environmental Science"
+    ],
+    
+    "intakes": ["January", "August", "September"],
+    
+    "degreeTypes": {
+      "bachelor": {
+        "duration": "4 years",
+        "description": "Undergraduate degree (BS, BA)"
+      },
+      "master": {
+        "duration": "1.5-2 years",
+        "description": "Postgraduate degree (MS, MA, MBA, MEng)"
+      },
+      "phd": {
+        "duration": "4-7 years",
+        "description": "Research-based doctoral programs (fully funded in many cases)"
+      }
+    },
+    
+    "visa": {
+      "type": "F-1 Student Visa",
+      "duration": "Duration of study (I-20 validity)",
+      "description": "F-1 Student Visa with Optional Practical Training (OPT) and CPT opportunities.",
+      "processTime": "Immediate after I-20 approval + 2-4 weeks visa interview scheduling",
+      "requirements": [
+        "I-20 form from US institution",
+        "Proof of financial support ($40,000-80,000+ per year)",
+        "Completed DS-160 form",
+        "Valid passport",
+        "SEVIS fee payment ($350)",
+        "Interview at US embassy/consulate"
+      ]
+    },
+    
+    "workRights": {
+      "duringStudies": "On-campus: Up to 20 hours/week during school term, full-time during breaks; Off-campus: CPT (Curriculum Practical Training) and internships with permission",
+      "postStudies": "OPT (Optional Practical Training): 12 months standard, 24 months extension for STEM fields; Total up to 36 months for STEM graduates",
+      "restrictions": "Must be enrolled and maintain valid status",
+      "description": "Extensive practical training opportunities with strong work experience benefits"
+    },
+    
+    "tuitionFees": {
+      "domestic": "$10,000 - $20,000 per year",
+      "international": "$25,000 - $60,000+ per year (varies significantly by institution)",
+      "byField": {
+        "engineering": "$35,000 - $55,000",
+        "mba": "$40,000 - $80,000 per year",
+        "medicine": "$50,000 - $80,000",
+        "arts": "$25,000 - $45,000"
+      }
+    },
+    
+    "livingCosts": {
+      "accommodation": "$800 - $1,500 per month",
+      "food": "$300 - $500 per month",
+      "transport": "$50 - $150 per month",
+      "utilities": "$100 - $200 per month",
+      "entertainment": "$150 - $300 per month",
+      "total": "$1,400 - $2,650 per month (varies by location and city)"
+    },
+    
+    "scholarships": [
+      "Fulbright Scholarship - Full funding for select countries",
+      "Hubert H. Humphrey Fellowship",
+      "Mitchell Scholarship",
+      "AAUW International Fellowships",
+      "Stanford Graduate Fellowship",
+      "Harvard Fellowship Programs",
+      "MIT Graduate Fellowships",
+      "Teaching Assistantships (TA) and Research Assistantships (RA)",
+      "University-specific merit scholarships",
+      "Inlaks Shivdasani Foundation Scholarships"
+    ],
+    
+    "highlights": [
+      "Top-ranked universities globally (Harvard, Stanford, MIT)",
+      "Cutting-edge research opportunities",
+      "Flexible curriculum with electives and specializations",
+      "Strong industry connections and internship opportunities",
+      "Diverse student population from 190+ countries",
+      "Extended OPT work rights for STEM graduates",
+      "High average graduate salaries",
+      "Entrepreneurship support and startup culture",
+      "Extensive career services and alumni networks"
+    ],
+    
+    "jobMarket": {
+      "averageSalary": "$55,000 - $85,000 starting (highly variable by field and location)",
+      "topIndustries": ["Technology", "Finance", "Consulting", "Healthcare", "Engineering"],
+      "employmentRate": "90%+ employment within 6 months of graduation"
+    },
+    
+    "climate": "Varies widely - tropical (Hawaii/Florida), temperate (Northeast/Midwest), arid (Southwest), temperate oceanic (West Coast)",
+    
+    "bestCities": [
+      {
+        "name": "San Francisco/Silicon Valley",
+        "description": "Tech hub, startup culture, innovation centre",
+        "livingCost": "Very High ($2,000-3,000+ per month)"
+      },
+      {
+        "name": "New York",
+        "description": "Financial hub, cultural diversity, career opportunities",
+        "livingCost": "Very High ($1,800-2,500 per month)"
+      },
+      {
+        "name": "Boston",
+        "description": "Education hub, research opportunities, multiple universities",
+        "livingCost": "High ($1,500-2,000 per month)"
+      },
+      {
+        "name": "Austin",
+        "description": "Emerging tech hub, lower costs, vibrant culture",
+        "livingCost": "Moderate ($1,200-1,600 per month)"
+      }
+    ],
+    
+    "applicationProcess": [
+      "Step 1: Identify universities and programs (1 year before intended enrollment)",
+      "Step 2: Prepare test scores (GRE, GMAT, TOEFL/IELTS)",
+      "Step 3: Gather documents (transcripts, essays, letters of recommendation)",
+      "Step 4: Submit applications online via Common App or university portals",
+      "Step 5: Interview (if required) via video or in-person",
+      "Step 6: Receive admission decision and financial aid package",
+      "Step 7: Submit I-20 form request to university",
+      "Step 8: Apply for F-1 visa at US embassy/consulate",
+      "Step 9: Complete SEVIS registration",
+      "Step 10: Arrange accommodation and travel"
+    ],
+    
+    "whyPremassUSA": [
+      "Partnerships with 200+ US universities across tiers",
+      "Expert GRE/GMAT coaching and test prep guidance",
+      "Strong track record with Ivy League and top-tier schools",
+      "F-1 visa process expertise with high approval rates",
+      "Financial aid and scholarship identification support",
+      "OPT and H-1B pathway guidance",
+      "Pre-departure and post-arrival support",
+      "Alumni network access and career mentoring"
+    ]
+  },
+
+  "canada": {
+    "name": "Canada",
+    "flag": "🇨🇦",
+    "heroDescription": "Affordable education with high visa success and clear PR pathways.",
+    "whyStudy": "Canada offers quality education with long-term settlement opportunities. Known for being welcoming to international students and offering a pathway to permanent residency.",
+    "description": "Canada is a top education destination combining world-class universities with affordable living costs and attractive immigration pathways.",
+    "tagline": "Quality Education, Affordability & Clear PR Pathways",
+    
+    "universities": [
+      "University of Toronto",
+      "University of British Columbia",
+      "McGill University",
+      "University of Alberta",
+      "McMaster University",
+      "Western University",
+      "University of Waterloo",
+      "Simon Fraser University",
+      "University of Montreal",
+      "York University"
+    ],
+    
+    "topCourses": [
+      "IT & Software Engineering",
+      "Business & Management",
+      "Healthcare & Nursing",
+      "Engineering",
+      "Data Science",
+      "Supply Chain Management",
+      "Finance",
+      "Artificial Intelligence",
+      "Environmental Science",
+      "Information Technology"
+    ],
+    
+    "intakes": ["January", "May", "September"],
+    
+    "degreeTypes": {
+      "bachelor": {
+        "duration": "4 years",
+        "description": "Undergraduate degree (BSc, BA)"
+      },
+      "master": {
+        "duration": "1.5-2 years",
+        "description": "Postgraduate degree (MSc, MA, MBA, MEng)"
+      },
+      "diploma": {
+        "duration": "2-3 years",
+        "description": "Career-focused diploma programs (very popular path to PR)"
+      },
+      "phd": {
+        "duration": "3-5 years",
+        "description": "Research-based doctoral programs"
+      }
+    },
+    
+    "visa": {
+      "type": "Study Permit",
+      "duration": "Duration of study + 6 months grace period",
+      "description": "Canadian Study Permit with clear pathway to Post-Graduation Work Permit (PGWP).",
+      "processTime": "2-4 weeks (Standard), 12-24 days (Express)",
+      "requirements": [
+        "Letter of Acceptance from DLI (Designated Learning Institution)",
+        "Proof of financial support (CAD 20,000-40,000+)",
+        "English/French language test (IELTS 6.0+/TOEFL 80+)",
+        "Valid passport",
+        "Medical examination (if required)",
+        "Police clearance certificate"
+      ]
+    },
+    
+    "workRights": {
+      "duringStudies": "Up to 20 hours per week during school term (must attend school at least 50% of the time), full-time during official holidays",
+      "postStudies": "Post-Graduation Work Permit (PGWP): Valid up to 3 years (based on study duration). Can lead to permanent residency application.",
+      "restrictions": "Must be enrolled in eligible program at DLI",
+      "description": "Excellent pathway to permanent residency through work experience and PR programs"
+    },
+    
+    "tuitionFees": {
+      "domestic": "CAD 6,000 - 15,000 per year",
+      "international": "CAD 15,000 - 45,000+ per year (varies by province and institution)",
+      "byField": {
+        "engineering": "CAD 20,000 - 35,000",
+        "mba": "CAD 30,000 - 60,000",
+        "medicine": "CAD 25,000 - 45,000",
+        "arts": "CAD 15,000 - 25,000"
+      }
+    },
+    
+    "livingCosts": {
+      "accommodation": "CAD 800 - 1,500 per month",
+      "food": "CAD 250 - 450 per month",
+      "transport": "CAD 50 - 120 per month",
+      "utilities": "CAD 100 - 150 per month",
+      "entertainment": "CAD 100 - 200 per month",
+      "total": "CAD 1,300 - 2,420 per month (varies by city - Toronto/Vancouver costlier)"
+    },
+    
+    "scholarships": [
+      "Vanier Canada Graduate Scholarships",
+      "Pierre Elliott Trudeau Foundation Scholarship",
+      "NSERC Postgraduate Scholarships",
+      "SSHRC Doctoral Awards",
+      "CIHR Doctoral Awards",
+      "University of Toronto International Scholarships",
+      "UBC International Partial Scholarship",
+      "McGill International Scholarships",
+      "Inlaks Shivdasani Foundation",
+      "Government of Canada scholarships for developing countries"
+    ],
+    
+    "highlights": [
+      "More affordable than US and UK for international students",
+      "Safe, multicultural, and welcoming communities",
+      "Clear pathway to permanent residency through Express Entry",
+      "Two-year Post-Graduation Work Permit for 2-year programs",
+      "Strong universities with excellent research facilities",
+      "Excellent work-study opportunities",
+      "Universal healthcare coverage for international students",
+      "Clean environment and high quality of life",
+      "Growing tech and innovation hubs"
+    ],
+    
+    "jobMarket": {
+      "averageSalary": "CAD 45,000 - 65,000 starting",
+      "topIndustries": ["Technology", "Healthcare", "Finance", "Engineering", "Energy"],
+      "employmentRate": "93%+ employment within 6 months of graduation"
+    },
+    
+    "climate": "Varies by region - cold winters in most areas (-10 to -40°C), mild on coasts, temperate in southern regions",
+    
+    "bestCities": [
+      {
+        "name": "Toronto",
+        "description": "Largest city, diverse economy, financial hub, most jobs",
+        "livingCost": "High (CAD 1,600-2,000 per month)"
+      },
+      {
+        "name": "Vancouver",
+        "description": "Mild climate, natural beauty, growing tech hub",
+        "livingCost": "Very High (CAD 1,800-2,400 per month)"
+      },
+      {
+        "name": "Waterloo",
+        "description": "Tech innovation hub, startup culture, growing economy",
+        "livingCost": "Moderate (CAD 1,200-1,500 per month)"
+      },
+      {
+        "name": "Calgary",
+        "description": "Affordable, energy sector jobs, outdoor recreation",
+        "livingCost": "Affordable (CAD 1,000-1,300 per month)"
+      }
+    ],
+    
+    "permanentResidencyPathway": [
+      "Step 1: Complete study program in Canada (at least 2 years)",
+      "Step 2: Work on Post-Graduation Work Permit (up to 3 years available)",
+      "Step 3: Gain Canadian work experience (usually 1 year minimum required)",
+      "Step 4: Apply for PR through Express Entry (Canadian Experience Class or Federal Skilled Worker)",
+      "Step 5: PR approval and settlement in Canada",
+      "Timeline: Total 3-5 years from study completion to PR"
+    ],
+    
+    "applicationProcess": [
+      "Step 1: Choose province and institution (1 year before enrollment)",
+      "Step 2: Prepare documents (transcripts, test scores, letters)",
+      "Step 3: Submit applications to DLI institutions",
+      "Step 4: Receive Letter of Acceptance",
+      "Step 5: Gather financial documents (bank statements, proof of funds)",
+      "Step 6: Apply for Study Permit online (AIP application)",
+      "Step 7: Complete medical exam if requested",
+      "Step 8: Receive Study Permit approval",
+      "Step 9: Arrange accommodation and travel"
+    ],
+    
+    "whyPremassCanada": [
+      "Expert knowledge of Canadian PR pathways",
+      "Relationships with DLI-approved institutions",
+      "Study Permit application support with high approval rates",
+      "Province selection guidance based on goals",
+      "Guidance on choosing programs aligned with in-demand occupations",
+      "PGWP and Express Entry pathway counselling",
+      "Post-arrival settlement support",
+      "Career planning aligned with PR requirements"
+    ]
+  },
+
+  "australia": {
+    "name": "Australia",
+    "flag": "🇦🇺",
+    "heroDescription": "Globally ranked universities, high lifestyle quality, and strong post-study employment options.",
+    "whyStudy": "Australia offers world-class education with excellent employment prospects and lifestyle quality. Known for practical learning approaches and strong industry connections.",
+    "description": "Australia is a premier education destination combining academic excellence with lifestyle quality and clear pathways to skilled migration.",
+    "tagline": "Excellence, Lifestyle & Global Recognition",
+    
+    "universities": [
+      "University of Melbourne",
+      "University of Sydney",
+      "UNSW Sydney",
+      "University of Queensland",
+      "Australian National University",
+      "University of Western Australia",
+      "University of Technology Sydney",
+      "Monash University",
+      "University of Adelaide",
+      "University of Wollongong"
+    ],
+    
+    "topCourses": [
+      "Engineering",
+      "Nursing & Healthcare",
+      "Business Analytics",
+      "Information Technology",
+      "Accounting & Finance",
+      "Construction Management",
+      "Hospitality Management",
+      "Environmental Science",
+      "Agriculture",
+      "Project Management"
+    ],
+    
+    "intakes": ["January", "February", "July"],
+    
+    "degreeTypes": {
+      "bachelor": {
+        "duration": "3-4 years",
+        "description": "Undergraduate degree (Bachelor of Science, Arts, Commerce, etc.)"
+      },
+      "master": {
+        "duration": "1.5-2 years",
+        "description": "Postgraduate degree (Master's, Graduate Diploma)"
+      },
+      "phd": {
+        "duration": "3-4 years",
+        "description": "Research-based doctoral programs"
+      },
+      "vocationaldiploma": {
+        "duration": "1-3 years",
+        "description": "VET (Vocational Education & Training) programs - popular and practical"
+      }
+    },
+    
+    "visa": {
+      "type": "Student Visa (Subclass 500)",
+      "duration": "Duration of study + 5 months or up to validity date of final semester",
+      "description": "Australian Student Visa with post-study work rights (Skilled Independent Visa pathway).",
+      "processTime": "1-4 weeks via ImmiAccount (online)",
+      "requirements": [
+        "Conditional or Unconditional Letter of Offer",
+        "Proof of financial support (AUD 20,000-25,000 per year)",
+        "English language proficiency (IELTS 5.5+ depending on program)",
+        "Valid passport",
+        "Health examination (if required)",
+        "Police clearance"
+      ]
+    },
+    
+    "workRights": {
+      "duringStudies": "Up to 20 hours per week during teaching period, unlimited hours during official school holidays",
+      "postStudies": "Post-Study Work Visa (subclass 485): 18 months (Bachelor), 2 years (Master's), 3 years (PhD). Can apply for skilled migration visas after.",
+      "restrictions": "Must be enrolled and making satisfactory academic progress",
+      "description": "Excellent work rights and clear pathway to skilled migration and permanent residency"
+    },
+    
+    "tuitionFees": {
+      "domestic": "AUD 9,500 - 15,000 per year",
+      "international": "AUD 20,000 - 50,000+ per year (varies by field and university)",
+      "byField": {
+        "engineering": "AUD 28,000 - 42,000",
+        "medicine": "AUD 35,000 - 50,000",
+        "business": "AUD 20,000 - 35,000",
+        "it": "AUD 22,000 - 38,000"
+      }
+    },
+    
+    "livingCosts": {
+      "accommodation": "AUD 1,000 - 1,800 per month",
+      "food": "AUD 300 - 500 per month",
+      "transport": "AUD 100 - 200 per month",
+      "utilities": "AUD 100 - 150 per month",
+      "entertainment": "AUD 100 - 300 per month",
+      "total": "AUD 1,600 - 2,950 per month (Sydney/Melbourne costlier)"
+    },
+    
+    "scholarships": [
+      "Australia Awards Scholarships (Government of Australia)",
+      "Endeavour Scholarship (Australian Government)",
+      "AusAID Scholarships",
+      "University of Melbourne Scholarships",
+      "UNSW Scholarship Programs",
+      "University of Sydney Scholarships",
+      "ANU Scholarships",
+      "Inlaks Shivdasani Foundation",
+      "Rotary International Scholarships",
+      "RMIT Honours Scholarships"
+    ],
+    
+    "highlights": [
+      "Top-ranked universities (consistently in top 100 globally)",
+      "Practical, industry-aligned education",
+      "Extended post-study work rights",
+      "Clear pathway to skilled migration",
+      "High graduate employment rates",
+      "Strong research facilities and partnerships",
+      "Excellent student amenities and support services",
+      "Welcoming multicultural environment",
+      "High quality of life and safety",
+      "Beautiful lifestyle with outdoor recreation"
+    ],
+    
+    "jobMarket": {
+      "averageSalary": "AUD 55,000 - 80,000 starting",
+      "topIndustries": ["Technology", "Healthcare", "Finance", "Engineering", "Construction"],
+      "employmentRate": "92%+ employment within 6 months of graduation"
+    },
+    
+    "climate": "Varies by region - subtropical (Brisbane), temperate (Sydney/Melbourne), tropical (Far North), arid (outback). Generally warm year-round.",
+    
+    "bestCities": [
+      {
+        "name": "Sydney",
+        "description": "Largest city, iconic beaches, vibrant culture, most opportunities",
+        "livingCost": "High (AUD 2,000-2,500 per month)"
+      },
+      {
+        "name": "Melbourne",
+        "description": "Cultural hub, arts scene, diverse population, good job market",
+        "livingCost": "High (AUD 1,800-2,300 per month)"
+      },
+      {
+        "name": "Brisbane",
+        "description": "Growing economy, lower costs, sunny climate, outdoor lifestyle",
+        "livingCost": "Moderate (AUD 1,400-1,700 per month)"
+      },
+      {
+        "name": "Perth",
+        "description": "Isolated but vibrant, lowest costs, booming resources sector",
+        "livingCost": "Moderate (AUD 1,400-1,700 per month)"
+      }
+    ],
+    
+    "permanentResidencyPathway": [
+      "Step 1: Complete study in Australia (minimum 2 years)",
+      "Step 2: Work on Post-Study Work Visa (18 months to 3 years)",
+      "Step 3: Work in occupations on skilled migration list (typically 1-2 years)",
+      "Step 4: Apply for permanent residency via Skilled Independent Visa (189) or Employer-Sponsored Visa (186)",
+      "Step 5: PR approval and settlement",
+      "Timeline: Total 4-6 years from study completion to PR"
+    ],
+    
+    "applicationProcess": [
+      "Step 1: Research universities and programs (6-12 months before intake)",
+      "Step 2: Prepare documents (transcripts, test scores, portfolio if needed)",
+      "Step 3: Submit applications directly to universities",
+      "Step 4: Receive Letter of Offer",
+      "Step 5: Confirm enrollment and pay deposit",
+      "Step 6: Receive Confirmation of Enrolment (CoE)",
+      "Step 7: Apply for Student Visa online via ImmiAccount",
+      "Step 8: Complete medical examination and police checks",
+      "Step 9: Visa approval and travel arrangement"
+    ],
+    
+    "whyPremassAustralia": [
+      "Direct partnerships with Go8 and other top Australian universities",
+      "Expert Student Visa application support",
+      "Skilled migration pathway planning and guidance",
+      "State sponsorship and employer sponsorship knowledge",
+      "Post-Study Work Visa maximization strategies",
+      "Career planning aligned with migration goals",
+      "Pre-departure accommodation and settlement support",
+      "Post-arrival mentor network and support"
+    ]
+  },
+
+  "europe": {
+    "name": "Europe",
+    "flag": "🇪🇺",
+    "heroDescription": "Affordable education, English-taught programs, cultural diversity, and global perspectives.",
+    "whyStudy": "Europe offers high-quality education at a fraction of the cost compared to US/UK, with unique cultural experiences and strong industries.",
+    "description": "Europe provides diverse education options across multiple countries with affordable tuition, excellent research facilities, and rich cultural experiences.",
+    "tagline": "Affordability, Diversity & Global Perspective",
+    
+    "countries": [
+      {
+        "name": "Netherlands",
+        "highlights": "English-taught programs, lower costs, high employability"
+      },
+      {
+        "name": "Germany",
+        "highlights": "Many tuition-free programs, strong engineering, research-focused"
+      },
+      {
+        "name": "France",
+        "highlights": "Prestigious institutions, affordable, romantic lifestyle"
+      },
+      {
+        "name": "Spain",
+        "highlights": "Growing startup ecosystem, affordable living, vibrant culture"
+      },
+      {
+        "name": "Poland",
+        "highlights": "Very affordable, improving universities, growing tech hub"
+      }
+    ],
+    
+    "topUniversities": [
+      "University of Amsterdam (Netherlands)",
+      "Technical University of Munich (Germany)",
+      "University of Paris (France)",
+      "University of Barcelona (Spain)",
+      "Delft University of Technology (Netherlands)",
+      "ETH Zurich (Switzerland - highest cost but world-class)",
+      "University of Copenhagen (Denmark)",
+      "University of Milan (Italy)"
+    ],
+    
+    "topCourses": [
+      "Management & Business",
+      "Engineering",
+      "Public Health",
+      "Design",
+      "Artificial Intelligence",
+      "Renewable Energy",
+      "Computer Science",
+      "Architecture",
+      "Finance",
+      "International Relations"
+    ],
+    
+    "intakes": ["January", "September"],
+    
+    "visa": {
+      "type": "Schengen Student Visa / National Visa",
+      "duration": "Duration of study (usually 1-2 years)",
+      "description": "Student visa for European country of study, Schengen visa benefits for travel.",
+      "processTime": "2-6 weeks varies by country",
+      "requirements": [
+        "Admission letter from European university",
+        "Proof of financial support (€15,000-25,000 per year depending on country)",
+        "English language proficiency (IELTS 6.0+)",
+        "Valid passport",
+        "Health insurance",
+        "Statement of purpose"
+      ]
+    },
+    
+    "workRights": {
+      "duringStudies": "Varies: Netherlands/Germany (16 hours/week), France (964 hours/year), Spain (30 hours/week during term)",
+      "postStudies": "Varies: Netherlands (1 year), Germany (18 months), France (12 months post-graduation. Many have pathways to long-term visa post-study.",
+      "restrictions": "Must not exceed limits specified by country",
+      "description": "Work rights vary by country - generally student-friendly with post-study options"
+    },
+    
+    "tuitionFees": {
+      "byCountry": {
+        "netherlands": "€2,000 - 25,000 per year (public universities lower, international programs higher)",
+        "germany": "€0 - 3,500 per year (many public universities have no tuition for international students)",
+        "france": "€300 - 4,000 per year (public) / €10,000+ (private)",
+        "spain": "€1,000 - 5,000 per year",
+        "switzerland": "€1,500 - 40,000 per year (most expensive in Europe)"
+      }
+    },
+    
+    "livingCosts": {
+      "byCountry": {
+        "netherlands": "€1,000 - 1,500 per month (Amsterdam costlier)",
+        "germany": "€700 - 1,200 per month (Berlin affordable)",
+        "france": "€800 - 1,400 per month (Paris most expensive)",
+        "spain": "€600 - 1,000 per month",
+        "poland": "€400 - 700 per month (most affordable)"
+      }
+    },
+    
+    "scholarships": [
+      "Erasmus+ Scholarships (study and work abroad)",
+      "DAAD Scholarships (Germany - prestigious)",
+      "France Excellence Scholarship",
+      "Nuffic Fellowship Programme (Netherlands)",
+      "Ibis Scholarship (Spain)",
+      "ECTS Scholarships",
+      "Inlaks Shivdasani Foundation",
+      "University-specific scholarships"
+    ],
+    
+    "highlights": [
+      "Most affordable higher education in developed world",
+      "Tuition-free or very low-cost programs in Germany",
+      "High-quality education with global recognition",
+      "English-taught programs widely available",
+      "Schengen visa allows travel to 27 countries",
+      "Rich cultural and historical experiences",
+      "Strong research institutions",
+      "Growing startup and innovation hubs",
+      "Post-study work visa options",
+      "Excellent public transport and lifestyle",
+      "Access to ERASMUS+ programs for exchange"
+    ],
+    
+    "jobMarket": {
+      "averageSalary": "€25,000 - 45,000 starting (varies by country and field)",
+      "topIndustries": ["Technology", "Finance", "Engineering", "Healthcare", "Renewable Energy"],
+      "employmentRate": "85-90%+ employment within 6 months of graduation"
+    },
+    
+    "bestCities": [
+      {
+        "name": "Amsterdam, Netherlands",
+        "description": "English-friendly, international, great universities",
+        "livingCost": "High (€1,400-1,600 per month)"
+      },
+      {
+        "name": "Berlin, Germany",
+        "description": "Startup hub, low costs, vibrant culture",
+        "livingCost": "Affordable (€800-1,000 per month)"
+      },
+      {
+        "name": "Barcelona, Spain",
+        "description": "Mediterranean lifestyle, growing economy, beach access",
+        "livingCost": "Moderate (€800-1,100 per month)"
+      },
+      {
+        "name": "Warsaw, Poland",
+        "description": "Rapidly growing tech hub, very affordable, vibrant",
+        "livingCost": "Very Affordable (€500-700 per month)"
+      }
+    ],
+    
+    "applicationProcess": [
+      "Step 1: Identify country and program (1 year before intake)",
+      "Step 2: Prepare applications (requirements vary by country and institution)",
+      "Step 3: Submit applications (most applications from January)",
+      "Step 4: Receive admission letter",
+      "Step 5: Arrange financial proof and insurance",
+      "Step 6: Apply for student visa at embassy/consulate",
+      "Step 7: Arrange accommodation",
+      "Step 8: Travel and enrollment"
+    ],
+    
+    "whyPremassEurope": [
+      "Expert knowledge of multiple European education systems",
+      "Partnerships with English-taught programs across Europe",
+      "Student visa application support for various countries",
+      "Affordable education pathway guidance",
+      "Schengen visa process expertise",
+      "Work and study balance counseling",
+      "Career options with post-study work visas",
+      "Settlement support in multiple countries"
+    ]
+  }
+}

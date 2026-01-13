@@ -1,0 +1,670 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =================================================
+   GLOBAL BASE
+================================================= */
+body {
+  @apply bg-white text-slate-800 antialiased;
+}
+
+section {
+  @apply scroll-mt-28;
+}
+
+/* =================================================
+   NAV LINKS – CURSOR-TRACK ORANGE UNDERLINE
+================================================= */
+.nav-link {
+  position: relative;
+  font-weight: 500;
+  color: white;
+  padding-bottom: 6px;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background-color: #F5A623;
+  transform: translateX(-50%);
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover::after,
+.nav-link-active::after {
+  width: 100%;
+}
+
+.nav-link-active {
+  color: #F5A623;
+}
+
+/* =================================================
+   SOCIAL ICONS – WHITE GLOW (RESTORED)
+================================================= */
+.icon-btn {
+  @apply text-white text-sm p-2 rounded-full
+         border border-white/30
+         transition;
+  box-shadow: 0 0 12px rgba(255,255,255,0.25);
+}
+
+.icon-btn:hover {
+  color: #F5A623;
+  border-color: #F5A623;
+  box-shadow: 0 0 16px rgba(245,166,35,0.6);
+}
+
+/* =================================================
+   LEFT SERVICES MENU – PREMIUM STYLE
+================================================= */
+
+/* CATEGORY HEADING */
+.service-heading {
+  @apply text-[#0A3A5E] font-semibold text-sm uppercase tracking-wide mb-3;
+  position: relative;
+  padding-left: 14px;
+}
+
+.service-heading::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 3px;
+  height: 14px;
+  background: #F5A623;
+  border-radius: 2px;
+}
+
+/* SUB SERVICE ITEM */
+.service-item {
+  position: relative;
+  display: block;
+  padding-left: 38px;          /* premium spacing */
+  padding-bottom: 8px;
+  font-size: 14px;
+  color: #475569;
+  transition: color 0.25s ease;
+}
+
+/* ARROW */
+.service-item::before {
+  content: "›";
+  position: absolute;
+  left: 12px;
+  top: 0;
+  color: #F5A623;
+  font-size: 18px;
+  line-height: 1.2;
+  transition: transform 0.25s ease;
+}
+
+/* UNDERLINE (SAME LOGIC AS NAVBAR) */
+.service-item::after {
+  content: "";
+  position: absolute;
+  left: 38px;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: #F5A623;
+  transition: width 0.3s ease;
+}
+
+/* HOVER */
+.service-item:hover {
+  color: #0A3A5E;
+}
+
+.service-item:hover::before {
+  transform: translateX(4px);
+}
+
+.service-item:hover::after {
+  width: 55%;
+}
+
+/* ACTIVE */
+.service-item-active {
+  color: #0A3A5E;
+  font-weight: 500;
+}
+
+.service-item-active::before {
+  transform: translateX(4px);
+}
+
+.service-item-active::after {
+  width: 55%;
+}
+
+/* =================================================
+   BUTTONS
+================================================= */
+.btn-primary {
+  @apply bg-[#F5A623] text-white px-8 py-3 rounded-xl
+         font-semibold transition hover:opacity-90;
+}
+
+.btn-outline {
+  @apply border border-[#F5A623] text-[#F5A623]
+         px-6 py-3 rounded-xl font-semibold
+         hover:bg-[#F5A623] hover:text-white
+         transition;
+}
+
+/* =================================================
+   CARDS
+================================================= */
+.card {
+  @apply bg-white rounded-xl p-6 border
+         transition duration-300
+         hover:shadow-xl hover:-translate-y-1;
+}
+
+/* =================================================
+   MEGA MENU – VISIBILITY + LAYER FIX
+================================================= */
+header {
+  position: relative;
+  z-index: 50;
+}
+
+.mega-menu {
+  position: absolute;
+  z-index: 100;
+  background: #ffffff;
+  color: #0A3A5E;
+  border-radius: 1rem;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+}
+
+/* =================================================
+   HERO OVERLAY – TEXT VISIBILITY FIX
+================================================= */
+.hero-overlay {
+  background: linear-gradient(
+    to right,
+    rgba(10,58,94,0.96),
+    rgba(10,58,94,0.9)
+  );
+  position: relative;
+  z-index: 10;
+}
+/* =================================================
+   MEGA MENU – PREMIUM INTERACTIVE ITEMS (BLUE)
+================================================= */
+
+/* Mega menu service link */
+.mega-menu a {
+  position: relative;
+  display: inline-block;
+  padding-left: 30px;
+  padding-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0A3A5E;
+  transition: color 0.25s ease;
+}
+
+/* Arrow (same logic as left menu, BLUE) */
+.mega-menu a::before {
+  content: "›";
+  position: absolute;
+  left: 10px;
+  top: 0;
+  font-size: 18px;
+  color: #0A3A5E;
+  transition: transform 0.25s ease;
+}
+
+/* Underline hover (BLUE) */
+.mega-menu a::after {
+  content: "";
+  position: absolute;
+  left: 30px;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: #e3a805;
+  transition: width 0.3s ease;
+}
+
+/* Hover effect */
+.mega-menu a:hover {
+  color: #15497c;
+}
+
+.mega-menu a:hover::before {
+  transform: translateX(4px);
+}
+
+.mega-menu a:hover::after {
+  width: 60%;
+}
+
+/* Clickable feel (button-like) */
+.mega-menu a:hover {
+  background: rgba(248, 188, 22, 0.201);
+  border-radius: 6px;
+  padding-left: 34px;
+}
+/* =========================================
+   MEGA MENU & COUNTRIES – PREMIUM HOVER UX
+========================================= */
+
+.mega-service-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  padding-bottom: 6px;
+  font-weight: 500;
+  color: #0A3A5E;
+  transition: color 0.25s ease, background 0.25s ease;
+}
+
+/* Arrow – always visible */
+.mega-service-link::before {
+  content: "›";
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #0A3A5E;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+/* Underline (same logic as navbar) */
+.mega-service-link::after {
+  content: "";
+  position: absolute;
+  left: 30px;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: #F5A623;
+  transition: width 0.3s ease;
+}
+
+/* HOVER STATE – BRAND ORANGE */
+.mega-service-link:hover {
+  color: #F5A623;
+  background: rgba(245, 166, 35, 0.12);
+  border-radius: 6px;
+}
+
+/* Arrow follows cursor */
+.mega-service-link:hover::before {
+  transform: translate(4px, -50%);
+  color: #F5A623;
+}
+
+/* Underline grows */
+.mega-service-link:hover::after {
+  width: 60%;
+}
+
+
+/* Hover feel */
+.mega-service-link:hover {
+  background: rgba(10, 58, 94, 0.06);
+}
+
+.mega-service-link:hover::before {
+  transform: translateX(4px);
+}
+
+.mega-service-link:hover::after {
+  width: 60%;
+}
+/* =========================================
+   STATS / ACHIEVEMENTS SECTION
+========================================= */
+.stats-section {
+  padding: 5rem 0;
+  background: linear-gradient(
+    to bottom,
+    #ffffff,
+    #f8fafc
+  );
+}
+
+/* Premium stat card */
+.stat-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 1.25rem;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.stat-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 1.25rem;
+  background: linear-gradient(
+    135deg,
+    rgba(245, 166, 35, 0.18),
+    rgba(10, 58, 94, 0.18)
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.stat-card:hover::before {
+  opacity: 1;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.15);
+}
+
+/* Icon */
+.stat-icon {
+  font-size: 2.5rem;
+  color: #0A3A5E;
+  margin-bottom: 1rem;
+  transition: transform 0.35s ease, color 0.35s ease;
+}
+
+.stat-card:hover .stat-icon {
+  transform: scale(1.15);
+  color: #F5A623;
+}
+
+/* Number */
+.stat-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #0A3A5E;
+  margin-bottom: 0.5rem;
+}
+
+/* Label */
+.stat-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #475569;
+  letter-spacing: 0.02em;
+}
+
+/* =========================================
+   PREMIUM SECTION SYSTEM (HOME)
+========================================= */
+
+/* Page background rhythm */
+.page-bg {
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #f8fafc 40%,
+    #ffffff 100%
+  );
+}
+
+/* Floating section */
+.premium-section {
+  position: relative;
+  margin-top: 6rem;
+  margin-bottom: 6rem;
+}
+
+.premium-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Section header */
+.premium-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0A3A5E;
+}
+
+.premium-subtext {
+  margin-top: 0.75rem;
+  max-width: 720px;
+  color: #475569;
+  line-height: 1.7;
+}
+
+/* Floating card */
+.premium-card {
+  background: #ffffff;
+  border-radius: 1.25rem;
+  padding: 2.2rem;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.08);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.premium-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 35px 80px rgba(0,0,0,0.15);
+}
+
+/* Icon wrapper */
+.premium-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(245,166,35,0.15);
+  color: #F5A623;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Premium buttons */
+.btn-premium {
+   
+  background: linear-gradient(
+    to right,
+    #F5A623,
+    #F5A623
+  );
+  color: #0A3A5E;
+  padding: 0.85rem 2rem;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn-premium:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(245,166,35,0.45);
+}
+
+/* Secondary button */
+.btn-premium-outline {
+  border: 2px solid #f7f6f5;
+  color: #f3f0eb;
+  padding: 0.85rem 2rem;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+.btn-premium-outline:hover {
+  background: #F5A623;
+  color: #0A3A5E;
+}
+/* =========================================
+   PREMIUM SERVICES SECTION
+========================================= */
+
+.premium-services-section {
+  background: linear-gradient(
+    to bottom,
+    rgba(245, 166, 35, 0.06),
+    rgba(255, 255, 255, 1)
+  );
+}
+
+/* Card */
+.premium-service-card {
+  background: #ffffff;
+  border-radius: 1.25rem;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 20px 50px rgba(198, 195, 192, 0.404);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  text-align: center;
+}
+
+.premium-service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.15);
+}
+
+/* Icon */
+.service-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: rgba(245, 166, 35, 0.18);
+  color: #F5A623;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+}
+
+/* Title */
+.service-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #0A3A5E;
+}
+
+/* Text */
+.service-text {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.6;
+}
+
+/* =========================================
+   PREMIUM CARD SEPARATION FIX
+========================================= */
+
+/* Section inner spacer so cards never touch background */
+.premium-section,
+.premium-services-section {
+  position: relative;
+  padding-bottom: 6rem;
+}
+
+/* Soft separation layer under cards */
+.premium-services-section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0),
+    rgba(255,255,255,1)
+  );
+  pointer-events: none;
+}
+
+/* Premium hover refinement */
+.premium-card:hover,
+.premium-service-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 
+    0 20px 40px rgba(0,0,0,0.08),
+    0 40px 80px rgba(10,58,94,0.12);
+}
+
+/* =========================================
+   SERVICE CARD – VIEW SERVICES BUTTON
+========================================= */
+
+.service-view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 1.25rem;
+  padding: 10px 24px;
+
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    #F5A623,
+    #f7b84a
+  );
+
+  color: #0A3A5E;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+
+  box-shadow: 0 8px 20px rgba(245, 166, 35, 0.35);
+  transition: all 0.25s ease;
+}
+
+/* Hover effect */
+.service-view-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(245, 166, 35, 0.5);
+}
+
+/* Arrow */
+.service-view-btn::after {
+  content: " ›";
+  font-size: 18px;
+  margin-left: 6px;
+  transition: transform 0.25s ease;
+}
+
+.service-view-btn:hover::after {
+  transform: translateX(4px);
+}
+
+
+
+/* =========================================
+   VISUAL SECTION DEBUG (NON-DESTRUCTIVE)
+   REMOVE LATER IF YOU WANT
+========================================= */
+
+
+
+.premium-section {
+  background: #f3f6fb;
+}
+
+.premium-services-section {
+  background: #f2f0eb19;
+}
+
+.stats-section {
+  background: #ffffff;
+}
+
+/* =========================================
+   COUNTRIES DROPDOWN – ARROW ALIGNMENT
+========================================= */
+.countries-menu .mega-service-link::before {
+  top: 50%;
+  transform: translateY(-50%);
+}
