@@ -7,7 +7,7 @@ export default function About() {
       {/* =================================================
          HERO – IMAGE + AUTHORITY
       ================================================= */}
-      <section className="bg-[#0A3A5E] text-white">
+      <section className="bg-[#054374] text-white">
         <div className="max-w-7xl mx-auto px-6 py-28 grid md:grid-cols-2 gap-14 items-center">
 
           {/* TEXT */}
@@ -52,7 +52,7 @@ export default function About() {
 
           {/* CONTENT */}
           <div>
-            <h2 className="text-2xl font-bold text-[#0A3A5E]">
+            <h2 className="text-2xl font-bold text-[#054374]">
               Who We Are
             </h2>
 
@@ -78,7 +78,7 @@ export default function About() {
       <section className="bg-slate-50">
         <div className="max-w-7xl mx-auto px-6 py-28">
 
-          <h2 className="text-2xl font-bold text-center text-[#0A3A5E]">
+          <h2 className="text-2xl font-bold text-center text-[#054374]">
             Our Approach
           </h2>
 
@@ -90,7 +90,7 @@ export default function About() {
           <div className="mt-16 grid md:grid-cols-3 gap-10">
 
             <div className="premium-card">
-              <h3 className="font-semibold text-lg text-[#0A3A5E]">
+              <h3 className="font-semibold text-lg text-[#054374]">
                 Profile Assessment
               </h3>
               <p className="mt-3 text-gray-600">
@@ -100,7 +100,7 @@ export default function About() {
             </div>
 
             <div className="premium-card">
-              <h3 className="font-semibold text-lg text-[#0A3A5E]">
+              <h3 className="font-semibold text-lg text-[#054374]">
                 Compliance First
               </h3>
               <p className="mt-3 text-gray-600">
@@ -110,7 +110,7 @@ export default function About() {
             </div>
 
             <div className="premium-card">
-              <h3 className="font-semibold text-lg text-[#0A3A5E]">
+              <h3 className="font-semibold text-lg text-[#054374]">
                 End-to-End Support
               </h3>
               <p className="mt-3 text-gray-600">
@@ -128,7 +128,7 @@ export default function About() {
       <section className="premium-services-section">
         <div className="max-w-7xl mx-auto px-6 py-28">
 
-          <h2 className="text-2xl font-bold text-center text-[#0A3A5E]">
+          <h2 className="text-2xl font-bold text-center text-[#054374]">
             Why Students Trust Premass Overseas
           </h2>
 
@@ -177,7 +177,7 @@ export default function About() {
       {/* =================================================
          FINAL CTA – STRONG CLOSE
       ================================================= */}
-      <section className="bg-[#0A3A5E] text-white">
+      <section className="bg-[#054374] text-white">
         <div className="max-w-6xl mx-auto px-6 py-28 text-center">
 
           <h2 className="text-3xl font-bold">

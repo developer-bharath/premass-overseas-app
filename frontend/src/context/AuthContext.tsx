@@ -8,7 +8,7 @@ export interface AuthContextType {
     id: string;
     name: string;
     email: string;
-    role: "student" | "employee" | "admin";
+    role: "student" | "employee" | "admin" | "super_admin";
   } | null;
   token: string | null;
   loading: boolean;

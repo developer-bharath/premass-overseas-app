@@ -30,13 +30,13 @@ export default function Home() {
       {/* =================================================
          HERO – DARK BRAND (AUTHORITY)
       ================================================= */}
-      <section className="bg-[#0A3A5E] text-white">
+      <section className="bg-[#054374] text-white">
         <div className="max-w-7xl mx-auto px-6 py-28 grid md:grid-cols-2 gap-14 items-center">
 
           <div>
             <h1 className="text-4xl md:text-5xl font-bold leading-tight">
               Your Trusted Partner for <br />
-              <span className="text-[#F5A623]">
+              <span className="text-[#cd9429]">
                 Global Education & Career Success
               </span>
             </h1>
@@ -71,7 +71,7 @@ export default function Home() {
       ================================================= */}
       <section className="bg-white">
         <div className="max-w-7xl mx-auto px-6 pt-24 text-center">
-          <h2 className="text-3xl font-bold text-[#0A3A5E]">
+          <h2 className="text-3xl font-bold text-[#054374]">
             Trusted by Students Worldwide
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-gray-600">
@@ -158,7 +158,7 @@ export default function Home() {
       <section className="premium-services-section">
         <div className="max-w-7xl mx-auto px-6 py-28">
 
-          <h2 className="text-3xl font-bold text-center text-[#0A3A5E]">
+          <h2 className="text-3xl font-bold text-center text-[#054374]">
             Our Core Services
           </h2>
 
@@ -207,7 +207,7 @@ export default function Home() {
       {/* =================================================
          FINAL CTA – DARK BRAND (STRONG CLOSE)
       ================================================= */}
-      <section className="bg-[#0A3A5E] text-white">
+      <section className="bg-[#054374] text-white">
         <div className="max-w-6xl mx-auto px-6 py-28 text-center">
 
           <h2 className="text-3xl font-bold">

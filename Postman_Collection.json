@@ -1,0 +1,345 @@
+{
+  "info": {
+    "name": "Premass Overseas SaaS Platform - Complete API Collection",
+    "description": "110+ REST API endpoints for enterprise education and career support platform",
+    "version": "1.0.0"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "http://localhost:4000/api/auth/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "auth", "register"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"phone\": \"+91-9876543210\",\n  \"role\": \"student\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "http://localhost:4000/api/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "auth", "login"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Task Management",
+      "item": [
+        {
+          "name": "Create Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:4000/api/tasks",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "tasks"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"taskTitle\": \"Follow-up with Student\",\n  \"taskDescription\": \"Schedule counseling session\",\n  \"assignedTo\": \"USER_ID_HERE\",\n  \"taskCategory\": \"lead_follow_up\",\n  \"priority\": \"high\",\n  \"dueDate\": \"2026-02-20\",\n  \"estimatedDuration\": 2\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:4000/api/tasks?status=in_progress&priority=high",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "tasks"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "in_progress"
+                },
+                {
+                  "key": "priority",
+                  "value": "high"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Task Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:4000/api/tasks/analytics/dashboard",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "tasks", "analytics", "dashboard"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Overseas Education Service",
+      "item": [
+        {
+          "name": "Create Lead",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:4000/api/services/overseas-education",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "services", "overseas-education"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Raj Kumar\",\n  \"email\": \"raj@email.com\",\n  \"phone\": \"+91-9876543210\",\n  \"academicProfile\": {\n    \"qualification\": \"12th Pass\",\n    \"percentage\": 85,\n    \"boards\": [\"CBSE\"],\n    \"streams\": [\"Science\"]\n  },\n  \"studyAbroad\": {\n    \"targetCountries\": [\"Canada\", \"USA\"],\n    \"preferredCourses\": [\"Computer Science\"],\n    \"budgetRange\": \"20-30 LPA\"\n  },\n  \"leadSource\": \"Website\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Leads",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:4000/api/services/overseas-education",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "services", "overseas-education"]
+            }
+          }
+        },
+        {
+          "name": "Get Lead Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:4000/api/services/overseas-education/analytics/dashboard",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "services", "overseas-education", "analytics", "dashboard"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Employee Management",
+      "item": [
+        {
+          "name": "Get All Employees",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:4000/api/employees",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "employees"]
+            }
+          }
+        },
+        {
+          "name": "Record Attendance (Check-In)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:4000/api/employees/EMPLOYEE_ID/attendance",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "employees", "EMPLOYEE_ID", "attendance"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"check_in\",\n  \"ipAddress\": \"192.168.1.1\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Employee Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:4000/api/employees/EMPLOYEE_ID/dashboard",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "employees", "EMPLOYEE_ID", "dashboard"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Document Management",
+      "item": [
+        {
+          "name": "Upload Document",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:4000/api/documents",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "documents"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"documentName\": \"IELTS Certificate\",\n  \"documentType\": \"Language Test\",\n  \"category\": \"academic\",\n  \"fileUrl\": \"https://example.com/ielts.pdf\",\n  \"expiryDate\": \"2028-02-14\",\n  \"remarks\": \"IELTS Score: 7.5\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Documents",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:4000/api/documents",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "documents"]
+            }
+          }
+        },
+        {
+          "name": "Get Expiring Documents",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:4000/api/documents/check/expiring?daysFromNow=30",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "documents", "check", "expiring"],
+              "query": [
+                {
+                  "key": "daysFromNow",
+                  "value": "30"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:4000/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

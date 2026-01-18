@@ -17,7 +17,7 @@ export default function ServiceDetail() {
   if (!activeCategory || !activeService) {
     return (
       <div className="py-32 text-center">
-        <h2 className="text-2xl font-semibold text-[#0A3A5E]">
+        <h2 className="text-2xl font-semibold text-[#054374]">
           Service not found
         </h2>
       </div>
@@ -33,7 +33,7 @@ export default function ServiceDetail() {
            ===================================== */}
         <aside className="sticky top-28 h-fit bg-white rounded-2xl p-6 shadow-md">
 
-          <h3 className="text-lg font-semibold text-[#0A3A5E] mb-4">
+          <h3 className="text-lg font-semibold text-[#054374] mb-4">
             Services
           </h3>
 
@@ -44,8 +44,8 @@ export default function ServiceDetail() {
                 className={`block font-medium mb-2
                   ${
                     group.slug === category
-                      ? "text-[#F5A623]"
-                      : "text-[#0A3A5E] hover:text-[#F5A623]"
+                      ? "text-[#cd9429]"
+                      : "text-[#054374] hover:text-[#cd9429]"
                   }`}
               >
                 {group.category}
@@ -59,8 +59,8 @@ export default function ServiceDetail() {
                       className={`text-sm transition
                         ${
                           item.slug === service
-                            ? "text-[#F5A623]"
-                            : "text-gray-600 hover:text-[#0A3A5E]"
+                            ? "text-[#cd9429]"
+                            : "text-gray-600 hover:text-[#054374]"
                         }`}
                     >
                       {item.name}
@@ -78,11 +78,11 @@ export default function ServiceDetail() {
         <main className="bg-white rounded-2xl p-10 shadow-md animate-fade-up">
 
           {/* HEADER */}
-          <h1 className="text-3xl font-bold text-[#0A3A5E] mb-3">
+          <h1 className="text-3xl font-bold text-[#054374] mb-3">
             {activeService.name}
           </h1>
 
-          <p className="text-sm uppercase tracking-wide text-[#F5A623] mb-6">
+          <p className="text-sm uppercase tracking-wide text-[#cd9429] mb-6">
           {activeCategory.category}
           </p>
 
@@ -104,7 +104,7 @@ export default function ServiceDetail() {
           <div className="space-y-8">
 
             <section>
-              <h2 className="text-xl font-semibold text-[#0A3A5E] mb-2">
+              <h2 className="text-xl font-semibold text-[#054374] mb-2">
                 What We Offer
               </h2>
               <p className="text-gray-600">
@@ -115,7 +115,7 @@ export default function ServiceDetail() {
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold text-[#0A3A5E] mb-2">
+              <h2 className="text-xl font-semibold text-[#054374] mb-2">
                 Why Choose Premass Overseas
               </h2>
               <ul className="space-y-3 text-gray-600">
@@ -127,7 +127,7 @@ export default function ServiceDetail() {
             </section>
             
             <section>
-              <h2 className="text-xl font-semibold text-[#0A3A5E] mb-2">
+              <h2 className="text-xl font-semibold text-[#054374] mb-2">
               How This Service Helps Your Career
               </h2>
               <p className="text-gray-600">
@@ -144,7 +144,7 @@ export default function ServiceDetail() {
           <div className="mt-12 flex flex-wrap gap-4">
             <Link
               to="/contact"
-              className="bg-[#F5A623] text-white px-8 py-3 rounded-lg
+              className="bg-[#cd9429] text-white px-8 py-3 rounded-lg
                          font-medium hover:opacity-90 transition"
             >
               Enquire About This Service
@@ -152,8 +152,8 @@ export default function ServiceDetail() {
 
             <Link
               to="/services"
-              className="border border-[#0A3A5E] text-[#0A3A5E]
-                         px-8 py-3 rounded-lg hover:bg-[#0A3A5E]
+              className="border border-[#054374] text-[#054374]
+                         px-8 py-3 rounded-lg hover:bg-[#054374]
                          hover:text-white transition"
             >
               View All Services

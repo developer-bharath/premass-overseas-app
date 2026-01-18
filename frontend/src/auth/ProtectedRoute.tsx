@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
-  role?: "student" | "employee" | "admin";
+  role?: "student" | "employee" | "admin" | "super_admin";
 };
 
 export default function ProtectedRoute({
@@ -28,8 +28,15 @@ export default function ProtectedRoute({
   }
 
   // Logged in but wrong role
-  if (role && user.role !== role) {
-    return <Navigate to="/login" replace />;
+  if (role) {
+    // Allow super_admin for admin routes
+    if (role === 'admin' && (user.role === 'admin' || user.role === 'super_admin')) {
+      return <>{children}</>;
+    }
+    // For other roles, match exactly
+    if (user.role !== role) {
+      return <Navigate to="/login" replace />;
+    }
   }
 
   return <>{children}</>;

@@ -43,13 +43,13 @@ export default function Navbar() {
 
 
   return (
-    <header className="sticky top-0 z-50 bg-[#0A3A5E] shadow-lg">
+    <header className="sticky top-0 z-50 bg-[#054374] shadow-lg">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
 
           {/* LOGO */}
           <Link to="/" className="text-xl font-bold text-white">
-            Premass <span className="text-[#F5A623]">Overseas</span>
+            Premass <span className="text-[#cd9429]">Overseas</span>
           </Link>
 
           {/* MAIN MENU */}
@@ -95,7 +95,7 @@ export default function Navbar() {
                   {services.map(group => (
                     <div key={group.slug}>
                       {/* CATEGORY TITLE */}
-                      <h4 className="mb-4 font-semibold text-[#0A3A5E]">
+                      <h4 className="mb-4 font-semibold text-[#054374]">
                         {group.category}
                       </h4>
 

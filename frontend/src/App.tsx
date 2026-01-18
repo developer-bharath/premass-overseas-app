@@ -21,10 +21,25 @@ import ServiceDetail from "./pages/ServiceDetail";
 import Countries from "./pages/Countries";
 import CountryDetail from "./pages/CountryDetail";
 
+// Service Pages
+import OverseasEducation from "./pages/services/OverseasEducation";
+import DomesticAdmission from "./pages/services/DomesticAdmission";
+import EducationLoan from "./pages/services/EducationLoan";
+import VisaImmigration from "./pages/services/VisaImmigration";
+import DocumentManagement from "./pages/services/DocumentManagement";
+import CareerJobSupport from "./pages/services/CareerJobSupport";
+import ITTraining from "./pages/services/ITTraining";
+import StudentSupportSettlement from "./pages/services/StudentSupportSettlement";
+
 // Auth Pages
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import VerifyOtp from "./pages/VerifyOtp";
+import Login from "./auth/Login";
+import StudentLogin from "./auth/StudentLogin";
+import EmployeeLogin from "./auth/EmployeeLogin";
+import Register from "./auth/Register";
+import VerifyOTP from "./auth/VerifyOTP";
+
+// Admin Dashboard System
+import AdminDashboard from "./admin/AdminDashboard";
 
 // Protected Pages
 import Profile from "./pages/Profile";
@@ -55,14 +70,26 @@ export default function App() {
             element={<ServiceDetail />}
           />
 
+          {/* Individual Service Pages */}
+          <Route path="/services/overseas-education" element={<OverseasEducation />} />
+          <Route path="/services/domestic-admission" element={<DomesticAdmission />} />
+          <Route path="/services/education-loan" element={<EducationLoan />} />
+          <Route path="/services/visa-immigration" element={<VisaImmigration />} />
+          <Route path="/services/document-management" element={<DocumentManagement />} />
+          <Route path="/services/career-job-support" element={<CareerJobSupport />} />
+          <Route path="/services/it-training" element={<ITTraining />} />
+          <Route path="/services/student-support-settlement" element={<StudentSupportSettlement />} />
+
           {/* Countries */}
           <Route path="/countries" element={<Countries />} />
           <Route path="/countries/:country" element={<CountryDetail />} />
 
           {/* ============ AUTH PAGES ============ */}
           <Route path="/login" element={<Login />} />
+          <Route path="/login/student" element={<StudentLogin />} />
+          <Route path="/login/employee" element={<EmployeeLogin />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/verify-otp" element={<VerifyOtp />} />
+          <Route path="/verify-otp" element={<VerifyOTP />} />
 
           {/* ============ PROTECTED PAGES ============ */}
           <Route
@@ -72,6 +99,12 @@ export default function App() {
                 <Profile />
               </ProtectedRoute>
             }
+          />
+
+          {/* New Admin Dashboard System */}
+          <Route
+            path="/admin-system"
+            element={<AdminDashboard />}
           />
 
           <Route

@@ -82,14 +82,14 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0A3A5E] to-[#1B5A8E] flex items-center justify-center px-6 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-[#054374] to-[#073a57] flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-md">
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-10">
           
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-[#0A3A5E] mb-2">Welcome Back</h1>
+            <h1 className="text-3xl font-bold text-[#054374] mb-2">Welcome Back</h1>
             <p className="text-gray-600">Login to your Premass Overseas account</p>
           </div>
 
@@ -105,7 +105,7 @@ export default function Login() {
             
             {/* Role Selection */}
             <div className="flex gap-3 mb-6">
-              <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{borderColor: role === "student" ? "#F5A623" : "#e0e7ff"}}>
+              <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{borderColor: role === "student" ? "#cd9429" : "#e0e7ff"}}>
                 <input
                   type="radio"
                   value="student"
@@ -115,7 +115,7 @@ export default function Login() {
                 />
                 <span className="font-medium text-sm">Student</span>
               </label>
-              <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{borderColor: role === "employee" ? "#F5A623" : "#e0e7ff"}}>
+              <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{borderColor: role === "employee" ? "#cd9429" : "#e0e7ff"}}>
                 <input
                   type="radio"
                   value="employee"
@@ -129,7 +129,7 @@ export default function Login() {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-semibold text-[#0A3A5E] mb-2">Email Address</label>
+              <label className="block text-sm font-semibold text-[#054374] mb-2">Email Address</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-3.5 text-gray-400" size={20} />
                 <input
@@ -140,7 +140,7 @@ export default function Login() {
                     setError("");
                   }}
                   placeholder="you@example.com"
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#F5A623] focus:outline-none transition-all"
+                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:outline-none transition-all"
                   disabled={isLoading}
                 />
               </div>
@@ -148,7 +148,7 @@ export default function Login() {
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-semibold text-[#0A3A5E] mb-2">Password</label>
+              <label className="block text-sm font-semibold text-[#054374] mb-2">Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-3.5 text-gray-400" size={20} />
                 <input
@@ -159,7 +159,7 @@ export default function Login() {
                     setError("");
                   }}
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-12 py-3 border-2 border-gray-200 rounded-lg focus:border-[#F5A623] focus:outline-none transition-all"
+                  className="w-full pl-10 pr-12 py-3 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:outline-none transition-all"
                   disabled={isLoading}
                 />
                 <button
@@ -187,7 +187,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-[#F5A623] to-orange-600 text-white font-bold py-3 rounded-lg hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70"
+              className="w-full bg-gradient-to-r from-[#cd9429] to-orange-600 text-white font-bold py-3 rounded-lg hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70"
             >
               {isLoading ? (
                 <>
@@ -203,7 +203,7 @@ export default function Login() {
             <div className="text-center">
               <Link
                 to="#"
-                className="text-sm text-[#F5A623] hover:text-orange-600 font-medium"
+                className="text-sm text-[#cd9429] hover:text-orange-600 font-medium"
               >
                 Forgot password?
               </Link>
@@ -223,7 +223,7 @@ export default function Login() {
               Don't have an account?{" "}
               <Link
                 to="/register"
-                className="font-bold text-[#F5A623] hover:text-orange-600 transition-colors"
+                className="font-bold text-[#cd9429] hover:text-orange-600 transition-colors"
               >
                 Sign up here
               </Link>
@@ -242,7 +242,7 @@ export default function Login() {
         <div className="text-center mt-8">
           <Link
             to="/"
-            className="text-white hover:text-[#F5A623] transition-colors font-medium"
+            className="text-white hover:text-[#cd9429] transition-colors font-medium"
           >
             ← Back to Home
           </Link>

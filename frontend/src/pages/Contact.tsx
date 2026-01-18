@@ -40,16 +40,16 @@ export default function Contact() {
   };
 
   return (
-    <main className="bg-[#F8FAFC]">
+    <main className="bg-white">
 
       {/* ================= HERO ================= */}
-      <section className="bg-gradient-to-br from-[#0B3C5D] to-[#092B42] text-white py-24">
+      <section className="bg-gradient-to-br from-[#054374] to-[#073a57] text-white py-24">
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-14 items-center">
 
           {/* LEFT */}
           <div>
             <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-              Speak with a <span className="text-[#F59E0B]">Certified Counsellor</span>
+              Speak with a <span className="text-[#cd9429]">Certified Counsellor</span>
             </h1>
 
             <p className="mt-6 text-blue-100 text-lg">
@@ -79,7 +79,7 @@ export default function Contact() {
 
           {/* LEFT – TRUST CONTENT */}
           <div>
-            <h2 className="text-3xl font-bold text-[#0B3C5D] mb-8">
+            <h2 className="text-3xl font-bold text-[#054374] mb-8">
               Why Students Choose Premass Overseas
             </h2>
 
@@ -104,7 +104,7 @@ export default function Contact() {
 
           {/* RIGHT – FORM */}
           <div className="bg-white shadow-2xl rounded-2xl p-10">
-            <h3 className="text-2xl font-bold text-[#0B3C5D] mb-6">
+            <h3 className="text-2xl font-bold text-[#054374] mb-6">
               Enquiry Form
             </h3>
 
@@ -158,7 +158,7 @@ export default function Contact() {
 function InfoRow({ icon, text }: { icon: JSX.Element; text: string }) {
   return (
     <div className="flex items-center gap-4 text-lg">
-      <div className="text-[#F59E0B] text-xl">{icon}</div>
+      <div className="text-[#cd9429] text-xl">{icon}</div>
       <span>{text}</span>
     </div>
   );
@@ -175,9 +175,9 @@ function TrustCard({
 }) {
   return (
     <div className="flex gap-5 bg-white rounded-xl p-6 shadow-md">
-      <div className="text-[#F59E0B] text-2xl">{icon}</div>
+      <div className="text-[#cd9429] text-2xl">{icon}</div>
       <div>
-        <h4 className="font-semibold text-[#0B3C5D]">{title}</h4>
+        <h4 className="font-semibold text-[#054374]">{title}</h4>
         <p className="text-gray-600 mt-1">{text}</p>
       </div>
     </div>

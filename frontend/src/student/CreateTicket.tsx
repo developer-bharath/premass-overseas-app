@@ -141,12 +141,12 @@ export default function CreateTicket() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-6">
+    <div className="min-h-screen bg-white py-12 px-6">
       <div className="max-w-2xl mx-auto">
         {/* Back Button */}
         <button
           onClick={() => navigate("/dashboard/student")}
-          className="flex items-center gap-2 text-[#0A3A5E] hover:text-[#F5A623] font-semibold mb-8 transition-colors"
+          className="flex items-center gap-2 text-[#054374] hover:text-[#cd9429] font-semibold mb-8 transition-colors"
         >
           <ArrowLeft size={20} />
           Back to Dashboard
@@ -154,7 +154,7 @@ export default function CreateTicket() {
 
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-[#0A3A5E] mb-2">Create Support Ticket</h1>
+          <h1 className="text-4xl font-bold text-[#054374] mb-2">Create Support Ticket</h1>
           <p className="text-gray-600">Tell us how we can help you</p>
         </div>
 
@@ -187,7 +187,7 @@ export default function CreateTicket() {
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Title */}
             <div>
-              <label className="block text-sm font-bold text-[#0A3A5E] mb-3">
+              <label className="block text-sm font-bold text-[#054374] mb-3">
                 Ticket Title <span className="text-red-500">*</span>
               </label>
               <input
@@ -197,7 +197,7 @@ export default function CreateTicket() {
                 onChange={handleChange}
                 placeholder="e.g., Need help with visa application"
                 maxLength={100}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#F5A623] focus:outline-none transition-all text-gray-800"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:outline-none transition-all text-gray-800"
                 disabled={isLoading || success}
               />
               <p className="text-xs text-gray-500 mt-2">

@@ -147,13 +147,13 @@ export default function StudentDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Sidebar */}
-      <div className="fixed left-0 top-0 w-64 h-screen bg-gradient-to-b from-[#0A3A5E] to-[#1B5A8E] text-white p-6 overflow-y-auto">
+      <div className="fixed left-0 top-0 w-64 h-screen bg-gradient-to-b from-[#054374] to-[#073a57] text-white p-6 overflow-y-auto">
         {/* Logo */}
         <div className="mb-10 pb-6 border-b border-white/20">
           <h2 className="text-2xl font-bold">Premass</h2>
-          <p className="text-sm text-orange-300">Overseas</p>
+          <p className="text-sm text-[#cd9429]">Overseas</p>
         </div>
 
         {/* Navigation */}
@@ -171,7 +171,7 @@ export default function StudentDashboard() {
                 onClick={() => setActiveTab(item.id as any)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                   activeTab === item.id
-                    ? "bg-[#F5A623] text-white font-semibold"
+                    ? "bg-[#cd9429] text-white font-semibold"
                     : "text-gray-200 hover:bg-white/10"
                 }`}
               >
@@ -197,12 +197,12 @@ export default function StudentDashboard() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-[#0A3A5E] mb-1">
+            <h1 className="text-4xl font-bold text-[#054374] mb-1">
               Welcome back, {user.name || "Student"}! 👋
             </h1>
             <p className="text-gray-600">{new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}</p>
           </div>
-          <div className="w-12 h-12 bg-gradient-to-br from-[#F5A623] to-orange-600 rounded-full flex items-center justify-center">
+          <div className="w-12 h-12 bg-gradient-to-br from-[#cd9429] to-[#b8821e] rounded-full flex items-center justify-center">
             <User className="text-white" size={24} />
           </div>
         </div>
@@ -222,7 +222,7 @@ export default function StudentDashboard() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-gray-600 text-sm font-medium">Open Tickets</p>
-                    <p className="text-3xl font-bold text-[#0A3A5E] mt-2">
+                    <p className="text-3xl font-bold text-[#054374] mt-2">
                       {tickets.filter((t) => t.status === "open").length}
                     </p>
                   </div>
@@ -230,15 +230,15 @@ export default function StudentDashboard() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl p-6 shadow-sm border-l-4 border-orange-500">
+              <div className="bg-white rounded-xl p-6 shadow-sm border-l-4 border-[#cd9429]">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-gray-600 text-sm font-medium">In Progress</p>
-                    <p className="text-3xl font-bold text-[#0A3A5E] mt-2">
+                    <p className="text-3xl font-bold text-[#054374] mt-2">
                       {tickets.filter((t) => t.status === "in-progress").length}
                     </p>
                   </div>
-                  <Clock className="text-orange-500" size={40} />
+                  <Clock className="text-[#cd9429]" size={40} />
                 </div>
               </div>
 
@@ -246,7 +246,7 @@ export default function StudentDashboard() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-gray-600 text-sm font-medium">Resolved</p>
-                    <p className="text-3xl font-bold text-[#0A3A5E] mt-2">
+                    <p className="text-3xl font-bold text-[#054374] mt-2">
                       {tickets.filter((t) => t.status === "resolved").length}
                     </p>
                   </div>

@@ -178,13 +178,13 @@ export default function EmployeeDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Sidebar */}
-      <div className="fixed left-0 top-0 w-64 h-screen bg-gradient-to-b from-[#0A3A5E] to-[#1B5A8E] text-white p-6 overflow-y-auto">
+      <div className="fixed left-0 top-0 w-64 h-screen bg-gradient-to-b from-[#054374] to-[#073a57] text-white p-6 overflow-y-auto">
         {/* Logo */}
         <div className="mb-10 pb-6 border-b border-white/20">
           <h2 className="text-2xl font-bold">Premass</h2>
-          <p className="text-sm text-orange-300">Support Team</p>
+          <p className="text-sm text-[#cd9429]">Support Team</p>
         </div>
 
         {/* Navigation */}
@@ -203,7 +203,7 @@ export default function EmployeeDashboard() {
                 onClick={() => setActiveTab(item.id as any)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                   activeTab === item.id
-                    ? "bg-[#F5A623] text-white font-semibold"
+                    ? "bg-[#cd9429] text-white font-semibold"
                     : "text-gray-200 hover:bg-white/10"
                 }`}
               >
@@ -229,12 +229,12 @@ export default function EmployeeDashboard() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-[#0A3A5E] mb-1">
+            <h1 className="text-4xl font-bold text-[#054374] mb-1">
               Support Dashboard 👋
             </h1>
             <p className="text-gray-600">Welcome back, {user.name || "Team Member"}!</p>
           </div>
-          <div className="w-12 h-12 bg-gradient-to-br from-[#F5A623] to-orange-600 rounded-full flex items-center justify-center">
+          <div className="w-12 h-12 bg-gradient-to-br from-[#cd9429] to-[#b8821e] rounded-full flex items-center justify-center">
             <User className="text-white" size={24} />
           </div>
         </div>
@@ -254,7 +254,7 @@ export default function EmployeeDashboard() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-gray-600 text-sm font-medium">Total Tickets</p>
-                    <p className="text-3xl font-bold text-[#0A3A5E] mt-2">{tickets.length}</p>
+                    <p className="text-3xl font-bold text-[#054374] mt-2">{tickets.length}</p>
                   </div>
                   <FileText className="text-blue-500" size={40} />
                 </div>
@@ -264,7 +264,7 @@ export default function EmployeeDashboard() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-gray-600 text-sm font-medium">Open Issues</p>
-                    <p className="text-3xl font-bold text-[#0A3A5E] mt-2">
+                    <p className="text-3xl font-bold text-[#054374] mt-2">
                       {tickets.filter((t) => t.status === "open").length}
                     </p>
                   </div>
@@ -276,7 +276,7 @@ export default function EmployeeDashboard() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-gray-600 text-sm font-medium">Active Students</p>
-                    <p className="text-3xl font-bold text-[#0A3A5E] mt-2">
+                    <p className="text-3xl font-bold text-[#054374] mt-2">
                       {students.filter((s) => s.status === "active").length}
                     </p>
                   </div>
@@ -288,7 +288,7 @@ export default function EmployeeDashboard() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-gray-600 text-sm font-medium">Resolved</p>
-                    <p className="text-3xl font-bold text-[#0A3A5E] mt-2">
+                    <p className="text-3xl font-bold text-[#054374] mt-2">
                       {tickets.filter((t) => t.status === "resolved").length}
                     </p>
                   </div>
@@ -301,7 +301,7 @@ export default function EmployeeDashboard() {
             <div className="grid grid-cols-2 gap-8">
               {/* Top Issues */}
               <div className="bg-white rounded-xl p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-[#0A3A5E] mb-4">Pending Tickets</h3>
+                <h3 className="text-lg font-bold text-[#054374] mb-4">Pending Tickets</h3>
                 <div className="space-y-3">
                   {tickets
                     .filter((t) => t.status === "open")
@@ -320,7 +320,7 @@ export default function EmployeeDashboard() {
 
               {/* Recent Students */}
               <div className="bg-white rounded-xl p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-[#0A3A5E] mb-4">Recent Students</h3>
+                <h3 className="text-lg font-bold text-[#054374] mb-4">Recent Students</h3>
                 <div className="space-y-3">
                   {students.slice(0, 4).map((student) => (
                     <div key={student.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -343,7 +343,7 @@ export default function EmployeeDashboard() {
         {activeTab === "tickets" && (
           <div>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-[#0A3A5E]">All Tickets</h2>
+              <h2 className="text-2xl font-bold text-[#054374]">All Tickets</h2>
               <div className="flex gap-3">
                 <div className="relative">
                   <Search className="absolute left-3 top-3 text-gray-400" size={20} />
@@ -352,7 +352,7 @@ export default function EmployeeDashboard() {
                     placeholder="Search tickets..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:border-[#F5A623] focus:outline-none"
+                    className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:border-[#cd9429] focus:outline-none"
                   />
                 </div>
                 <button className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-all">
@@ -370,8 +370,8 @@ export default function EmployeeDashboard() {
                   onClick={() => setSelectedStatus(status)}
                   className={`px-4 py-2 rounded-lg font-medium transition-all capitalize ${
                     selectedStatus === status
-                      ? "bg-[#F5A623] text-white"
-                      : "bg-white text-gray-700 border border-gray-200 hover:border-[#F5A623]"
+                      ? "bg-[#cd9429] text-white"
+                      : "bg-white text-gray-700 border border-gray-200 hover:border-[#cd9429]"
                   }`}
                 >
                   {status}
@@ -382,7 +382,7 @@ export default function EmployeeDashboard() {
             {/* Tickets List */}
             {loading ? (
               <div className="text-center py-12">
-                <Clock className="mx-auto text-[#F5A623] animate-spin" size={40} />
+                <Clock className="mx-auto text-[#cd9429] animate-spin" size={40} />
                 <p className="text-gray-600 mt-4">Loading tickets...</p>
               </div>
             ) : filteredTickets.length === 0 ? (
@@ -430,7 +430,7 @@ export default function EmployeeDashboard() {
                         <select
                           value={ticket.status}
                           onChange={(e) => handleUpdateTicketStatus(ticket._id, e.target.value)}
-                          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-[#F5A623] focus:outline-none"
+                          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-[#cd9429] focus:outline-none"
                         >
                           <option value="open">Open</option>
                           <option value="in-progress">In Progress</option>
@@ -454,7 +454,7 @@ export default function EmployeeDashboard() {
         {activeTab === "students" && (
           <div>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-[#0A3A5E]">Students</h2>
+              <h2 className="text-2xl font-bold text-[#054374]">Students</h2>
               <div className="relative">
                 <Search className="absolute left-3 top-3 text-gray-400" size={20} />
                 <input
@@ -462,7 +462,7 @@ export default function EmployeeDashboard() {
                   placeholder="Search students..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:border-[#F5A623] focus:outline-none"
+                  className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:border-[#cd9429] focus:outline-none"
                 />
               </div>
             </div>
@@ -486,7 +486,7 @@ export default function EmployeeDashboard() {
                       <span className={`px-4 py-2 rounded-full text-sm font-semibold ${getStatusBadge(student.status)}`}>
                         {student.status}
                       </span>
-                      <button className="px-4 py-2 bg-[#F5A623] hover:bg-orange-600 text-white rounded-lg text-sm font-semibold transition-all">
+                      <button className="px-4 py-2 bg-[#cd9429] hover:bg-orange-600 text-white rounded-lg text-sm font-semibold transition-all">
                         View Details
                       </button>
                     </div>
@@ -500,12 +500,12 @@ export default function EmployeeDashboard() {
         {/* ANALYTICS TAB */}
         {activeTab === "analytics" && (
           <div>
-            <h2 className="text-2xl font-bold text-[#0A3A5E] mb-8">Analytics & Reports</h2>
+            <h2 className="text-2xl font-bold text-[#054374] mb-8">Analytics & Reports</h2>
 
             <div className="grid grid-cols-2 gap-8">
               {/* Ticket Metrics */}
               <div className="bg-white rounded-xl p-8 shadow-sm">
-                <h3 className="text-lg font-bold text-[#0A3A5E] mb-6">Ticket Metrics</h3>
+                <h3 className="text-lg font-bold text-[#054374] mb-6">Ticket Metrics</h3>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
                     <span className="font-semibold text-gray-700">Open Tickets</span>
@@ -530,7 +530,7 @@ export default function EmployeeDashboard() {
 
               {/* Student Metrics */}
               <div className="bg-white rounded-xl p-8 shadow-sm">
-                <h3 className="text-lg font-bold text-[#0A3A5E] mb-6">Student Metrics</h3>
+                <h3 className="text-lg font-bold text-[#054374] mb-6">Student Metrics</h3>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg">
                     <span className="font-semibold text-gray-700">Active</span>
@@ -559,12 +559,12 @@ export default function EmployeeDashboard() {
         {/* PROFILE TAB */}
         {activeTab === "profile" && (
           <div>
-            <h2 className="text-2xl font-bold text-[#0A3A5E] mb-6">Team Member Profile</h2>
+            <h2 className="text-2xl font-bold text-[#054374] mb-6">Team Member Profile</h2>
 
             <div className="max-w-2xl">
               <div className="bg-white rounded-xl p-8 shadow-sm">
                 <div className="flex items-center gap-6 mb-8 pb-8 border-b border-gray-200">
-                  <div className="w-20 h-20 bg-gradient-to-br from-[#F5A623] to-orange-600 rounded-full flex items-center justify-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-[#cd9429] to-orange-600 rounded-full flex items-center justify-center">
                     <User className="text-white" size={40} />
                   </div>
                   <div>

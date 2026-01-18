@@ -8,6 +8,8 @@ import {
   Plane,
   Briefcase,
   Users,
+  Code,
+  MapPin,
 } from "lucide-react";
 
 /* =====================================================
@@ -29,7 +31,7 @@ export default function Services() {
       {/* =================================================
          HERO – SERVICES
       ================================================= */}
-      <section className="bg-[#0A3A5E] text-white">
+      <section className="bg-[#054374] text-white">
         <div className="max-w-7xl mx-auto px-6 py-28">
 
           <h1 className="text-4xl md:text-5xl font-bold max-w-3xl">
@@ -51,7 +53,7 @@ export default function Services() {
       <section className="bg-slate-50">
         <div className="max-w-7xl mx-auto px-6 py-28">
 
-          <h2 className="text-3xl font-bold text-center text-[#0A3A5E]">
+          <h2 className="text-3xl font-bold text-center text-[#054374]">
             Our Service Categories
           </h2>
 
@@ -102,12 +104,115 @@ export default function Services() {
       </section>
 
       {/* =================================================
+         FEATURED SERVICES – ALL 8 SERVICES
+      ================================================= */}
+      <section className="bg-gradient-to-b from-white to-slate-50 py-20">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-4xl font-bold text-center text-[#054374] mb-4">
+            Complete Service Portfolio
+          </h2>
+          <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+            Explore our comprehensive range of services designed to support every stage of your educational and career journey
+          </p>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { 
+                title: 'Overseas Education', 
+                icon: Globe, 
+                color: 'blue',
+                link: '/services/overseas-education',
+                desc: 'Study abroad guidance & university selection'
+              },
+              { 
+                title: 'Domestic Admission', 
+                icon: GraduationCap, 
+                color: 'amber',
+                link: '/services/domestic-admission',
+                desc: 'Indian college admissions & counseling'
+              },
+              { 
+                title: 'Education Loan', 
+                icon: Briefcase, 
+                color: 'green',
+                link: '/services/education-loan',
+                desc: 'Financing options & loan processing'
+              },
+              { 
+                title: 'Visa & Immigration', 
+                icon: Plane, 
+                color: 'purple',
+                link: '/services/visa-immigration',
+                desc: 'Student visa & immigration support'
+              },
+              { 
+                title: 'Document Management', 
+                icon: ClipboardCheck, 
+                color: 'indigo',
+                link: '/services/document-management',
+                desc: 'Secure document storage & verification'
+              },
+              { 
+                title: 'Career & Job Support', 
+                icon: Briefcase, 
+                color: 'cyan',
+                link: '/services/career-job-support',
+                desc: 'Resume, interviews & job placement'
+              },
+              { 
+                title: 'IT Training', 
+                icon: Code, 
+                color: 'orange',
+                link: '/services/it-training',
+                desc: 'Industry-relevant IT skill courses'
+              },
+              { 
+                title: 'Student Support & Settlement', 
+                icon: MapPin, 
+                color: 'rose',
+                link: '/services/student-support-settlement',
+                desc: 'Pre-departure to arrival support'
+              },
+            ].map((service) => {
+              const colorClasses: Record<string, { gradient: string; button: string }> = {
+                blue: { gradient: 'from-blue-100 to-blue-50', button: 'bg-blue-600 hover:bg-blue-700' },
+                amber: { gradient: 'from-amber-100 to-amber-50', button: 'bg-amber-600 hover:bg-amber-700' },
+                green: { gradient: 'from-green-100 to-green-50', button: 'bg-green-600 hover:bg-green-700' },
+                purple: { gradient: 'from-purple-100 to-purple-50', button: 'bg-purple-600 hover:bg-purple-700' },
+                indigo: { gradient: 'from-indigo-100 to-indigo-50', button: 'bg-indigo-600 hover:bg-indigo-700' },
+                cyan: { gradient: 'from-cyan-100 to-cyan-50', button: 'bg-cyan-600 hover:bg-cyan-700' },
+                orange: { gradient: 'from-orange-100 to-orange-50', button: 'bg-orange-600 hover:bg-orange-700' },
+                rose: { gradient: 'from-rose-100 to-rose-50', button: 'bg-rose-600 hover:bg-rose-700' },
+              };
+              
+              const colors = colorClasses[service.color];
+              const IconComponent = service.icon;
+              
+              return (
+                <Link 
+                  key={service.link}
+                  to={service.link}
+                  className={`bg-gradient-to-br ${colors.gradient} p-6 rounded-lg shadow-md hover:shadow-lg transition-all hover:-translate-y-1`}
+                >
+                  <div className={`${colors.button} text-white w-12 h-12 rounded-lg flex items-center justify-center mb-4`}>
+                    <IconComponent size={24} />
+                  </div>
+                  <h3 className="text-lg font-bold text-[#054374] mb-2">{service.title}</h3>
+                  <p className="text-sm text-gray-600">{service.desc}</p>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* =================================================
          CTA – BRAND TINT
       ================================================= */}
       <section className="premium-services-section">
         <div className="max-w-6xl mx-auto px-6 py-24 text-center">
 
-          <h2 className="text-3xl font-bold text-[#0A3A5E]">
+          <h2 className="text-3xl font-bold text-[#054374]">
             Not Sure Which Service You Need?
           </h2>
 

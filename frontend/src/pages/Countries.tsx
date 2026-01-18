@@ -48,7 +48,7 @@ export default function Countries() {
       {/* =================================================
          HERO – AUTHORITY SECTION
       ================================================= */}
-      <section className="bg-[#0A3A5E] text-white">
+      <section className="bg-[#054374] text-white">
         <div className="max-w-7xl mx-auto px-6 py-28 text-center">
 
           <h1 className="text-4xl md:text-5xl font-bold">
@@ -94,7 +94,7 @@ export default function Countries() {
                 </div>
 
                 {/* TITLE */}
-                <h3 className="text-lg font-semibold text-[#0A3A5E]">
+                <h3 className="text-lg font-semibold text-[#054374]">
                   {country.name}
                 </h3>
 
@@ -126,7 +126,7 @@ export default function Countries() {
       <section className="bg-slate-50">
         <div className="max-w-6xl mx-auto px-6 py-24 text-center">
 
-          <h2 className="text-3xl font-bold text-[#0A3A5E]">
+          <h2 className="text-3xl font-bold text-[#054374]">
             Not Sure Which Country Is Right for You?
           </h2>
 

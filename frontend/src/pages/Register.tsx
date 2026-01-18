@@ -75,14 +75,14 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0A3A5E] to-[#1B5A8E] flex items-center justify-center px-6 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-[#054374] to-[#073a57] flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-md">
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-10">
           
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-[#0A3A5E] mb-2">Create Account</h1>
+            <h1 className="text-3xl font-bold text-[#054374] mb-2">Create Account</h1>
             <p className="text-gray-600">Join Premass Overseas for expert guidance</p>
           </div>
 
@@ -115,7 +115,7 @@ export default function Register() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="John Doe"
-                className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#F5A623] focus:ring-2 focus:ring-[#F5A623]/20 outline-none transition"
+                className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
                 disabled={isLoading}
               />
             </div>
@@ -132,7 +132,7 @@ export default function Register() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="john@example.com"
-                className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#F5A623] focus:ring-2 focus:ring-[#F5A623]/20 outline-none transition"
+                className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
                 disabled={isLoading}
               />
             </div>
@@ -149,7 +149,7 @@ export default function Register() {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className="w-full pl-10 pr-10 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#F5A623] focus:ring-2 focus:ring-[#F5A623]/20 outline-none transition"
+                className="w-full pl-10 pr-10 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
                 disabled={isLoading}
               />
               <button
@@ -175,7 +175,7 @@ export default function Register() {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className="w-full pl-10 pr-10 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#F5A623] focus:ring-2 focus:ring-[#F5A623]/20 outline-none transition"
+                className="w-full pl-10 pr-10 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
                 disabled={isLoading}
               />
               <button
@@ -193,7 +193,7 @@ export default function Register() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-3">I am a: *</label>
             <div className="flex gap-3">
-              <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{borderColor: formData.role === "student" ? "#F5A623" : "#e5e7eb"}}>
+              <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{borderColor: formData.role === "student" ? "#cd9429" : "#e5e7eb"}}>
                 <input
                   type="radio"
                   value="student"
@@ -204,7 +204,7 @@ export default function Register() {
                 />
                 <span className="font-medium text-sm">Student</span>
               </label>
-              <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{borderColor: formData.role === "employee" ? "#F5A623" : "#e5e7eb"}}>
+              <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{borderColor: formData.role === "employee" ? "#cd9429" : "#e5e7eb"}}>
                 <input
                   type="radio"
                   value="employee"
@@ -222,7 +222,7 @@ export default function Register() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-gradient-to-r from-[#0A3A5E] to-[#1B5A8E] hover:shadow-lg disabled:opacity-60 text-white font-semibold py-2.5 px-4 rounded-lg transition flex items-center justify-center gap-2 mt-6"
+            className="w-full bg-gradient-to-r from-[#054374] to-[#073a57] hover:shadow-lg disabled:opacity-60 text-white font-semibold py-2.5 px-4 rounded-lg transition flex items-center justify-center gap-2 mt-6"
           >
             {isLoading ? (
               <>
@@ -245,7 +245,7 @@ export default function Register() {
           {/* Login Link */}
           <p className="text-center text-gray-600 text-sm">
             Already have an account?{" "}
-            <a href="/login" className="text-[#F5A623] hover:underline font-semibold">
+            <a href="/login" className="text-[#cd9429] hover:underline font-semibold">
               Login here
             </a>
           </p>
