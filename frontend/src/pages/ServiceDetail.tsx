@@ -4,65 +4,58 @@
 // =====================================================
 
 import { useParams, Link } from "react-router-dom";
+import { useEffect, useMemo, useRef } from "react";
 import { services } from "../data/services";
+import { serviceContent } from "../data/serviceContent";
 
 export default function ServiceDetail() {
   const { category, service } = useParams();
+  const mainRef = useRef<HTMLElement>(null);
 
-  const activeCategory = services.find(c => c.slug === category);
-  const activeService = activeCategory?.items.find(
-    s => s.slug === service
-  );
+  const activeCategory = services.find((c) => c.slug === category);
+  const activeService = activeCategory?.items.find((s) => s.slug === service);
 
   if (!activeCategory || !activeService) {
     return (
       <div className="py-32 text-center">
-        <h2 className="text-2xl font-semibold text-[#054374]">
-          Service not found
-        </h2>
+        <h2 className="text-2xl font-semibold text-[#054374]">Service not found</h2>
+        <div className="mt-6 flex items-center justify-center gap-4">
+          <Link to="/services" className="text-[#054374] underline hover:text-[#cd9429]">All Services</Link>
+        </div>
       </div>
     );
   }
 
+  const key = `${activeCategory.slug}/${activeService.slug}`;
+  const content = serviceContent[key];
+
+  const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  const sectionAnchors = useMemo(
+    () => content?.sections?.map((s) => ({ title: s.title, id: slugify(s.title) })) ?? [],
+    [content]
+  );
+
+  useEffect(() => {
+    document.title = `${activeService.name} | ${activeCategory.category} | Premass Overseas`;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => mainRef.current?.focus(), 0);
+  }, [activeService.name, activeCategory.category]);
+
   return (
     <section className="bg-[#F8FAFC] py-16">
       <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-[280px_1fr] gap-10">
-
-        {/* =====================================
-            LEFT STICKY MENU
-           ===================================== */}
+        {/* LEFT SIDEBAR */}
         <aside className="sticky top-28 h-fit bg-white rounded-2xl p-6 shadow-md">
-
-          <h3 className="text-lg font-semibold text-[#054374] mb-4">
-            Services
-          </h3>
-
-          {services.map(group => (
+          <h3 className="text-lg font-semibold text-[#054374] mb-4">Services</h3>
+          {services.map((group) => (
             <div key={group.slug} className="mb-6">
-              <Link
-                to={`/services/${group.slug}`}
-                className={`block font-medium mb-2
-                  ${
-                    group.slug === category
-                      ? "text-[#cd9429]"
-                      : "text-[#054374] hover:text-[#cd9429]"
-                  }`}
-              >
+              <Link to={`/services/${group.slug}`} className={`block font-medium mb-2 transition ${group.slug === category ? "text-[#cd9429]" : "text-[#054374] hover:text-[#cd9429]"}`}>
                 {group.category}
               </Link>
-
               <ul className="space-y-2 ml-2">
-                {group.items.map(item => (
+                {group.items.map((item) => (
                   <li key={item.slug}>
-                    <Link
-                      to={`/services/${group.slug}/${item.slug}`}
-                      className={`text-sm transition
-                        ${
-                          item.slug === service
-                            ? "text-[#cd9429]"
-                            : "text-gray-600 hover:text-[#054374]"
-                        }`}
-                    >
+                    <Link to={`/services/${group.slug}/${item.slug}`} className={`text-sm transition ${item.slug === service ? "text-[#cd9429] font-semibold" : "text-gray-600 hover:text-[#054374]"}`}>
                       {item.name}
                     </Link>
                   </li>
@@ -70,96 +63,200 @@ export default function ServiceDetail() {
               </ul>
             </div>
           ))}
+          {sectionAnchors.length > 0 && (
+            <div className="pt-4 mt-4 border-t border-gray-100">
+              <h4 className="text-sm font-semibold text-[#054374] mb-2">On this page</h4>
+              <ul className="space-y-2 text-sm">
+                {sectionAnchors.map((s) => (
+                  <li key={s.id}>
+                    <a href={`#${s.id}`} className="text-gray-600 hover:text-[#054374] transition">
+                      {s.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </aside>
 
-        {/* =====================================
-            RIGHT CONTENT AREA
-           ===================================== */}
-        <main className="bg-white rounded-2xl p-10 shadow-md animate-fade-up">
+        {/* MAIN CONTENT */}
+        <main ref={mainRef} tabIndex={-1} className="bg-white rounded-2xl p-10 shadow-md">
+          {/* BREADCRUMB */}
+          <nav className="text-sm text-gray-500 mb-6">
+            <ol className="flex space-x-2 flex-wrap">
+              <li><Link to="/services" className="hover:text-[#054374]">Services</Link></li>
+              <li>/</li>
+              <li><Link to={`/services/${activeCategory.slug}`} className="hover:text-[#054374]">{activeCategory.category}</Link></li>
+              <li>/</li>
+              <li aria-current="page" className="text-[#054374]">{activeService.name}</li>
+            </ol>
+          </nav>
 
-          {/* HEADER */}
-          <h1 className="text-3xl font-bold text-[#054374] mb-3">
-            {activeService.name}
-          </h1>
-
-          <p className="text-sm uppercase tracking-wide text-[#cd9429] mb-6">
-          {activeCategory.category}
-          </p>
-
-
-          <p className="text-gray-600 mb-8 max-w-3xl leading-relaxed">
-          Our {activeService.name.toLowerCase()} service is designed to support
-          students at every stage of their overseas education journey. We provide
-          structured guidance, accurate documentation support, and personalised
-          counselling aligned with university requirements and visa regulations.
-          </p>
-
-
-          {/* IMAGE / ILLUSTRATION */}
-          <div className="bg-[#F1F5F9] rounded-xl h-64 flex items-center justify-center mb-10 text-gray-500">
-            Illustration / Image Placeholder
+          {/* HERO SECTION */}
+          <div className="mb-12">
+            <div className="flex items-start gap-4 mb-4">
+              {content?.hero?.icon && (
+                <span className="text-6xl block transform hover:scale-110 transition-transform">
+                  {content.hero.icon}
+                </span>
+              )}
+              <div>
+                <h1 className="text-4xl font-bold text-[#054374]">{activeService.name}</h1>
+                <p className="text-sm uppercase tracking-wide text-[#cd9429] mt-2 font-semibold">
+                  {activeCategory.category}
+                </p>
+              </div>
+            </div>
+            <p className="text-lg text-gray-700 leading-relaxed max-w-3xl mb-6 font-medium">
+              {content?.hero?.summary}
+            </p>
+            <p className="text-gray-600 leading-relaxed max-w-3xl">
+              {content?.hero?.description}
+            </p>
           </div>
 
-          {/* CONTENT BLOCKS */}
-          <div className="space-y-8">
+          {/* HERO IMAGE */}
+          {content?.hero?.image && (
+            <div className="relative bg-gradient-to-br from-[#054374]/20 via-[#cd9429]/10 to-transparent rounded-2xl h-80 flex items-center justify-center mb-12 overflow-hidden shadow-lg">
+              <img
+                src={content.hero.image}
+                alt={activeService.name}
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+            </div>
+          )}
 
-            <section>
-              <h2 className="text-xl font-semibold text-[#054374] mb-2">
-                What We Offer
+          {/* OVERVIEW SECTION */}
+          {content?.overview && (
+            <div className="mb-12 p-10 bg-gradient-to-br from-[#054374]/5 via-[#cd9429]/5 to-white rounded-2xl border border-[#054374]/10">
+              <h2 className="text-3xl font-bold text-[#054374] mb-4">
+                {content.overview.title}
               </h2>
-              <p className="text-gray-600">
-                Our experts work closely with students to understand academic
-                background, career goals, and destination preferences to deliver
-                personalized and reliable guidance.
+              <p className="text-gray-700 mb-8 leading-relaxed">
+                {content.overview.description}
               </p>
-            </section>
+              <div className="grid md:grid-cols-2 gap-4">
+                {content.overview.highlights.map((h, i) => (
+                  <div key={i} className="flex gap-4 items-start">
+                    <div className="w-6 h-6 rounded-full bg-[#cd9429] flex items-center justify-center flex-shrink-0 mt-1">
+                      <span className="text-white text-sm font-bold">✓</span>
+                    </div>
+                    <p className="text-gray-700 font-medium">{h}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
-            <section>
-              <h2 className="text-xl font-semibold text-[#054374] mb-2">
-                Why Choose Premass Overseas
+          {/* FEATURES SECTION */}
+          {content?.features && (
+            <div className="mb-12">
+              <h2 className="text-3xl font-bold text-[#054374] mb-8">
+                {content.features.title}
               </h2>
-              <ul className="space-y-3 text-gray-600">
-                <li>• Experienced certified counsellors</li>
-                <li>• Transparent end-to-end process</li>
-                <li>• Country-specific expertise</li>
-                <li>• Career-focused approach</li>
-              </ul>
-            </section>
-            
-            <section>
-              <h2 className="text-xl font-semibold text-[#054374] mb-2">
-              How This Service Helps Your Career
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {content.features.items.map((item, i) => (
+                  <div
+                    key={i}
+                    className="p-8 bg-gradient-to-br from-white to-[#F8FAFC] border-2 border-[#054374]/10 rounded-2xl hover:border-[#cd9429] hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group"
+                  >
+                    {item.icon && (
+                      <span className="text-4xl block mb-4 transform group-hover:scale-125 transition-transform duration-300">
+                        {item.icon}
+                      </span>
+                    )}
+                    <h3 className="text-lg font-bold text-[#054374] mb-2 group-hover:text-[#cd9429] transition">
+                      {item.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* PROCESS SECTION */}
+          {content?.process && (
+            <div className="mb-12">
+              <h2 className="text-3xl font-bold text-[#054374] mb-8">
+                {content.process.title}
               </h2>
-              <p className="text-gray-600">
-              Our approach ensures that students make informed academic decisions
-              that align with long-term career opportunities, employability, and
-              post-study options in their chosen destination.
-              </p>
-            </section>
+              <div className="space-y-6">
+                {content.process.steps.map((step, i) => (
+                  <div key={i} className="flex gap-6 group">
+                    <div className="flex flex-col items-center">
+                      <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#054374] to-[#cd9429] text-white flex items-center justify-center font-bold text-lg shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
+                        {step.number}
+                      </div>
+                      {i < content.process.steps.length - 1 && (
+                        <div className="w-1 h-16 bg-gradient-to-b from-[#cd9429] to-[#054374]/30 mt-2" />
+                      )}
+                    </div>
+                    <div className="pb-6 pt-1">
+                      <h3 className="text-xl font-bold text-[#054374] mb-2 group-hover:text-[#cd9429] transition">
+                        {step.title}
+                      </h3>
+                      <p className="text-gray-600 leading-relaxed">
+                        {step.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
-
+          {/* DETAILED SECTIONS */}
+          <div className="space-y-8 mb-12">
+            {content?.sections && content.sections.map((sec, idx) => (
+              <section key={idx} id={slugify(sec.title)}>
+                <h2 className="text-2xl font-semibold text-[#054374] mb-4">{sec.title}</h2>
+                {sec.body && <p className="text-gray-600 mb-4">{sec.body}</p>}
+                {sec.bullets && (
+                  <ul className="list-disc pl-6 space-y-2 text-gray-600">
+                    {sec.bullets.map((b, i) => (
+                      <li key={i} className="text-gray-700">{b}</li>
+                    ))}
+                  </ul>
+                )}
+              </section>
+            ))}
           </div>
 
-          {/* CTA */}
-          <div className="mt-12 flex flex-wrap gap-4">
-            <Link
-              to="/contact"
-              className="bg-[#cd9429] text-white px-8 py-3 rounded-lg
-                         font-medium hover:opacity-90 transition"
-            >
-              Enquire About This Service
-            </Link>
+          {/* FAQs SECTION */}
+          {content?.faqs && content.faqs.length > 0 && (
+            <div className="mb-12">
+              <h2 className="text-2xl font-semibold text-[#054374] mb-6">Frequently Asked Questions</h2>
+              <div className="space-y-4">
+                {content.faqs.map((f, i) => (
+                  <details key={i} className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition cursor-pointer">
+                    <summary className="font-semibold text-[#054374]">{f.q}</summary>
+                    <p className="text-gray-600 mt-3">{f.a}</p>
+                  </details>
+                ))}
+              </div>
+            </div>
+          )}
 
+          {/* CTA BUTTONS */}
+          <div className="flex flex-wrap gap-4 mt-12 pt-8 border-t-2 border-gray-200">
             <Link
-              to="/services"
-              className="border border-[#054374] text-[#054374]
-                         px-8 py-3 rounded-lg hover:bg-[#054374]
-                         hover:text-white transition"
+              to={content?.cta?.primaryTo ?? "/contact"}
+              className="px-8 py-3 bg-gradient-to-r from-[#054374] to-[#cd9429] text-white rounded-lg font-semibold hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
             >
-              View All Services
+              {content?.cta?.primaryText ?? "Enquire About This Service"}
+            </Link>
+            <Link
+              to={content?.cta?.secondaryTo ?? "/services"}
+              className="px-8 py-3 border-2 border-[#054374] text-[#054374] rounded-lg font-semibold hover:bg-[#054374] hover:text-white transition-all duration-300"
+            >
+              {content?.cta?.secondaryText ?? "View All Services"}
             </Link>
           </div>
-
         </main>
       </div>
     </section>

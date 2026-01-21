@@ -18,6 +18,7 @@ const careerJobSupportRoutes = require("./routes/careerJobSupportRoutes");
 const itTrainingRoutes = require("./routes/itTrainingRoutes");
 const studentSupportSettlementRoutes = require("./routes/studentSupportSettlementRoutes");
 const employeeManagementRoutes = require("./routes/employeeManagementRoutes");
+const contactRoutes = require("./routes/contactRoutes");
 
 const express = require("express");
 const dotenv = require("dotenv");
@@ -63,6 +64,9 @@ app.use("/api/documents", documentManagementRoutes);
 app.use("/api/services/career-support", careerJobSupportRoutes);
 app.use("/api/services/it-training", itTrainingRoutes);
 app.use("/api/services/student-support", studentSupportSettlementRoutes);
+
+// CONTACT FORM ROUTE (PUBLIC - NO AUTH REQUIRED)
+app.use("/api", contactRoutes);
 
 
 

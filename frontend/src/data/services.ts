@@ -1,71 +1,71 @@
-export type ServiceItem = {
+export interface ServiceItem {
+  slug: string;
   name: string;
-  slug: string;
-};
+}
 
-export type ServiceCategory = {
-  category: string;
+export interface ServiceCategory {
   slug: string;
+  category: string;
   items: ServiceItem[];
-};
+}
 
 export const services: ServiceCategory[] = [
   {
-    category: "Pre-Admission Services",
-    slug: "pre-admission",
+    slug: "counselling",
+    category: "Counselling Services",
     items: [
-      { name: "Career Counselling", slug: "career-counselling" },
-      { name: "University Shortlisting", slug: "university-shortlisting" },
-      { name: "Profile Evaluation", slug: "profile-evaluation" },
-      { name: "Application Assistance", slug: "application-assistance" },
-      { name: "Scholarship Guidance", slug: "scholarship-guidance" },
-    ],
+      { slug: "career-counselling", name: "Career Counselling" },
+      { slug: "course-selection", name: "Course Selection" },
+      { slug: "university-shortlisting", name: "University Shortlisting" }
+    ]
   },
   {
-    category: "Admission & Coaching",
-    slug: "admission-coaching",
+    slug: "applications",
+    category: "Application Services",
     items: [
-      { name: "Entrance Exam Coaching", slug: "entrance-exam-coaching" },
-      { name: "University Admission Support", slug: "admission-support" },
-      { name: "Education Loan Assistance", slug: "education-loan" },
-      { name: "Document Preparation", slug: "document-preparation" },
-    ],
+      { slug: "sop-lor-writing", name: "SOP & LOR Writing" },
+      { slug: "application-assistance", name: "Application Assistance" },
+      { slug: "document-preparation", name: "Document Preparation" }
+    ]
   },
   {
-    category: "Visa & Immigration",
-    slug: "visa-immigration",
+    slug: "test-prep",
+    category: "Test Preparation",
     items: [
-      { name: "Student Visa Processing", slug: "student-visa" },
-      { name: "Visit & Dependent Visa", slug: "visit-dependent-visa" },
-      { name: "Visa Interview Preparation", slug: "visa-interview" },
-    ],
+      { slug: "ielts-coaching", name: "IELTS Coaching" },
+      { slug: "toefl-coaching", name: "TOEFL Coaching" },
+      { slug: "pte-coaching", name: "PTE Coaching" },
+      { slug: "gre-gmat-coaching", name: "GRE & GMAT Coaching" }
+    ]
   },
   {
-    category: "Post-Study & Immigration Support",
-    slug: "post-study",
+    slug: "visa",
+    category: "Visa Services",
     items: [
-      { name: "Post-Study Work Visa", slug: "post-study-work" },
-      { name: "PR Assistance", slug: "pr-assistance" },
-      { name: "Work Permit Support", slug: "work-permit" },
-    ],
+      { slug: "visa-guidance", name: "Visa Guidance" },
+      { slug: "financial-documentation", name: "Financial Documentation" },
+      { slug: "mock-interviews", name: "Mock Interviews" }
+    ]
   },
   {
-    category: "Job & Career Services",
-    slug: "career-services",
+    slug: "post-arrival",
+    category: "Post-Arrival Services",
     items: [
-      { name: "Internships & Certifications", slug: "internships" },
-      { name: "Job Placement Assistance", slug: "job-placement" },
-      { name: "Resume & LinkedIn Profile", slug: "resume-linkedin" },
-      { name: "Payroll & HR Services", slug: "payroll-hr" },
-    ],
+      { slug: "accommodation-support", name: "Accommodation Support" },
+      { slug: "airport-pickup", name: "Airport Pickup" },
+      { slug: "bank-account-sim", name: "Bank Account & SIM Setup" },
+      { slug: "orientation-networking", name: "Orientation & Networking" }
+    ]
   },
   {
-    category: "Pre-Departure & Settlement",
-    slug: "settlement",
+    slug: "countries",
+    category: "Country-Specific Services",
     items: [
-      { name: "Accommodation Assistance", slug: "accommodation" },
-      { name: "Forex & Travel Assistance", slug: "forex-travel" },
-      { name: "Health Insurance Support", slug: "health-insurance" },
-    ],
-  },
+      { slug: "usa-admissions", name: "USA Admissions" },
+      { slug: "uk-admissions", name: "UK Admissions" },
+      { slug: "canada-admissions", name: "Canada Admissions" },
+      { slug: "australia-admissions", name: "Australia Admissions" },
+      { slug: "europe-admissions", name: "Europe Admissions" }
+    ]
+  }
 ];

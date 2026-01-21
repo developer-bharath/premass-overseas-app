@@ -124,6 +124,8 @@ exports.verifyOtp = async (req, res) => {
 const jwt = require("jsonwebtoken");
 
 // ================= LOGIN =================
+
+
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;

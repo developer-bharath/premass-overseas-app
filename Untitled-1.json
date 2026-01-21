@@ -1,0 +1,25 @@
+{
+  "instantMongo": {
+    "connections": [
+      {
+        "name": "Premass Overseas - Local",
+        "uri": "mongodb://localhost:27017/premass-overseas",
+        "options": {
+          "useNewUrlParser": true,
+          "useUnifiedTopology": true
+        },
+        "note": "Local development database. No credentials required."
+      },
+      {
+        "name": "Premass Overseas - Production",
+        "uri": "",
+        "options": {
+          "useNewUrlParser": true,
+          "useUnifiedTopology": true
+        },
+        "note": "Set MONGO_URI_PROD in environment. Example: mongodb+srv://<user>:<pass>@cluster.mongodb.net/premass-overseas?retryWrites=true&w=majority",
+        "envVar": "MONGO_URI_PROD"
+      }
+    ]
+  }
+}

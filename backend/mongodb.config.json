@@ -1,0 +1,23 @@
+{
+  "instantMongo": {
+    "connections": [
+      {
+        "name": "Premass Overseas - Local",
+        "uri": "mongodb://localhost:27017/premass-overseas",
+        "options": {
+          "useNewUrlParser": true,
+          "useUnifiedTopology": true
+        }
+      },
+      {
+        "name": "Premass Overseas - Production",
+        "uri": "mongodb+srv://<username>:<password>@cluster.mongodb.net/premass-overseas?retryWrites=true&w=majority",
+        "options": {
+          "useNewUrlParser": true,
+          "useUnifiedTopology": true
+        },
+        "note": "Replace <username> and <password> with your MongoDB Atlas credentials or use environment variables."
+      }
+    ]
+  }
+}

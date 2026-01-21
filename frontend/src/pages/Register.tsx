@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Mail, Lock, User, Loader, CheckCircle } from "lucide-react";
+import { Envelope, LockKey, User, CircleNotch, CheckCircle, Eye, EyeSlash, ShieldCheck } from "phosphor-react";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -16,6 +16,7 @@ export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isHuman, setIsHuman] = useState(false);
 
   const navigate = useNavigate();
   const { register } = useAuth();
@@ -51,6 +52,11 @@ export default function Register() {
       return;
     }
 
+    if (!isHuman) {
+      setError("Please confirm you're not a robot");
+      return;
+    }
+
     try {
       setIsLoading(true);
       await register(
@@ -79,7 +85,7 @@ export default function Register() {
       <div className="w-full max-w-md">
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-10">
-          
+
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-[#054374] mb-2">Create Account</h1>
@@ -96,7 +102,7 @@ export default function Register() {
           {/* Success Message */}
           {success && (
             <div className="mb-6 p-4 bg-green-50 border-l-4 border-green-500 rounded flex items-center gap-3">
-              <CheckCircle className="w-5 h-5 text-green-600" />
+              <CheckCircle size={20} weight="duotone" className="text-green-600" />
               <p className="text-green-700 font-medium">Registration successful! Redirecting...</p>
             </div>
           )}
@@ -106,133 +112,148 @@ export default function Register() {
 
             {/* Name Field */}
             <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
-            <div className="relative">
-              <User className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="John Doe"
-                className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
-                disabled={isLoading}
-              />
-            </div>
-          </div>
-
-          {/* Email Field */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="john@example.com"
-                className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
-                disabled={isLoading}
-              />
-            </div>
-          </div>
-
-          {/* Password Field */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Password *</label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="••••••••"
-                className="w-full pl-10 pr-10 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
-                disabled={isLoading}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
-                disabled={isLoading}
-              >
-                {showPassword ? "Hide" : "Show"}
-              </button>
-            </div>
-            <p className="text-xs text-gray-500 mt-1">Min 6 characters</p>
-          </div>
-
-          {/* Confirm Password Field */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password *</label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                placeholder="••••••••"
-                className="w-full pl-10 pr-10 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
-                disabled={isLoading}
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
-                disabled={isLoading}
-              >
-                {showConfirmPassword ? "Hide" : "Show"}
-              </button>
-            </div>
-          </div>
-
-          {/* Role Selection */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">I am a: *</label>
-            <div className="flex gap-3">
-              <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{borderColor: formData.role === "student" ? "#cd9429" : "#e5e7eb"}}>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+              <div className="relative">
+                <User size={20} weight="duotone" className="absolute left-3 top-3.5 text-gray-400" />
                 <input
-                  type="radio"
-                  value="student"
-                  checked={formData.role === "student"}
+                  type="text"
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
-                  name="role"
-                  className="w-4 h-4"
+                  placeholder="John Doe"
+                  className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
+                  disabled={isLoading}
                 />
-                <span className="font-medium text-sm">Student</span>
-              </label>
-              <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{borderColor: formData.role === "employee" ? "#cd9429" : "#e5e7eb"}}>
+              </div>
+            </div>
+
+            {/* Email Field */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+              <div className="relative">
+                <Envelope size={20} weight="duotone" className="absolute left-3 top-3.5 text-gray-400" />
                 <input
-                  type="radio"
-                  value="employee"
-                  checked={formData.role === "employee"}
+                  type="email"
+                  name="email"
+                  value={formData.email}
                   onChange={handleChange}
-                  name="role"
-                  className="w-4 h-4"
+                  placeholder="john@example.com"
+                  className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
+                  disabled={isLoading}
                 />
-                <span className="font-medium text-sm">Staff</span>
+              </div>
+            </div>
+
+            {/* Password Field */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Password *</label>
+              <div className="relative">
+                <LockKey size={20} weight="duotone" className="absolute left-3 top-3.5 text-gray-400" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  className="w-full pl-10 pr-10 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
+                  disabled={isLoading}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                  disabled={isLoading}
+                >
+                  {showPassword ? <EyeSlash size={20} weight="duotone" /> : <Eye size={20} weight="duotone" />}
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">Min 6 characters</p>
+            </div>
+
+            {/* Confirm Password Field */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password *</label>
+              <div className="relative">
+                <LockKey size={20} weight="duotone" className="absolute left-3 top-3.5 text-gray-400" />
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  className="w-full pl-10 pr-10 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
+                  disabled={isLoading}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                  disabled={isLoading}
+                >
+                  {showConfirmPassword ? <EyeSlash size={20} weight="duotone" /> : <Eye size={20} weight="duotone" />}
+                </button>
+              </div>
+            </div>
+
+            {/* Role Selection */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3">I am a: *</label>
+              <div className="flex gap-3">
+                <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{ borderColor: formData.role === "student" ? "#cd9429" : "#e5e7eb" }}>
+                  <input
+                    type="radio"
+                    value="student"
+                    checked={formData.role === "student"}
+                    onChange={handleChange}
+                    name="role"
+                    className="w-4 h-4"
+                  />
+                  <span className="font-medium text-sm">Student</span>
+                </label>
+                <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{ borderColor: formData.role === "employee" ? "#cd9429" : "#e5e7eb" }}>
+                  <input
+                    type="radio"
+                    value="employee"
+                    checked={formData.role === "employee"}
+                    onChange={handleChange}
+                    name="role"
+                    className="w-4 h-4"
+                  />
+                  <span className="font-medium text-sm">Staff</span>
+                </label>
+              </div>
+            </div>
+
+            {/* Human Verification Checkbox */}
+            <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#cd9429]/50 transition">
+              <input
+                type="checkbox"
+                id="humanCheck"
+                checked={isHuman}
+                onChange={(e) => setIsHuman(e.target.checked)}
+                className="w-5 h-5 text-[#cd9429] border-gray-300 rounded focus:ring-[#cd9429] cursor-pointer"
+              />
+              <label htmlFor="humanCheck" className="flex items-center gap-2 cursor-pointer text-sm text-gray-700 font-medium">
+                <ShieldCheck size={20} weight="duotone" className="text-green-600" />
+                I'm not a robot
               </label>
             </div>
-          </div>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full bg-gradient-to-r from-[#054374] to-[#073a57] hover:shadow-lg disabled:opacity-60 text-white font-semibold py-2.5 px-4 rounded-lg transition flex items-center justify-center gap-2 mt-6"
-          >
-            {isLoading ? (
-              <>
-                <Loader className="w-5 h-5 animate-spin" />
-                Creating Account...
-              </>
-            ) : (
-              "Create Account"
-            )}
-          </button>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-gradient-to-r from-[#054374] to-[#073a57] hover:shadow-lg disabled:opacity-60 text-white font-semibold py-2.5 px-4 rounded-lg transition flex items-center justify-center gap-2 mt-6"
+            >
+              {isLoading ? (
+                <>
+                  <CircleNotch size={20} weight="bold" className="animate-spin" />
+                  Creating Account...
+                </>
+              ) : (
+                "Create Account"
+              )}
+            </button>
           </form>
 
           {/* Divider */}

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Eye, EyeOff, Mail, Lock, Loader } from "lucide-react";
+import { Eye, EyeSlash, Envelope, LockKey, CircleNotch } from "phosphor-react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -37,7 +37,7 @@ export default function Login() {
   // ✅ Handle Login
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setIsLoading(true);
@@ -50,6 +50,7 @@ export default function Login() {
         body: JSON.stringify({
           email,
           password,
+          role,
         }),
       });
 
@@ -65,7 +66,7 @@ export default function Login() {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("role", data.user.role);
-      
+
       // ✅ Redirect based on role
       if (data.user.role === "student") {
         navigate("/dashboard/student");
@@ -86,7 +87,7 @@ export default function Login() {
       <div className="w-full max-w-md">
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-10">
-          
+
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-[#054374] mb-2">Welcome Back</h1>
@@ -102,10 +103,10 @@ export default function Login() {
 
           {/* Form */}
           <form onSubmit={handleLogin} className="space-y-5">
-            
+
             {/* Role Selection */}
             <div className="flex gap-3 mb-6">
-              <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{borderColor: role === "student" ? "#cd9429" : "#e0e7ff"}}>
+              <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{ borderColor: role === "student" ? "#cd9429" : "#e0e7ff" }}>
                 <input
                   type="radio"
                   value="student"
@@ -115,7 +116,7 @@ export default function Login() {
                 />
                 <span className="font-medium text-sm">Student</span>
               </label>
-              <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{borderColor: role === "employee" ? "#cd9429" : "#e0e7ff"}}>
+              <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{ borderColor: role === "employee" ? "#cd9429" : "#e0e7ff" }}>
                 <input
                   type="radio"
                   value="employee"
@@ -131,7 +132,7 @@ export default function Login() {
             <div>
               <label className="block text-sm font-semibold text-[#054374] mb-2">Email Address</label>
               <div className="relative">
-                <Mail className="absolute left-3 top-3.5 text-gray-400" size={20} />
+                <Envelope className="absolute left-3 top-3.5 text-gray-400" size={20} weight="duotone" />
                 <input
                   type="email"
                   value={email}
@@ -150,7 +151,7 @@ export default function Login() {
             <div>
               <label className="block text-sm font-semibold text-[#054374] mb-2">Password</label>
               <div className="relative">
-                <Lock className="absolute left-3 top-3.5 text-gray-400" size={20} />
+                <LockKey className="absolute left-3 top-3.5 text-gray-400" size={20} weight="duotone" />
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
@@ -168,7 +169,7 @@ export default function Login() {
                   className="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600"
                   tabIndex={-1}
                 >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  {showPassword ? <EyeSlash size={20} weight="duotone" /> : <Eye size={20} weight="duotone" />}
                 </button>
               </div>
             </div>
@@ -191,7 +192,7 @@ export default function Login() {
             >
               {isLoading ? (
                 <>
-                  <Loader size={20} className="animate-spin" />
+                  <CircleNotch size={20} weight="bold" className="animate-spin" />
                   Logging in...
                 </>
               ) : (

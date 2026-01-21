@@ -1,116 +1,120 @@
-/*
-=====================================================
-PREMASS OVERSEAS – PROFESSIONAL FOOTER
-=====================================================
-Includes:
-- Brand trust section
-- Quick links
-- Services
-- Locations
-- Copyright
-=====================================================
-*/
+import { Link } from "react-router-dom";
+import { LinkedinLogo, InstagramLogo, FacebookLogo, YoutubeLogo, Phone, Envelope, MapPin } from "phosphor-react";
+import { services } from "../data/services";
 
 export default function Footer() {
   return (
-    <>
-      {/* ================= FOOTER WRAPPER ================= */}
-      <footer className="bg-[#0A2540] text-gray-300 pt-16">
+    <footer className="bg-[#054374] text-white">
+      {/* MAIN FOOTER */}
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
 
-        {/* ================= FOOTER GRID ================= */}
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
-
-          {/* ================= BRAND & TRUST ================= */}
+          {/* COMPANY INFO */}
           <div>
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Premass Overseas
-            </h3>
-            <p className="text-sm leading-relaxed text-gray-400">
-              Trusted overseas education consultants guiding students towards
-              global admissions, visas, and career success with transparency
-              and expertise.
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-10 h-10 bg-[#cd9429] rounded-lg flex items-center justify-center font-bold text-white">P</div>
+              <div>
+                <h3 className="text-lg font-bold">Premass Overseas</h3>
+                <p className="text-xs text-gray-300">Education Consultancy</p>
+              </div>
+            </div>
+            <p className="text-sm text-gray-300 mb-6">
+              Your trusted partner for global education. Expert counselling, visa guidance, and career-driven planning for international success.
             </p>
-
-            {/* Trust Badges */}
-            <div className="mt-6 space-y-2 text-sm">
-              <p>✔ 100% Transparent Process</p>
-              <p>✔ Certified Counsellors</p>
-              <p>✔ End-to-End Student Support</p>
+            <div className="flex gap-4">
+              <a href="https://linkedin.com" className="text-white/90 hover:text-[#cd9429] transition-all duration-300 hover:scale-125 hover:drop-shadow-[0_0_12px_rgba(205,148,41,0.8)]">
+                <LinkedinLogo size={24} weight="duotone" />
+              </a>
+              <a href="https://instagram.com" className="text-white/90 hover:text-[#cd9429] transition-all duration-300 hover:scale-125 hover:drop-shadow-[0_0_12px_rgba(205,148,41,0.8)]">
+                <InstagramLogo size={24} weight="duotone" />
+              </a>
+              <a href="https://facebook.com" className="text-white/90 hover:text-[#cd9429] transition-all duration-300 hover:scale-125 hover:drop-shadow-[0_0_12px_rgba(205,148,41,0.8)]">
+                <FacebookLogo size={24} weight="duotone" />
+              </a>
+              <a href="https://youtube.com" className="text-white/90 hover:text-[#cd9429] transition-all duration-300 hover:scale-125 hover:drop-shadow-[0_0_12px_rgba(205,148,41,0.8)]">
+                <YoutubeLogo size={24} weight="duotone" />
+              </a>
             </div>
           </div>
 
-          {/* ================= QUICK LINKS ================= */}
+          {/* QUICK LINKS */}
           <div>
-            <h4 className="text-white font-semibold mb-4">
-              Quick Links
-            </h4>
+            <h3 className="text-lg font-bold mb-4 text-[#cd9429]">Quick Links</h3>
             <ul className="space-y-3 text-sm">
-              <li>
-                <a href="/" className="hover:text-[#cd9429] transition">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="/about" className="hover:text-[#cd9429] transition">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="/services" className="hover:text-[#cd9429] transition">
-                  Services
-                </a>
-              </li>
-              <li>
-                <a href="/contact" className="hover:text-[#cd9429] transition">
-                  Contact
-                </a>
-              </li>
+              <li><FooterLink to="/" label="Home" /></li>
+              <li><FooterLink to="/about" label="About Us" /></li>
+              <li><FooterLink to="/services" label="Our Services" /></li>
+              <li><FooterLink to="/contact" label="Contact Us" /></li>
+              <li><FooterLink to="/login" label="Student Login" /></li>
+              <li><FooterLink to="/register" label="Register" /></li>
             </ul>
           </div>
 
-          {/* ================= SERVICES ================= */}
+          {/* OUR SERVICES */}
           <div>
-            <h4 className="text-white font-semibold mb-4">
-              Our Services
-            </h4>
+            <h3 className="text-lg font-bold mb-4 text-[#cd9429]">Our Services</h3>
             <ul className="space-y-3 text-sm">
-              <li>Study Abroad Counselling</li>
-              <li>University Admissions</li>
-              <li>Visa Guidance</li>
-              <li>Career Counselling</li>
-              <li>Test Preparation</li>
+              {services.slice(0, 6).map((cat) => (
+                <li key={cat.slug}>
+                  <FooterLink to={`/services/${cat.slug}`} label={cat.category} />
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* ================= LOCATIONS ================= */}
+          {/* CONTACT INFO */}
           <div>
-            <h4 className="text-white font-semibold mb-4">
-              Our Locations
-            </h4>
+            <h3 className="text-lg font-bold mb-4 text-[#cd9429]">Contact Us</h3>
             <ul className="space-y-3 text-sm">
-              <li>🇮🇳 India</li>
-              <li>🇬🇧 United Kingdom</li>
-              <li>🇺🇸 United States</li>
-              <li>🇨🇦 Canada</li>
-              <li>🌍 Global Online Support</li>
+              <li className="flex gap-3">
+                <Phone size={20} weight="duotone" className="text-[#cd9429] mt-1 flex-shrink-0" />
+                <div>
+                  <p className="font-semibold">Phone</p>
+                  <p className="text-gray-300">+91 89777 08366</p>
+                </div>
+              </li>
+              <li className="flex gap-3">
+                <Envelope size={20} weight="duotone" className="text-[#cd9429] mt-1 flex-shrink-0" />
+                <div>
+                  <p className="font-semibold">Email</p>
+                  <p className="text-gray-300">premass.overseas@gmail.com</p>
+                </div>
+              </li>
+              <li className="flex gap-3">
+                <MapPin size={20} weight="duotone" className="text-[#cd9429] mt-1 flex-shrink-0" />
+                <div>
+                  <p className="font-semibold">Address</p>
+                  <p className="text-gray-300">Hyderabad, Telangana, India</p>
+                </div>
+              </li>
             </ul>
-
-            {/* CTA */}
-            <a
-              href="/contact"
-              className="inline-block mt-6 bg-[#0B5ED7] text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition text-sm font-medium"
-            >
-              Free Consultation
-            </a>
           </div>
         </div>
+      </div>
 
-        {/* ================= FOOTER BOTTOM ================= */}
-        <div className="border-t border-gray-700 mt-12 py-6 text-center text-sm text-gray-400">
-          © {new Date().getFullYear()} Premass Overseas Services Pvt Ltd.  
-          All rights reserved.
+      {/* BOTTOM BAR */}
+      <div className="border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-300">
+          <p className="font-medium">© 2026 Premass Overseas. All rights reserved.</p>
+          <div className="flex gap-6 mt-4 md:mt-0">
+            <FooterLink to="#" label="Privacy Policy" />
+            <FooterLink to="#" label="Terms of Service" />
+            <FooterLink to="#" label="Cookie Policy" />
+          </div>
         </div>
-      </footer>
-    </>
+      </div>
+    </footer>
+  );
+}
+
+function FooterLink({ to, label }: { to: string; label: string }) {
+  return (
+    <Link to={to} className="group inline-flex items-center gap-2 hover:text-[#cd9429] transition-all">
+      <span className="text-[#cd9429] group-hover:translate-x-1 transition-transform">→</span>
+      <span className="relative font-semibold">
+        {label}
+        <span className="absolute left-0 right-0 -bottom-0.5 h-0.5 bg-[#cd9429] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-200" />
+      </span>
+    </Link>
   );
 }

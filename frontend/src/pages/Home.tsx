@@ -1,233 +1,211 @@
 import { Link } from "react-router-dom";
 import StatsSection from "../components/StatsSection";
 import { services } from "../data/services";
-
 import {
-  GraduationCap,
-  ClipboardCheck,
+  Book,
+  Clipboard,
   Globe,
-  Briefcase,
-  Plane,
+  Shield,
   Users,
-} from "lucide-react";
+  TrendUp,
+  ArrowRight,
+  CheckCircle,
+  Target,
+} from "phosphor-react";
 
-/* =====================================================
-   ICON MAP FOR SERVICE CATEGORIES
-===================================================== */
 const serviceIcons: Record<string, JSX.Element> = {
-  "pre-admission": <GraduationCap size={28} />,
-  "admission-coaching": <ClipboardCheck size={28} />,
-  "visa-immigration": <Globe size={28} />,
-  "post-study": <Plane size={28} />,
-  "career-services": <Briefcase size={28} />,
-  settlement: <Users size={28} />,
+  counselling: <Book size={28} weight="duotone" />,
+  applications: <Clipboard size={28} weight="duotone" />,
+  "test-prep": <Shield size={28} weight="duotone" />,
+  visa: <Globe size={28} weight="duotone" />,
+  "post-arrival": <Users size={28} weight="duotone" />,
+  countries: <Globe size={28} weight="duotone" />,
+};
+
+const serviceImages: Record<string, string> = {
+  counselling: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&auto=format&fit=crop&q=80",
+  applications: "https://images.unsplash.com/photo-1516383607781-913a19294fd1?w=1200&auto=format&fit=crop&q=80",
+  "test-prep": "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?w=1200&auto=format&fit=crop&q=80",
+  visa: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=1200&auto=format&fit=crop&q=80",
+  "post-arrival": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1200&auto=format&fit=crop&q=80",
+  countries: "https://images.unsplash.com/photo-1433477155337-9aea4e790195?w=1200&auto=format&fit=crop&q=80",
 };
 
 export default function Home() {
   return (
-    <main className="text-slate-800">
-
-      {/* =================================================
-         HERO – DARK BRAND (AUTHORITY)
-      ================================================= */}
+    <main className="bg-white text-slate-800">
+      {/* HERO */}
       <section className="bg-[#054374] text-white">
-        <div className="max-w-7xl mx-auto px-6 py-28 grid md:grid-cols-2 gap-14 items-center">
-
+        <div className="max-w-7xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+            <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6">
               Your Trusted Partner for <br />
               <span className="text-[#cd9429]">
-                Global Education & Career Success
+                Global Education
               </span>
             </h1>
 
-            <p className="mt-6 text-lg text-gray-200 max-w-xl leading-relaxed">
-              Premass Overseas empowers students with expert counselling,
-              global university access, visa guidance, and career-driven
-              education planning.
+            <p className="text-lg text-gray-100 max-w-xl leading-relaxed mb-8">
+              Expert counselling, visa guidance, and career-driven education planning for your international success.
             </p>
 
-            <div className="mt-10 flex gap-6">
-              <Link to="/contact" className="btn-premium">
-                Free Consultation
+            <div className="flex flex-wrap gap-4">
+              <Link to="/contact" className="px-8 py-3 bg-[#cd9429] text-white rounded-lg font-bold hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
+                Free Consultation <ArrowRight size={20} weight="bold" />
               </Link>
-              <Link to="/services" className="btn-premium-outline">
+              <Link to="/services" className="px-8 py-3 border-2 border-[#cd9429] text-[#cd9429] rounded-lg font-bold hover:bg-[#cd9429] hover:text-white transition-all duration-300">
                 Explore Services
               </Link>
             </div>
           </div>
 
-          <div className="hidden md:block">
-            <div className="bg-white/10 rounded-3xl h-96 flex items-center justify-center text-gray-200">
-              Global Student Success Visual
+          <div className="hidden md:flex justify-center">
+            <div className="relative w-full h-96">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#cd9429]/20 to-white/10 rounded-3xl border-2 border-[#cd9429]/30 backdrop-blur-sm flex items-center justify-center">
+                <span className="text-white text-2xl font-bold opacity-50">Global Excellence</span>
+              </div>
             </div>
           </div>
-
         </div>
       </section>
 
-      {/* =================================================
-         STATS – PURE WHITE (TRUST RESET)
-      ================================================= */}
+      {/* STATS */}
       <section className="bg-white">
-        <div className="max-w-7xl mx-auto px-6 pt-24 text-center">
-          <h2 className="text-3xl font-bold text-[#054374]">
-            Trusted by Students Worldwide
-          </h2>
-          <p className="mt-4 max-w-2xl mx-auto text-gray-600">
-            Proven outcomes through transparent counselling,
-            global partnerships, and compliance-driven processes.
-          </p>
-        </div>
-
         <StatsSection />
       </section>
 
-      {/* =================================================
-         WHY CHOOSE US – LIGHT GREY (INSTITUTIONAL)
-      ================================================= */}
-      <section className="bg-slate-50">
-        <div className="premium-container py-28">
-
-          <h2 className="premium-heading text-center">
-            Why Choose Premass Overseas
-          </h2>
-
-          <p className="premium-subtext text-center mx-auto">
-            A premium overseas education consultancy focused on ethical
-            guidance, regulatory accuracy, and long-term student success.
+      {/* WHY CHOOSE US */}
+      <section className="bg-[#F4F6FB] py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-4xl font-bold text-center text-[#054374] mb-4">Why Choose Premass Overseas</h2>
+          <p className="text-center text-gray-600 max-w-3xl mx-auto mb-16">
+            Ethical guidance, regulatory accuracy, and long-term student success.
           </p>
 
-          <div className="mt-16 grid md:grid-cols-4 gap-10">
-
-            <div className="premium-card text-center">
-              <div className="premium-icon mx-auto">
-                <GraduationCap />
-              </div>
-              <h3 className="font-semibold text-lg">
-                Expert Counselling
-              </h3>
-              <p className="mt-3 text-slate-600">
-                Profile-based counselling aligned with global standards.
-              </p>
-            </div>
-
-            <div className="premium-card text-center">
-              <div className="premium-icon mx-auto">
-                <ClipboardCheck />
-              </div>
-              <h3 className="font-semibold text-lg">
-                Accurate Documentation
-              </h3>
-              <p className="mt-3 text-slate-600">
-                Error-free applications with compliance at every step.
-              </p>
-            </div>
-
-            <div className="premium-card text-center">
-              <div className="premium-icon mx-auto">
-                <Globe />
-              </div>
-              <h3 className="font-semibold text-lg">
-                Global Reach
-              </h3>
-              <p className="mt-3 text-slate-600">
-                UK, Europe, Canada, Australia, and more.
-              </p>
-            </div>
-
-            <div className="premium-card text-center">
-              <div className="premium-icon mx-auto">
-                <Briefcase />
-              </div>
-              <h3 className="font-semibold text-lg">
-                Career-Oriented Approach
-              </h3>
-              <p className="mt-3 text-slate-600">
-                Education aligned with employability and migration goals.
-              </p>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* =================================================
-         OUR CORE SERVICES – BRAND TINT (PREMIUM)
-      ================================================= */}
-      <section className="premium-services-section">
-        <div className="max-w-7xl mx-auto px-6 py-28">
-
-          <h2 className="text-3xl font-bold text-center text-[#054374]">
-            Our Core Services
-          </h2>
-
-          <p className="mt-4 text-center text-gray-700 max-w-3xl mx-auto">
-            End-to-end overseas education, visa, career, and settlement
-            services supporting students at every stage of their journey.
-          </p>
-
-          <div className="mt-16 grid md:grid-cols-3 gap-10">
-
-            {services.map((category) => (
-              <div key={category.slug} className="premium-service-card">
-
-                <div className="service-icon">
-                  {serviceIcons[category.slug]}
+          <div className="grid md:grid-cols-2 gap-10">
+            {[ // attach images to each card
+              {
+                title: "Expert Counselling",
+                subtitle: "Profile-first guidance built on outcomes",
+                icon: <Target size={22} weight="duotone" />,
+                bullets: [
+                  "Personalized pathways for every student profile",
+                  "Data-driven course and university recommendations",
+                  "Dedicated counsellors with global expertise",
+                ],
+                img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&auto=format&fit=crop&q=80",
+              },
+              {
+                title: "Accurate Documentation",
+                subtitle: "Compliance and precision at every step",
+                icon: <Clipboard size={22} weight="duotone" />,
+                bullets: [
+                  "Error-free SOP/LOR drafting and reviews",
+                  "Visa-ready checklists and filing support",
+                  "Country-specific compliance guidance",
+                ],
+                img: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?w=1200&auto=format&fit=crop&q=80",
+              },
+              {
+                title: "Global Reach",
+                subtitle: "Top destinations with verified partners",
+                icon: <Globe size={22} weight="duotone" />,
+                bullets: [
+                  "UK, Europe, Canada, Australia, USA, and more",
+                  "Scholarship and funding opportunity mapping",
+                  "Local alumni and mentor connect",
+                ],
+                img: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=1200&auto=format&fit=crop&q=80",
+              },
+              {
+                title: "Career-Focused",
+                subtitle: "Outcome-oriented planning",
+                icon: <TrendUp size={22} weight="duotone" />,
+                bullets: [
+                  "Programs aligned to employability and PR pathways",
+                  "Interview prep, mock visa, and job-readiness coaching",
+                  "Post-arrival support for smooth settlement",
+                ],
+                img: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200&auto=format&fit=crop&q=80",
+              },
+            ].map((card, idx) => (
+              <div key={idx} className="p-8 bg-white rounded-3xl shadow-lg border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition group">
+                <div className="h-36 w-full rounded-2xl overflow-hidden mb-5">
+                  <img src={card.img} alt={card.title} className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-300" />
                 </div>
-
-                <h3 className="service-title">
-                  {category.category}
-                </h3>
-
-                <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                  {category.items.slice(0, 3).map((item) => (
-                    <li key={item.slug}>
-                      {item.name}
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#cd9429]/20 via-orange-500/10 to-[#cd9429]/5 text-[#cd9429] flex items-center justify-center group-hover:from-[#cd9429] group-hover:via-orange-500 group-hover:to-[#cd9429] group-hover:text-white group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-[#cd9429]/30 transition-all duration-300">
+                    {card.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-[#054374] group-hover:text-[#cd9429] transition">{card.title}</h3>
+                    <p className="text-sm text-gray-500">{card.subtitle}</p>
+                  </div>
+                </div>
+                <ul className="space-y-2 text-gray-700">
+                  {card.bullets.map((bullet) => (
+                    <li key={bullet} className="flex gap-2">
+                      <CheckCircle size={20} weight="duotone" className="text-[#cd9429] mt-1 flex-shrink-0" />
+                      {bullet}
                     </li>
                   ))}
                 </ul>
-
-                <div className="mt-6">
-  <Link
-    to={`/services/${category.slug}`}
-    className="service-view-btn"
-  >
-    View Services
-  </Link>
-</div>
-
               </div>
             ))}
-
           </div>
         </div>
       </section>
 
-      {/* =================================================
-         FINAL CTA – DARK BRAND (STRONG CLOSE)
-      ================================================= */}
-      <section className="bg-[#054374] text-white">
-        <div className="max-w-6xl mx-auto px-6 py-28 text-center">
-
-          <h2 className="text-3xl font-bold">
-            Start Your Global Education Journey with Confidence
-          </h2>
-
-          <p className="mt-6 text-gray-200 max-w-2xl mx-auto">
-            Speak with our experienced overseas education consultants
-            for personalised and transparent guidance.
+      {/* SERVICES */}
+      <section className="bg-white py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-4xl font-bold text-center text-[#054374] mb-4">Our Core Services</h2>
+          <p className="text-center text-gray-600 max-w-3xl mx-auto mb-16">
+            End-to-end overseas education support at every stage of your journey.
           </p>
-
-          <div className="mt-10">
-            <Link to="/contact" className="btn-premium">
-              Get Free Consultation
-            </Link>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((category) => (
+              <div key={category.slug} className="bg-white rounded-2xl shadow-md border border-gray-100 p-8 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
+                <div className="h-32 w-full rounded-2xl overflow-hidden mb-4">
+                  <img
+                    src={serviceImages[category.slug] || serviceImages.countries}
+                    alt={category.category}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#cd9429]/20 via-orange-500/10 to-[#cd9429]/5 flex items-center justify-center text-[#cd9429] text-3xl mb-3 group-hover:from-[#cd9429] group-hover:via-orange-500 group-hover:to-[#cd9429] group-hover:text-white group-hover:scale-110 group-hover:shadow-xl group-hover:shadow-[#cd9429]/30 transition-all duration-300">{serviceIcons[category.slug] ?? <Globe size={32} weight="duotone" />}</div>
+                <h3 className="text-xl font-bold text-[#054374] mb-3 group-hover:text-[#cd9429] transition">{category.category}</h3>
+                <ul className="space-y-2 text-sm text-gray-700 mb-5">
+                  {category.items.slice(0, 3).map((item) => (
+                    <li key={item.slug} className="flex items-start gap-2 group/item">
+                      <span className="text-[#cd9429] mt-1 group-hover/item:translate-x-1 transition-transform">→</span>
+                      <span className="relative font-semibold">
+                        {item.name}
+                        <span className="absolute left-0 right-0 -bottom-0.5 h-0.5 bg-[#054374] scale-x-0 group-hover/item:scale-x-100 origin-left transition-transform duration-200" />
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <Link to={`/services/${category.slug}`} className="text-[#cd9429] font-bold hover:text-[#054374] inline-flex items-center gap-2 group/link">
+                  View Services
+                  <ArrowRight size={20} weight="bold" className="group-hover/link:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            ))}
           </div>
-
         </div>
       </section>
 
+      {/* FINAL CTA */}
+      <section className="bg-[#cd9429] text-white py-20">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-4xl font-bold mb-4">Start Your Global Education Journey Today</h2>
+          <p className="text-lg text-white/90 mb-8">Connect with our expert counsellors for personalized guidance.</p>
+          <Link to="/contact" className="inline-block px-10 py-4 bg-white text-[#054374] rounded-lg font-bold text-lg hover:shadow-lg hover:-translate-y-1 transition">
+            Get Your Free Consultation
+          </Link>
+        </div>
+      </section>
     </main>
   );
 }

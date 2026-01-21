@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaUserGraduate, FaGlobe, FaUniversity, FaCheckCircle } from "react-icons/fa";
+import { Student, Globe, Buildings, CheckCircle } from "phosphor-react";
 
 type Stat = {
   label: string;
@@ -13,25 +13,25 @@ const stats: Stat[] = [
     label: "Years Experience",
     value: 10,
     suffix: "+",
-    icon: <FaUniversity />,
+    icon: <Buildings size={36} weight="duotone" className="text-[#cd9429]" />,
   },
   {
     label: "Students Guided",
     value: 5000,
     suffix: "+",
-    icon: <FaUserGraduate />,
+    icon: <Student size={36} weight="duotone" className="text-[#cd9429]" />,
   },
   {
     label: "Countries",
     value: 15,
     suffix: "+",
-    icon: <FaGlobe />,
+    icon: <Globe size={36} weight="duotone" className="text-[#cd9429]" />,
   },
   {
     label: "Visa Success Rate",
     value: 98,
     suffix: "%",
-    icon: <FaCheckCircle />,
+    icon: <CheckCircle size={36} weight="duotone" className="text-[#cd9429]" />,
   },
 ];
 
@@ -65,9 +65,9 @@ export default function StatsSection() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, index) => (
-            <div key={index} className="stat-card">
+            <div key={index} className="stat-card group">
 
-              <div className="stat-icon">
+              <div className="stat-icon w-20 h-20 rounded-2xl bg-gradient-to-br from-[#cd9429]/20 via-orange-500/10 to-[#cd9429]/5 flex items-center justify-center mb-4 group-hover:from-[#cd9429]/30 group-hover:via-orange-500/20 group-hover:to-[#cd9429]/10 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-[#cd9429]/20">
                 {stat.icon}
               </div>
 

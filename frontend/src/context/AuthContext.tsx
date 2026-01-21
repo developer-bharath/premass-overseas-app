@@ -76,17 +76,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const res = await fetch(`${API_URL}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, role }),
+        body: JSON.stringify({ name, email, password, phone: "9999999999", department: "Admin", designation: "Counselor", role }),
       });
 
-      const data = await res.json();
+      const response = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message || "Registration failed");
+        throw new Error(response.message || response.error || "Registration failed");
       }
-
-      // Store email for OTP verification
-      sessionStorage.setItem("registeredEmail", email);
 
       setLoading(false);
     } catch (error) {
@@ -133,31 +130,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await res.json();
+      const response = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message || "Login failed");
+        throw new Error(response.message || response.error || "Login failed");
       }
 
-      // Decode token to get user info
-      const tokenPayload = JSON.parse(
-        atob(data.token.split(".")[1])
-      );
+      const loginData = response.data || response;
+      const token = loginData.token;
+      const user = loginData.user;
 
-      const userData = {
-        id: tokenPayload.id,
-        name: email, // Backend should return name, for now use email
-        email,
-        role: tokenPayload.role,
-      };
+      if (!token || !user) {
+        throw new Error("Invalid login response from server");
+      }
 
-      // Save to localStorage
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(userData));
-      localStorage.setItem("role", tokenPayload.role);
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("role", user.role);
 
-      setToken(data.token);
-      setUser(userData);
+      setToken(token);
+      setUser({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role as any,
+      });
       setLoading(false);
     } catch (error) {
       setLoading(false);
