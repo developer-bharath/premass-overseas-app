@@ -28,6 +28,6 @@
     }
   ],
   "env": {
-    "VITE_API_URL": "https://api.premassoverseas.com"
+    "VITE_API_URL": "https://noble-berri-premassoverseas-b987e5a5.koyeb.app/api/v1"
   }
 }
