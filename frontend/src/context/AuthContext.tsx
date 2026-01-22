@@ -39,7 +39,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const API_URL = "http://localhost:4000/api/auth";
+  const API_URL = (import.meta.env.VITE_API_URL || "http://localhost:4000/api/v1") + "/auth";
 
   // ============================================
   // RESTORE TOKEN ON MOUNT (Auto-login)

@@ -850,4 +850,8 @@ app.listen(PORT, () => {
   console.log(`📚 API Docs: http://localhost:${PORT}/api/v1`);
 });
 
+app.get("/", (_req, res) => {
+  res.send("Premass Overseas API is running.");
+});
+
 export default app;
