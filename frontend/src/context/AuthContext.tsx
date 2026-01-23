@@ -39,7 +39,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const API_URL = (import.meta.env.VITE_API_URL || "http://localhost:4000/api/v1") + "/auth";
+  // Use Vite env for API base, fallback to localhost for dev
+  const API_URL = (import.meta.env.VITE_API_URL || "http://localhost:4000/api") + "/auth";
 
   // ============================================
   // RESTORE TOKEN ON MOUNT (Auto-login)
@@ -79,15 +80,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ name, email, password, phone: "9999999999", department: "Admin", designation: "Counselor", role }),
       });
 
-      const response = await res.json();
-
+      // Handle network errors
       if (!res.ok) {
-        throw new Error(response.message || response.error || "Registration failed");
+        let errorMessage = "Registration failed";
+        try {
+          const response = await res.json();
+          errorMessage = response.message || response.error || errorMessage;
+        } catch {
+          errorMessage = res.statusText || errorMessage;
+        }
+        throw new Error(errorMessage);
       }
 
+      const response = await res.json();
+
+      // Save email for OTP verification
+      sessionStorage.setItem("registeredEmail", email);
       setLoading(false);
     } catch (error) {
       setLoading(false);
+      // Improve error messages for network issues
+      if (error instanceof TypeError && error.message.includes("fetch")) {
+        throw new Error("Unable to connect to server. Please check your internet connection.");
+      }
       throw error;
     }
   };
@@ -130,12 +145,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ email, password }),
       });
 
-      const response = await res.json();
-
+      // Handle network errors
       if (!res.ok) {
-        throw new Error(response.message || response.error || "Login failed");
+        let errorMessage = "Login failed";
+        try {
+          const response = await res.json();
+          errorMessage = response.message || response.error || errorMessage;
+        } catch {
+          // If response is not JSON, use status text
+          errorMessage = res.statusText || errorMessage;
+        }
+        throw new Error(errorMessage);
       }
 
+      const response = await res.json();
       const loginData = response.data || response;
       const token = loginData.token;
       const user = loginData.user;
@@ -158,6 +181,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     } catch (error) {
       setLoading(false);
+      // Improve error messages for network issues
+      if (error instanceof TypeError && error.message.includes("fetch")) {
+        throw new Error("Unable to connect to server. Please check your internet connection.");
+      }
       throw error;
     }
   };

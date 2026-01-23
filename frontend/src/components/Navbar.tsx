@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { services } from "../data/services";
 import { COUNTRIES_MENU } from "../data/images";
 import { ICONS } from "../data/icons";
+import { useAuth } from "../context/AuthContext";
 import {
   LinkedinLogo,
   InstagramLogo,
@@ -21,6 +22,7 @@ const COUNTRY_FLAGS: Record<string, string> = {
 };
 
 export default function Navbar() {
+  const { user, isAuthenticated, logout } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isCountriesOpen, setIsCountriesOpen] = useState(false);
@@ -254,24 +256,58 @@ export default function Navbar() {
               {/* DIVIDER */}
               <div className="w-px h-6 bg-white/20"></div>
 
-              {/* AUTH BUTTONS */}
+              {/* AUTH BUTTONS / USER MENU */}
               <div className="flex items-center gap-3">
-                <Link
-                  to="/login"
-                  className="px-6 py-2.5 font-bold text-white hover:text-[#cd9429] transition relative group"
-                >
-                  <span className="relative">
-                    Login
-                    <span className="absolute left-0 right-0 -bottom-0.5 h-0.5 bg-[#cd9429] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-200" />
-                  </span>
-                </Link>
-                <Link
-                  to="/register"
-                  className="px-6 py-2.5 bg-gradient-to-r from-[#cd9429] to-orange-500 text-white font-bold rounded-lg hover:shadow-xl hover:shadow-[#cd9429]/50 hover:-translate-y-0.5 transition-all duration-300 relative group overflow-hidden"
-                >
-                  <span className="relative z-10">Register</span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-orange-500 to-[#cd9429] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                </Link>
+                {isAuthenticated && user ? (
+                  <>
+                    <Link
+                      to={user.role === "student" ? "/dashboard/student" : "/dashboard/employee"}
+                      className="px-6 py-2.5 font-bold text-white hover:text-[#cd9429] transition relative group"
+                    >
+                      <span className="relative">
+                        Dashboard
+                        <span className="absolute left-0 right-0 -bottom-0.5 h-0.5 bg-[#cd9429] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-200" />
+                      </span>
+                    </Link>
+                    <Link
+                      to="/profile"
+                      className="px-6 py-2.5 font-bold text-white hover:text-[#cd9429] transition relative group"
+                    >
+                      <span className="relative">
+                        Profile
+                        <span className="absolute left-0 right-0 -bottom-0.5 h-0.5 bg-[#cd9429] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-200" />
+                      </span>
+                    </Link>
+                    <button
+                      onClick={logout}
+                      className="px-6 py-2.5 font-bold text-white hover:text-red-400 transition relative group"
+                    >
+                      <span className="relative">
+                        Logout
+                        <span className="absolute left-0 right-0 -bottom-0.5 h-0.5 bg-red-400 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-200" />
+                      </span>
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className="px-6 py-2.5 font-bold text-white hover:text-[#cd9429] transition relative group"
+                    >
+                      <span className="relative">
+                        Login
+                        <span className="absolute left-0 right-0 -bottom-0.5 h-0.5 bg-[#cd9429] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-200" />
+                      </span>
+                    </Link>
+                    <Link
+                      to="/register"
+                      className="px-6 py-2.5 bg-gradient-to-r from-[#cd9429] to-orange-500 text-white font-bold rounded-lg hover:shadow-xl hover:shadow-[#cd9429]/50 hover:-translate-y-0.5 transition-all duration-300 relative group overflow-hidden"
+                    >
+                      <span className="relative z-10">Register</span>
+                      <span className="absolute inset-0 bg-gradient-to-r from-orange-500 to-[#cd9429] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>

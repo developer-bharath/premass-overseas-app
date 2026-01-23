@@ -159,22 +159,23 @@ export default function Register() {
               <form onSubmit={handleSubmit} className="space-y-5">
                 {/* Name Field */}
                 <div>
-                  <label className="block text-white font-semibold mb-2">Full Name</label>
+                  <label className="block text-white font-semibold mb-2" htmlFor="name">Full Name</label>
                   <div className="relative">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: '#cd9429' }} />
                     <input
                       type="text"
+                      id="name"
                       name="name"
+                      autoComplete="name"
                       value={formData.name}
                       onChange={handleChange}
                       onFocus={() => setFocusedField('name')}
                       onBlur={() => setFocusedField(null)}
                       placeholder="Enter your full name"
-                      className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${
-                        focusedField === 'name'
+                      className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${focusedField === 'name'
                           ? 'bg-white'
                           : 'hover:bg-white'
-                      }`}
+                        }`}
                       style={focusedField === 'name' ? { borderColor: '#cd9429' } : { borderColor: '#ffffff' }}
                     />
                   </div>
@@ -182,22 +183,23 @@ export default function Register() {
 
                 {/* Email Field */}
                 <div>
-                  <label className="block text-white font-semibold mb-2">Email Address</label>
+                  <label className="block text-white font-semibold mb-2" htmlFor="email">Email Address</label>
                   <div className="relative">
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: '#cd9429' }} />
                     <input
                       type="email"
+                      id="email"
                       name="email"
+                      autoComplete="email"
                       value={formData.email}
                       onChange={handleChange}
                       onFocus={() => setFocusedField('email')}
                       onBlur={() => setFocusedField(null)}
                       placeholder="you@example.com"
-                      className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${
-                        focusedField === 'email'
+                      className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${focusedField === 'email'
                           ? 'bg-white'
                           : 'hover:bg-white'
-                      }`}
+                        }`}
                       style={focusedField === 'email' ? { borderColor: '#cd9429' } : { borderColor: '#ffffff' }}
                     />
                   </div>
@@ -205,22 +207,23 @@ export default function Register() {
 
                 {/* Phone Field */}
                 <div>
-                  <label className="block text-white font-semibold mb-2">Phone Number</label>
+                  <label className="block text-white font-semibold mb-2" htmlFor="phone">Phone Number</label>
                   <div className="relative">
                     <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: '#cd9429' }} />
                     <input
                       type="tel"
+                      id="phone"
                       name="phone"
+                      autoComplete="tel"
                       value={formData.phone}
                       onChange={handleChange}
                       onFocus={() => setFocusedField('phone')}
                       onBlur={() => setFocusedField(null)}
                       placeholder="+1 (555) 000-0000"
-                      className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${
-                        focusedField === 'phone'
+                      className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${focusedField === 'phone'
                           ? 'bg-white'
                           : 'hover:bg-white'
-                      }`}
+                        }`}
                       style={focusedField === 'phone' ? { borderColor: '#cd9429' } : { borderColor: '#ffffff' }}
                     />
                   </div>
@@ -228,22 +231,23 @@ export default function Register() {
 
                 {/* Password Field */}
                 <div>
-                  <label className="block text-gray-700 font-semibold mb-2">Password</label>
+                  <label className="block text-gray-700 font-semibold mb-2" htmlFor="password">Password</label>
                   <div className="relative">
                     <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-orange-500" />
                     <input
                       type="password"
+                      id="password"
                       name="password"
+                      autoComplete="new-password"
                       value={formData.password}
                       onChange={handleChange}
                       onFocus={() => setFocusedField('password')}
                       onBlur={() => setFocusedField(null)}
                       placeholder="At least 6 characters"
-                      className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${
-                        focusedField === 'name'
+                      className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${focusedField === 'name'
                           ? 'bg-white'
                           : 'hover:bg-white'
-                      }`}
+                        }`}
                       style={focusedField === 'name' ? { borderColor: '#cd9429' } : { borderColor: '#ffffff' }}
                     />
                   </div>
@@ -251,22 +255,23 @@ export default function Register() {
 
                 {/* Confirm Password Field */}
                 <div>
-                  <label className="block text-gray-700 font-semibold mb-2">Confirm Password</label>
+                  <label className="block text-gray-700 font-semibold mb-2" htmlFor="confirmPassword">Confirm Password</label>
                   <div className="relative">
                     <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-orange-500" />
                     <input
                       type="password"
+                      id="confirmPassword"
                       name="confirmPassword"
+                      autoComplete="new-password"
                       value={formData.confirmPassword}
                       onChange={handleChange}
                       onFocus={() => setFocusedField('confirmPassword')}
                       onBlur={() => setFocusedField(null)}
                       placeholder="Confirm your password"
-                      className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${
-                        focusedField === 'confirmPassword'
+                      className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${focusedField === 'confirmPassword'
                           ? 'bg-white'
                           : 'hover:bg-white'
-                      }`}
+                        }`}
                       style={focusedField === 'confirmPassword' ? { borderColor: '#cd9429' } : { borderColor: '#ffffff' }}
                     />
                   </div>
@@ -284,11 +289,10 @@ export default function Register() {
                     }}
                     onFocus={() => setFocusedField('role')}
                     onBlur={() => setFocusedField(null)}
-                    className={`w-full px-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${
-                      focusedField === 'role'
+                    className={`w-full px-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${focusedField === 'role'
                         ? 'bg-white'
                         : 'hover:bg-white'
-                    }`}
+                      }`}
                     style={focusedField === 'role' ? { borderColor: '#cd9429' } : { borderColor: '#ffffff' }}
                   >
                     <option value="student">Student</option>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Eye, EyeSlash, Envelope, LockKey, CircleNotch } from "phosphor-react";
+import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -11,6 +12,7 @@ export default function Login() {
   const [role, setRole] = useState<"student" | "employee">("student");
 
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   // ✅ Validation
   const validateForm = () => {
@@ -41,42 +43,24 @@ export default function Login() {
     if (!validateForm()) return;
 
     setIsLoading(true);
+    setError("");
     try {
-      const response = await fetch("http://localhost:4000/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-          role,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.message || "Login failed. Please try again.");
-        setIsLoading(false);
-        return;
-      }
-
-      // ✅ Store token & user info directly (backend returns complete data)
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      localStorage.setItem("role", data.user.role);
+      await login(email, password);
+      
+      // Get user from localStorage (set by AuthContext)
+      const userStr = localStorage.getItem("user");
+      const user = userStr ? JSON.parse(userStr) : null;
 
       // ✅ Redirect based on role
-      if (data.user.role === "student") {
+      if (user?.role === "student") {
         navigate("/dashboard/student");
-      } else if (data.user.role === "employee") {
+      } else if (user?.role === "employee" || user?.role === "admin") {
         navigate("/dashboard/employee");
       } else {
         navigate("/");
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Connection error. Is the backend running on port 4000?");
+      setError(err instanceof Error ? err.message : "Login failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
