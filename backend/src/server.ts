@@ -320,7 +320,7 @@ app.post('/api/auth/register', async (req: Request, res: Response) => {
 });
 
 // Refresh Token
-app.post('/api/v1/auth/refresh', (req: Request, res: Response) => {
+app.post('/api/auth/refresh', (req: Request, res: Response) => {
   try {
     const { refreshToken } = req.body;
 
@@ -343,7 +343,7 @@ app.post('/api/v1/auth/refresh', (req: Request, res: Response) => {
 });
 
 // Logout
-app.post('/api/v1/auth/logout', authMiddleware, (_req: AuthRequest, res: Response) => {
+app.post('/api/auth/logout', authMiddleware, (_req: AuthRequest, res: Response) => {
   // In a real app, you might blacklist the token here
   return sendResponse(res, 200, null, 'Logged out successfully');
 });
@@ -353,7 +353,7 @@ app.post('/api/v1/auth/logout', authMiddleware, (_req: AuthRequest, res: Respons
 // ============================================
 
 // Get all employees
-app.get('/api/v1/employees', authMiddleware, async (_req: AuthRequest, res: Response) => {
+app.get('/api/employees', authMiddleware, async (_req: AuthRequest, res: Response) => {
   try {
     const employees = await Employee.find({}, '-password');
     return sendResponse(res, 200, employees);
@@ -363,7 +363,7 @@ app.get('/api/v1/employees', authMiddleware, async (_req: AuthRequest, res: Resp
 });
 
 // Get single employee
-app.get('/api/v1/employees/:id', authMiddleware, async (req: AuthRequest, res: Response) => {
+app.get('/api/employees/:id', authMiddleware, async (req: AuthRequest, res: Response) => {
   try {
     const employee = await Employee.findOne({ id: req.params.id }, '-password');
 
@@ -388,7 +388,7 @@ app.get('/api/health', (_req, res) => {
 
 
 // Create employee
-app.post('/api/v1/employees', authMiddleware, async (req: AuthRequest, res: Response) => {
+app.post('/api/employees', authMiddleware, async (req: AuthRequest, res: Response) => {
   try {
     const { name, email, phone, department, designation, password, permissions } = req.body;
 
@@ -426,7 +426,7 @@ app.post('/api/v1/employees', authMiddleware, async (req: AuthRequest, res: Resp
 
 // Update employee
 app.put(
-  '/api/v1/employees/:id',
+  '/api/employees/:id',
   authMiddleware,
   async (req: AuthRequest, res: Response) => {
     try {
@@ -460,7 +460,7 @@ app.put(
 
 // Delete employee
 app.delete(
-  '/api/v1/employees/:id',
+  '/api/employees/:id',
   authMiddleware,
   async (req: AuthRequest, res: Response) => {
     try {
@@ -482,7 +482,7 @@ app.delete(
 // ============================================
 
 // Get all roles
-app.get('/api/v1/roles', authMiddleware, async (_req: AuthRequest, res: Response) => {
+app.get('/api/roles', authMiddleware, async (_req: AuthRequest, res: Response) => {
   try {
     const roles = await Role.find();
     return sendResponse(res, 200, roles);
@@ -492,7 +492,7 @@ app.get('/api/v1/roles', authMiddleware, async (_req: AuthRequest, res: Response
 });
 
 // Get single role
-app.get('/api/v1/roles/:id', authMiddleware, async (req: AuthRequest, res: Response) => {
+app.get('/api/roles/:id', authMiddleware, async (req: AuthRequest, res: Response) => {
   try {
     const role = await Role.findOne({ id: req.params.id });
 
@@ -507,7 +507,7 @@ app.get('/api/v1/roles/:id', authMiddleware, async (req: AuthRequest, res: Respo
 });
 
 // Create role
-app.post('/api/v1/roles', authMiddleware, async (req: AuthRequest, res: Response) => {
+app.post('/api/roles', authMiddleware, async (req: AuthRequest, res: Response) => {
   try {
     const { name, description, permissions, department, level } = req.body;
 
@@ -530,7 +530,7 @@ app.post('/api/v1/roles', authMiddleware, async (req: AuthRequest, res: Response
 });
 
 // Update role
-app.put('/api/v1/roles/:id', authMiddleware, async (req: AuthRequest, res: Response) => {
+app.put('/api/roles/:id', authMiddleware, async (req: AuthRequest, res: Response) => {
   try {
     const { name, description, permissions, department, level } = req.body;
 
@@ -558,7 +558,7 @@ app.put('/api/v1/roles/:id', authMiddleware, async (req: AuthRequest, res: Respo
 });
 
 // Delete role
-app.delete('/api/v1/roles/:id', authMiddleware, async (req: AuthRequest, res: Response) => {
+app.delete('/api/roles/:id', authMiddleware, async (req: AuthRequest, res: Response) => {
   try {
     const role = await Role.findOneAndDelete({ id: req.params.id });
 
@@ -577,7 +577,7 @@ app.delete('/api/v1/roles/:id', authMiddleware, async (req: AuthRequest, res: Re
 // ============================================
 
 // Get all permissions
-app.get('/api/v1/permissions', authMiddleware, async (_req: AuthRequest, res: Response) => {
+app.get('/api/permissions', authMiddleware, async (_req: AuthRequest, res: Response) => {
   try {
     const permissions = await Permission.find();
     return sendResponse(res, 200, permissions);
@@ -587,7 +587,7 @@ app.get('/api/v1/permissions', authMiddleware, async (_req: AuthRequest, res: Re
 });
 
 // Create permission
-app.post('/api/v1/permissions', authMiddleware, async (req: AuthRequest, res: Response) => {
+app.post('/api/permissions', authMiddleware, async (req: AuthRequest, res: Response) => {
   try {
     const { name, description, category, riskLevel } = req.body;
 
@@ -611,7 +611,7 @@ app.post('/api/v1/permissions', authMiddleware, async (req: AuthRequest, res: Re
 
 // Update permission
 app.put(
-  '/api/v1/permissions/:id',
+  '/api/permissions/:id',
   authMiddleware,
   async (req: AuthRequest, res: Response) => {
     try {
@@ -643,7 +643,7 @@ app.put(
 
 // Delete permission
 app.delete(
-  '/api/v1/permissions/:id',
+  '/api/permissions/:id',
   authMiddleware,
   async (req: AuthRequest, res: Response) => {
     try {
@@ -665,7 +665,7 @@ app.delete(
 // ============================================
 
 // Get all assignments
-app.get('/api/v1/assignments', authMiddleware, async (_req: AuthRequest, res: Response) => {
+app.get('/api/assignments', authMiddleware, async (_req: AuthRequest, res: Response) => {
   try {
     const assignments = await Assignment.find();
     return sendResponse(res, 200, assignments);
@@ -675,7 +675,7 @@ app.get('/api/v1/assignments', authMiddleware, async (_req: AuthRequest, res: Re
 });
 
 // Create assignment
-app.post('/api/v1/assignments', authMiddleware, async (req: AuthRequest, res: Response) => {
+app.post('/api/assignments', authMiddleware, async (req: AuthRequest, res: Response) => {
   try {
     const { employeeId, employeeName, email, department, permissions } = req.body;
 
@@ -700,7 +700,7 @@ app.post('/api/v1/assignments', authMiddleware, async (req: AuthRequest, res: Re
 
 // Update assignment
 app.put(
-  '/api/v1/assignments/:id',
+  '/api/assignments/:id',
   authMiddleware,
   async (req: AuthRequest, res: Response) => {
     try {
@@ -751,7 +751,7 @@ app.delete(
 
 // Get all dashboard options
 app.get(
-  '/api/v1/dashboard-options',
+  '/api/dashboard-options',
   authMiddleware,
   async (_req: AuthRequest, res: Response) => {
     try {
@@ -765,7 +765,7 @@ app.get(
 
 // Create dashboard option
 app.post(
-  '/api/v1/dashboard-options',
+  '/api/dashboard-options',
   authMiddleware,
   async (req: AuthRequest, res: Response) => {
     try {
@@ -792,7 +792,7 @@ app.post(
 
 // Update dashboard option
 app.put(
-  '/api/v1/dashboard-options/:id',
+  '/api/dashboard-options/:id',
   authMiddleware,
   async (req: AuthRequest, res: Response) => {
     try {
@@ -825,7 +825,7 @@ app.put(
 
 // Delete dashboard option
 app.delete(
-  '/api/v1/dashboard-options/:id',
+  '/api/dashboard-options/:id',
   authMiddleware,
   async (req: AuthRequest, res: Response) => {
     try {
@@ -846,7 +846,7 @@ app.delete(
 // Health Check
 // ============================================
 
-app.get('/api/v1/health', (_req: Request, res: Response) => {
+app.get('/api/health', (_req: Request, res: Response) => {
   return sendResponse(res, 200, { status: 'ok', timestamp: new Date() });
 });
 

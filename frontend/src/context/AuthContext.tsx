@@ -40,8 +40,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   // Use Vite env for API base, fallback to localhost for dev
-  const API_URL =
-    (import.meta.env.VITE_API_URL?.replace(/\/$/, "") || "http://localhost:4000/api") + "/auth";
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ||
+  "https://premass-overseas-app-production.up.railway.app";
+
+
 
   // ============================================
   // RESTORE TOKEN ON MOUNT (Auto-login)
@@ -228,3 +231,12 @@ export function useAuth(): AuthContextType {
   }
   return context;
 }
+
+// Example for correct API usage in your frontend:
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") || "http://localhost:4000";
+
+// Usage example for employees API:
+const fetchEmployees = async () => {
+  const res = await fetch(`${API_BASE_URL}/api/employees`);
+  // ...handle response...
+};

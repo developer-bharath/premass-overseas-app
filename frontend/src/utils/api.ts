@@ -1,6 +1,9 @@
 // API Service - All backend endpoints and request handling
 // Read Vite env at build-time via import.meta.env
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1';
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') ||
+  'https://premass-overseas-app-production.up.railway.app';
+
 
 // ===== TOKEN MANAGEMENT =====
 export const getToken = () => localStorage.getItem('token');
@@ -31,19 +34,25 @@ const handleResponse = async (response: Response) => {
 
 // ===== AUTH ENDPOINTS =====
 export const authAPI = {
-  register: async (data: { name: string; email: string; password: string; phone: string; role?: string }) => {
-    const response = await fetch(`${API_BASE_URL}/auth/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...data, role: data.role || 'student' }),
+  register: async (data: {
+    name: string;
+    email: string;
+    password: string;
+    phone: string;
+    role?: string;
+  }) => {
+    const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...data, role: data.role || "student" }),
     });
     return handleResponse(response);
   },
 
   login: async (data: { email: string; password: string }) => {
-    const response = await fetch(`${API_BASE_URL}/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
     const result = await handleResponse(response);
@@ -52,9 +61,9 @@ export const authAPI = {
   },
 
   verifyOtp: async (data: { email: string; otp: string }) => {
-    const response = await fetch(`${API_BASE_URL}/auth/verify-otp`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch(`${API_BASE_URL}/api/auth/verify-otp`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
     const result = await handleResponse(response);
@@ -63,16 +72,16 @@ export const authAPI = {
   },
 
   resendOtp: async (data: { email: string }) => {
-    const response = await fetch(`${API_BASE_URL}/auth/resend-otp`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch(`${API_BASE_URL}/api/auth/resend-otp`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
     return handleResponse(response);
   },
 
   getProfile: async () => {
-    const response = await fetch(`${API_BASE_URL}/auth/profile`, {
+    const response = await fetch(`${API_BASE_URL}/api/auth/profile`, {
       headers: getAuthHeaders(),
     });
     return handleResponse(response);
@@ -82,6 +91,7 @@ export const authAPI = {
     removeToken();
   },
 };
+
 
 // ===== OVERSEAS EDUCATION ENDPOINTS =====
 export const overseasEducationAPI = {
