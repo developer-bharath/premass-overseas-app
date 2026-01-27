@@ -274,18 +274,23 @@ app.post('/api/auth/login', async (req: Request, res: Response) => {
 // Register
 app.post('/api/auth/register', async (req: Request, res: Response) => {
   try {
-    const { name, email, phone, password, department, designation } = req.body;
+    const {
+      name,
+      email,
+      phone,
+      password,
+      role = "student",
+      department = "Student",
+      designation = "Student",
+    } = req.body;
 
-    // Check if employee exists
     const existingEmployee = await Employee.findOne({ email });
     if (existingEmployee) {
       return sendResponse(res, 400, null, '', 'Email already registered');
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create employee
     const employee = new Employee({
       id: `emp${Date.now()}`,
       name,
@@ -294,34 +299,15 @@ app.post('/api/auth/register', async (req: Request, res: Response) => {
       password: hashedPassword,
       department,
       designation,
-      role: 'employee',
-      permissions: ['view_applications', 'send_messages'],
+      role: role === "student" ? "student" : "employee",
+      permissions: [],
       isActive: true,
       joiningDate: new Date(),
     });
 
     await employee.save();
 
-    const token = jwt.sign(
-      {
-        userId: employee.id,
-        email: employee.email,
-        name: employee.name,
-        role: employee.role,
-      },
-      JWT_SECRET,
-      { expiresIn: '24h' }
-    );
-
-    const refreshToken = jwt.sign(
-      { userId: employee.id },
-      JWT_REFRESH_SECRET,
-      { expiresIn: '7d' }
-    );
-
     return sendResponse(res, 201, {
-      token,
-      refreshToken,
       user: {
         id: employee.id,
         name: employee.name,
@@ -330,6 +316,7 @@ app.post('/api/auth/register', async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
+    console.error("REGISTER ERROR:", error);
     return sendResponse(res, 500, null, '', 'Server error');
   }
 });
