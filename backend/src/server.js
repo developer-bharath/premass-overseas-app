@@ -27,6 +27,14 @@ const cors = require("cors");
 // LOAD ENV FIRST
 dotenv.config();
 
+// Log environment check (without sensitive data)
+console.log("🔧 Environment Check:");
+console.log("  - NODE_ENV:", process.env.NODE_ENV || "not set");
+console.log("  - PORT:", process.env.PORT || "4000 (default)");
+console.log("  - MongoDB URI:", process.env.MONGODB_URI || process.env.MONGO_URI ? "✅ Set" : "❌ Missing");
+console.log("  - JWT_SECRET:", process.env.JWT_SECRET ? "✅ Set" : "❌ Missing");
+console.log("  - Email User:", process.env.EMAIL_USER ? "✅ Set" : "❌ Missing");
+
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 
@@ -36,10 +44,50 @@ connectDB();
 const app = express();
 
 // Middleware
+// CORS configuration - allow Vercel domains and localhost for development
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://premass-overseas-*.vercel.app',
+  'https://*.vercel.app',
+  'https://www.premassoverseas.com',
+  'https://premassoverseas.com'
+];
+
+// Add CORS_ORIGIN from environment if set
+if (process.env.CORS_ORIGIN) {
+  allowedOrigins.push(process.env.CORS_ORIGIN);
+}
+
 app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Check if origin matches any allowed pattern
+    const isAllowed = allowedOrigins.some(allowed => {
+      if (allowed.includes('*')) {
+        const pattern = allowed.replace(/\*/g, '.*');
+        return new RegExp(`^${pattern}$`).test(origin);
+      }
+      return origin === allowed;
+    });
+    
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      // For development, allow all origins
+      if (process.env.NODE_ENV !== 'production') {
+        callback(null, true);
+      } else {
+        console.warn(`⚠️ CORS blocked origin: ${origin}`);
+        callback(new Error('Not allowed by CORS'));
+      }
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
   optionsSuccessStatus: 200
 }));
 app.use(express.json());

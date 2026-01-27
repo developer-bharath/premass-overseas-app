@@ -80,11 +80,13 @@ exports.register = async (req, res) => {
 
     // Always log OTP to console for development/testing
     console.log("📧 OTP for", email, ":", otp);
+    console.log("✅ User created successfully:", { id: user._id, email: user.email, role: user.role });
 
     res.status(201).json({
       message: "Registered successfully. Check your email for OTP.",
       emailSent: emailSent,
-      otp: process.env.NODE_ENV === 'development' ? otp : undefined, // Only send OTP in dev
+      // In production, still log OTP to Railway logs for testing
+      otp: process.env.NODE_ENV !== 'production' ? otp : undefined, // Only send OTP in non-production
     });
   } catch (error) {
     console.error("❌ REGISTER ERROR:", error);
