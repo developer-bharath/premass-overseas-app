@@ -62,14 +62,14 @@ const employeeSchema = new mongoose.Schema(
     id: { type: String, unique: true, required: true },
     name: { type: String, required: true },
     email: { type: String, unique: true, required: true },
-    phone: { type: String, required: true },
-    department: { type: String, required: true },
-    designation: { type: String, required: true },
+    phone: { type: String, default: "" },
+    department: { type: String, default: "Student" },
+    designation: { type: String, default: "Student" },
     role: { type: String, required: true },
     permissions: [String],
     password: { type: String, required: true },
     isActive: { type: Boolean, default: true },
-    joiningDate: { type: Date, required: true },
+    joiningDate: { type: Date, default: Date.now },
     lastLogin: { type: Date },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
@@ -860,8 +860,6 @@ app.get('/api/health', (_req: Request, res: Response) => {
 app.get("/", (_req, res) => {
   res.send("Premass Overseas API is running.");
 });
-
-app.options("*", cors());
 
 
 app.listen(PORT, () => {
