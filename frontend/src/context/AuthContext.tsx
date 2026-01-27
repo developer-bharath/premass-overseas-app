@@ -1,4 +1,8 @@
 import React, { createContext, useState, useEffect, ReactNode } from "react";
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ||
+  "https://premass-overseas-app-production.up.railway.app";
+
 
 // ============================================
 // AUTH CONTEXT TYPE
@@ -78,11 +82,20 @@ const API_BASE_URL =
   ) => {
     try {
       setLoading(true);
-      const res = await fetch(`${API_URL}/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, phone: "9999999999", department: "Admin", designation: "Counselor", role }),
-      });
+      const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    name,
+    email,
+    password,
+    phone: "9999999999",
+    department: "Admin",
+    designation: "Counselor",
+    role,
+  }),
+});
+
 
       // Handle network errors
       if (!res.ok) {
@@ -117,11 +130,12 @@ const API_BASE_URL =
   const verifyOtp = async (email: string, otp: string) => {
     try {
       setLoading(true);
-      const res = await fetch(`${API_URL}/verify-otp`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, otp }),
-      });
+      const res = await fetch(`${API_BASE_URL}/api/auth/verify-otp`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ email, otp }),
+});
+
 
       const data = await res.json();
 
@@ -143,11 +157,12 @@ const API_BASE_URL =
   const login = async (email: string, password: string) => {
     try {
       setLoading(true);
-      const res = await fetch(`${API_URL}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ email, password }),
+});
+
 
       // Handle network errors
       if (!res.ok) {
@@ -231,12 +246,3 @@ export function useAuth(): AuthContextType {
   }
   return context;
 }
-
-// Example for correct API usage in your frontend:
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") || "http://localhost:4000";
-
-// Usage example for employees API:
-const fetchEmployees = async () => {
-  const res = await fetch(`${API_BASE_URL}/api/employees`);
-  // ...handle response...
-};
