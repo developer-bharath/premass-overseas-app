@@ -17,8 +17,17 @@ const app: Express = express();
 // Middleware
 // ============================================
 
-app.use(cors());
-app.use(express.json());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://premass-overseas-81viwkm67-premassoverseas-7587s-projects.vercel.app",
+      "https://www.premassoverseas.com",
+    ],
+    credentials: true,
+  })
+);
+
 
 // ============================================
 // Environment Variables
