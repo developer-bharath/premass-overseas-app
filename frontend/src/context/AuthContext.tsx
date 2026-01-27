@@ -1,8 +1,4 @@
 import React, { createContext, useState, useEffect, ReactNode } from "react";
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ||
-  "https://premass-overseas-app-production.up.railway.app";
-
 
 // ============================================
 // AUTH CONTEXT TYPE
