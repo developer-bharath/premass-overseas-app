@@ -2,7 +2,7 @@
 // PREMASS Admin Dashboard - Backend API Server
 // ============================================
 
-import express, { Express, Request, Response, NextFunction } from 'express';
+import express, { Express, Request, Response,  } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';
@@ -19,19 +19,23 @@ const app: Express = express();
 
 app.use(
   cors({
-    origin: [
-      "https://premass-overseas-q2325mdpo-premassoverseas-7587s-projects.vercel.app",
-      "https://premass-overseas-81viwkm67-premassoverseas-7587s-projects.vercel.app",
-      "https://premass-overseas.vercel.app",
-      "https://www.premassoverseas.com"
-    ],
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+
+      if (
+        origin.includes("vercel.app") ||
+        origin === "https://www.premassoverseas.com"
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true
+    credentials: true,
   })
 );
-;
-
 
 
 
@@ -159,32 +163,35 @@ const DashboardOption = mongoose.model('DashboardOption', dashboardOptionSchema)
 interface AuthRequest extends Request {
   userId?: string;
   user?: any;
-  headers: any;
-  body: any;
-  params: any;
 }
 
-const authMiddleware = (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-): void => {
+
+import { RequestHandler } from "express";
+
+const authMiddleware: RequestHandler = (req, res, next) => {
   try {
-    const token = req.headers.authorization?.split(' ')[1];
+    const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
-      res.status(401).json({ success: false, error: 'No token provided' });
-      return;
+      return res
+        .status(401)
+        .json({ success: false, error: "No token provided" });
     }
 
     const decoded = jwt.verify(token, JWT_SECRET) as any;
-    req.userId = decoded.userId;
-    req.user = decoded;
-    next();
-  } catch (error) {
-    res.status(401).json({ success: false, error: 'Invalid token' });
+    (req as any).userId = decoded.userId;
+    (req as any).user = decoded;
+
+    return next();
+  } catch {
+    return res
+      .status(401)
+      .json({ success: false, error: "Invalid token" });
   }
 };
+
+
+
 
 // ============================================
 // API Response Helper
