@@ -78,13 +78,14 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 4000;
-const HOST = process.env.HOST || '127.0.0.1';
 
 // Error handling for server startup
-const server = app.listen(PORT, HOST, () => {
-  console.log(`✅ Server running on http://${HOST}:${PORT}`);
-  console.log(`📚 API available at http://${HOST}:${PORT}/api`);
-  console.log(`🔐 Auth endpoints: http://${HOST}:${PORT}/api/auth`);
+// Railway will handle host binding automatically, so we don't specify HOST
+const server = app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
+  console.log(`📚 API available at /api`);
+  console.log(`🔐 Auth endpoints: /api/auth`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 
 server.on('error', (err) => {

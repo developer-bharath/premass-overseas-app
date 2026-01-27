@@ -2,11 +2,13 @@
   "name": "premass-admin-backend",
   "version": "1.0.0",
   "description": "PREMASS Admin Dashboard - Backend API Server",
-  "main": "dist/server.js",
+  "main": "src/server.js",
   "scripts": {
-    "dev": "ts-node src/server.ts",
+    "dev": "node src/server.js",
+    "dev:ts": "ts-node src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node src/server.js",
+    "watch": "nodemon src/server.js"
   },
   "keywords": [
     "admin",
