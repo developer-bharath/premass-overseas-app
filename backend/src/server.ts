@@ -19,14 +19,12 @@ const app: Express = express();
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://premass-overseas-81viwkm67-premassoverseas-7587s-projects.vercel.app",
-      "https://www.premassoverseas.com",
-    ],
+    origin: process.env.CORS_ORIGIN,
     credentials: true,
   })
 );
+
+
 
 
 // ============================================
