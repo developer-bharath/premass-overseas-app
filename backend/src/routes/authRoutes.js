@@ -5,14 +5,16 @@ const {
   register,
   verifyOtp,
   login,
-  getOtpForTesting,
   resendOtp
 } = require("../controllers/authController");
 
+// Real-time production routes only
 router.post("/register", register);
 router.post("/verify-otp", verifyOtp);
 router.post("/login", login);
 router.post("/resend-otp", resendOtp);
-router.get("/get-otp", getOtpForTesting);
+
+// Remove test-only route
+// router.get("/get-otp", getOtpForTesting);
 
 module.exports = router;

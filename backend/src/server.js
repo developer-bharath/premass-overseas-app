@@ -78,7 +78,31 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 4000;
+const HOST = process.env.HOST || '127.0.0.1';
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+// Error handling for server startup
+const server = app.listen(PORT, HOST, () => {
+  console.log(`✅ Server running on http://${HOST}:${PORT}`);
+  console.log(`📚 API available at http://${HOST}:${PORT}/api`);
+  console.log(`🔐 Auth endpoints: http://${HOST}:${PORT}/api/auth`);
+});
+
+server.on('error', (err) => {
+  if (err.code === 'EPERM') {
+    console.error('\n❌ PERMISSION ERROR: macOS is blocking port binding.');
+    console.error('📋 SOLUTIONS:');
+    console.error('   1. Check System Settings → Network → Firewall');
+    console.error('   2. Grant Terminal Full Disk Access in Privacy & Security');
+    console.error('   3. Try running from a different terminal application');
+    console.error('   4. Try a different port (update .env PORT=3001)');
+    console.error(`\n   Current attempt: ${HOST}:${PORT}`);
+    console.error(`   Error: ${err.message}\n`);
+  } else if (err.code === 'EADDRINUSE') {
+    console.error(`\n❌ PORT ${PORT} is already in use.`);
+    console.error(`   Try: lsof -ti:${PORT} | xargs kill -9`);
+    console.error(`   Or change PORT in .env file\n`);
+  } else {
+    console.error('\n❌ Server error:', err);
+  }
+  process.exit(1);
 });

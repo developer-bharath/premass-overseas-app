@@ -173,8 +173,8 @@ export default function Register() {
                       onBlur={() => setFocusedField(null)}
                       placeholder="Enter your full name"
                       className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${focusedField === 'name'
-                          ? 'bg-white'
-                          : 'hover:bg-white'
+                        ? 'bg-white'
+                        : 'hover:bg-white'
                         }`}
                       style={focusedField === 'name' ? { borderColor: '#cd9429' } : { borderColor: '#ffffff' }}
                     />
@@ -197,8 +197,8 @@ export default function Register() {
                       onBlur={() => setFocusedField(null)}
                       placeholder="you@example.com"
                       className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${focusedField === 'email'
-                          ? 'bg-white'
-                          : 'hover:bg-white'
+                        ? 'bg-white'
+                        : 'hover:bg-white'
                         }`}
                       style={focusedField === 'email' ? { borderColor: '#cd9429' } : { borderColor: '#ffffff' }}
                     />
@@ -221,8 +221,8 @@ export default function Register() {
                       onBlur={() => setFocusedField(null)}
                       placeholder="+1 (555) 000-0000"
                       className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${focusedField === 'phone'
-                          ? 'bg-white'
-                          : 'hover:bg-white'
+                        ? 'bg-white'
+                        : 'hover:bg-white'
                         }`}
                       style={focusedField === 'phone' ? { borderColor: '#cd9429' } : { borderColor: '#ffffff' }}
                     />
@@ -244,11 +244,11 @@ export default function Register() {
                       onFocus={() => setFocusedField('password')}
                       onBlur={() => setFocusedField(null)}
                       placeholder="At least 6 characters"
-                      className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${focusedField === 'name'
-                          ? 'bg-white'
-                          : 'hover:bg-white'
+                      className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${focusedField === 'password'
+                        ? 'bg-white'
+                        : 'hover:bg-white'
                         }`}
-                      style={focusedField === 'name' ? { borderColor: '#cd9429' } : { borderColor: '#ffffff' }}
+                      style={focusedField === 'password' ? { borderColor: '#cd9429' } : { borderColor: '#ffffff' }}
                     />
                   </div>
                 </div>
@@ -269,8 +269,8 @@ export default function Register() {
                       onBlur={() => setFocusedField(null)}
                       placeholder="Confirm your password"
                       className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${focusedField === 'confirmPassword'
-                          ? 'bg-white'
-                          : 'hover:bg-white'
+                        ? 'bg-white'
+                        : 'hover:bg-white'
                         }`}
                       style={focusedField === 'confirmPassword' ? { borderColor: '#cd9429' } : { borderColor: '#ffffff' }}
                     />
@@ -290,8 +290,8 @@ export default function Register() {
                     onFocus={() => setFocusedField('role')}
                     onBlur={() => setFocusedField(null)}
                     className={`w-full px-4 py-3 border-2 rounded-xl transition-all focus:outline-none bg-white/90 ${focusedField === 'role'
-                        ? 'bg-white'
-                        : 'hover:bg-white'
+                      ? 'bg-white'
+                      : 'hover:bg-white'
                       }`}
                     style={focusedField === 'role' ? { borderColor: '#cd9429' } : { borderColor: '#ffffff' }}
                   >

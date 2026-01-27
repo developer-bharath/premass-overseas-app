@@ -3,6 +3,10 @@ const Otp = require("../models/Otp");
 const bcrypt = require("bcryptjs");
 const { sendOtpEmail, sendWelcomeEmail } = require("../utils/emailService");
 
+function generateOtp() {
+  return Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
+}
+
 // ================= REGISTER =================
 // 
 // 📚 WHAT'S NEW:
@@ -29,11 +33,11 @@ exports.register = async (req, res) => {
       role,
     });
 
-    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const otp = generateOtp();
 
     await Otp.create({
       email,
-      otp: otpCode,
+      otp: otp,
       expiresAt: new Date(Date.now() + 10 * 60 * 1000),
     });
 
@@ -42,17 +46,17 @@ exports.register = async (req, res) => {
     // ==========================================
     // Try to send email, but don't fail registration if email fails
     // This is called "graceful degradation"
-    
-    const emailResult = await sendOtpEmail(email, otpCode, name);
-    
+
+    const emailResult = await sendOtpEmail(email, otp, name);
+
     if (emailResult.success) {
       console.log("✅ OTP email sent successfully");
     } else {
-      console.warn("⚠️ Email failed, but registration succeeded. OTP:", otpCode);
+      console.warn("⚠️ Email failed, but registration succeeded. OTP:", otp);
     }
 
     // Always log OTP to console for development/testing
-    console.log("OTP for", email, ":", otpCode);
+    console.log("OTP for", email, ":", otp);
 
     res.status(201).json({
       message: "Registered successfully. Check your email for OTP.",
@@ -214,7 +218,7 @@ exports.resendOtp = async (req, res) => {
     await Otp.deleteMany({ email: email.toLowerCase() });
 
     // Generate new OTP
-    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpCode = generateOtp();
 
     await Otp.create({
       email: email.toLowerCase(),
@@ -224,7 +228,7 @@ exports.resendOtp = async (req, res) => {
 
     // Send OTP email
     const emailResult = await sendOtpEmail(email, otpCode, user.name);
-    
+
     if (emailResult.success) {
       console.log("✅ OTP resent successfully to", email);
     } else {

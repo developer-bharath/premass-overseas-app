@@ -25,7 +25,6 @@ app.use(express.json());
 // ============================================
 
 const PORT = process.env.PORT || 4000;
-const MONGODB_URI = process.env.MONGO_URI || process.env.MONGODB_URI || 'mongodb://localhost:27017/premass-admin';
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'your-refresh-secret-key';
 
@@ -34,7 +33,7 @@ const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'your-refresh-secre
 // ============================================
 
 mongoose
-  .connect(MONGODB_URI)
+  .connect(process.env.MONGO_URI || process.env.MONGODB_URI || 'mongodb://localhost:27017/premass-admin')
   .then(() => console.log('✅ MongoDB connected'))
   .catch((err) => console.error('❌ MongoDB connection error:', err));
 
@@ -206,7 +205,7 @@ const sendResponse = <T>(
 // ============================================
 
 // Login
-app.post('/api/v1/auth/login', async (req: Request, res: Response) => {
+app.post('/api/auth/login', async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
@@ -258,7 +257,7 @@ app.post('/api/v1/auth/login', async (req: Request, res: Response) => {
 });
 
 // Register
-app.post('/api/v1/auth/register', async (req: Request, res: Response) => {
+app.post('/api/auth/register', async (req: Request, res: Response) => {
   try {
     const { name, email, phone, password, department, designation } = req.body;
 
@@ -845,13 +844,14 @@ app.get('/api/v1/health', (_req: Request, res: Response) => {
 // Start Server
 // ============================================
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📚 API Docs: http://localhost:${PORT}/api/v1`);
-});
-
+// Register all routes BEFORE app.listen()
 app.get("/", (_req, res) => {
   res.send("Premass Overseas API is running.");
+});
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`📚 API Docs: http://localhost:${PORT}/api`);
 });
 
 export default app;

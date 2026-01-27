@@ -40,7 +40,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   // Use Vite env for API base, fallback to localhost for dev
-  const API_URL = (import.meta.env.VITE_API_URL || "http://localhost:4000/api") + "/auth";
+  const API_URL =
+    (import.meta.env.VITE_API_URL?.replace(/\/$/, "") || "http://localhost:4000/api") + "/auth";
 
   // ============================================
   // RESTORE TOKEN ON MOUNT (Auto-login)
