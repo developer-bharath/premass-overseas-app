@@ -19,10 +19,18 @@ const app: Express = express();
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true,
+    origin: [
+      "https://premass-overseas-q2325mdpo-premassoverseas-7587s-projects.vercel.app",
+      "https://premass-overseas-81viwkm67-premassoverseas-7587s-projects.vercel.app",
+      "https://premass-overseas.vercel.app",
+      "https://www.premassoverseas.com"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
   })
 );
+;
 
 
 
@@ -865,6 +873,9 @@ app.get('/api/health', (_req: Request, res: Response) => {
 app.get("/", (_req, res) => {
   res.send("Premass Overseas API is running.");
 });
+
+app.options("*", cors());
+
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
