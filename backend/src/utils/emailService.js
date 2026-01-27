@@ -22,13 +22,24 @@ const nodemailer = require('nodemailer');
 // For production, you'd use services like SendGrid, AWS SES, etc.
 
 const createTransporter = () => {
-  return nodemailer.createTransport({
-    service: 'gmail', // Using Gmail's SMTP server
-    auth: {
-      user: process.env.EMAIL_USER,  // Your Gmail address
-      pass: process.env.EMAIL_PASS,  // App password (NOT your Gmail password!)
-    },
-  });
+  // Check if email credentials are configured
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.warn('⚠️ Email credentials not configured. Email sending will be disabled.');
+    return null;
+  }
+
+  try {
+    return nodemailer.createTransport({
+      service: 'gmail', // Using Gmail's SMTP server
+      auth: {
+        user: process.env.EMAIL_USER,  // Your Gmail address
+        pass: process.env.EMAIL_PASS,  // App password (NOT your Gmail password!)
+      },
+    });
+  } catch (error) {
+    console.error('❌ Error creating email transporter:', error);
+    return null;
+  }
 };
 
 // ==========================================
@@ -45,6 +56,12 @@ const createTransporter = () => {
 const sendOtpEmail = async (email, otp, name) => {
   try {
     const transporter = createTransporter();
+    
+    // If transporter is null (credentials not configured), return failure gracefully
+    if (!transporter) {
+      console.warn('⚠️ Email transporter not available. Skipping email send.');
+      return { success: false, error: 'Email service not configured' };
+    }
 
     // Email options - defines what the email contains
     const mailOptions = {
@@ -160,6 +177,12 @@ const sendOtpEmail = async (email, otp, name) => {
 const sendWelcomeEmail = async (email, name, role) => {
   try {
     const transporter = createTransporter();
+    
+    // If transporter is null (credentials not configured), return failure gracefully
+    if (!transporter) {
+      console.warn('⚠️ Email transporter not available. Skipping welcome email.');
+      return { success: false, error: 'Email service not configured' };
+    }
 
     const dashboardLink = role === 'student' 
       ? 'http://localhost:5173/student/dashboard' 

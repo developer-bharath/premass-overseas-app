@@ -19,54 +19,90 @@ exports.register = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
-    const userExists = await User.findOne({ email });
+    // Validation
+    if (!name || !email || !password || !role) {
+      return res.status(400).json({ 
+        message: "All fields are required: name, email, password, role" 
+      });
+    }
+
+    // Validate role
+    const validRoles = ["student", "employee", "counselor", "service_manager", "hr_manager", "department_head", "super_admin"];
+    if (!validRoles.includes(role)) {
+      return res.status(400).json({ 
+        message: `Invalid role. Must be one of: ${validRoles.join(", ")}` 
+      });
+    }
+
+    // Check if user exists
+    const userExists = await User.findOne({ email: email.toLowerCase() });
     if (userExists) {
       return res.status(400).json({ message: "User already exists" });
     }
 
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await User.create({
-      name,
-      email,
+    // Create user
+    const user = await User.create({
+      name: name.trim(),
+      email: email.toLowerCase().trim(),
       password: hashedPassword,
-      role,
+      role: role.toLowerCase(),
     });
 
+    // Generate OTP
     const otp = generateOtp();
 
+    // Create OTP record
     await Otp.create({
-      email,
+      email: email.toLowerCase().trim(),
       otp: otp,
       expiresAt: new Date(Date.now() + 10 * 60 * 1000),
     });
 
     // ==========================================
-    // SEND OTP EMAIL
+    // SEND OTP EMAIL (with error handling)
     // ==========================================
-    // Try to send email, but don't fail registration if email fails
-    // This is called "graceful degradation"
-
-    const emailResult = await sendOtpEmail(email, otp, name);
-
-    if (emailResult.success) {
-      console.log("✅ OTP email sent successfully");
-    } else {
-      console.warn("⚠️ Email failed, but registration succeeded. OTP:", otp);
+    let emailSent = false;
+    try {
+      const emailResult = await sendOtpEmail(email, otp, name);
+      emailSent = emailResult.success;
+      if (emailResult.success) {
+        console.log("✅ OTP email sent successfully");
+      } else {
+        console.warn("⚠️ Email failed, but registration succeeded. OTP:", otp);
+      }
+    } catch (emailError) {
+      console.error("⚠️ Email service error (non-fatal):", emailError.message);
+      // Don't fail registration if email fails
     }
 
     // Always log OTP to console for development/testing
-    console.log("OTP for", email, ":", otp);
+    console.log("📧 OTP for", email, ":", otp);
 
     res.status(201).json({
       message: "Registered successfully. Check your email for OTP.",
-      emailSent: emailResult.success, // Tell frontend if email was sent
+      emailSent: emailSent,
+      otp: process.env.NODE_ENV === 'development' ? otp : undefined, // Only send OTP in dev
     });
   } catch (error) {
-    console.error("REGISTER ERROR:", error);
+    console.error("❌ REGISTER ERROR:", error);
+    console.error("Error stack:", error.stack);
+    
+    // More specific error messages
+    let errorMessage = "Registration failed";
+    if (error.name === 'ValidationError') {
+      errorMessage = Object.values(error.errors).map(e => e.message).join(', ');
+    } else if (error.code === 11000) {
+      errorMessage = "Email already exists";
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+
     res.status(500).json({
-      message: "Registration failed",
-      error: error.message,
+      message: errorMessage,
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
     });
   }
 };

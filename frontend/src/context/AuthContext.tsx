@@ -1,4 +1,9 @@
 import React, { createContext, useState, useEffect, ReactNode } from "react";
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://premass-overseas-app-production.up.railway.app";
+
+
 
 // ============================================
 // AUTH CONTEXT TYPE
@@ -39,13 +44,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Use Vite env for API base, fallback to localhost for dev
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ||
-  "https://premass-overseas-app-production.up.railway.app";
-
-
-
   // ============================================
   // RESTORE TOKEN ON MOUNT (Auto-login)
   // ============================================
@@ -82,14 +80,14 @@ const API_BASE_URL =
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    name,
-    email,
-    password,
-    phone: "9999999999",
-    department: "Admin",
-    designation: "Counselor",
-    role,
-  }),
+  name,
+  email,
+  password,
+  phone: "9999999999",
+  role,
+  department: role === "student" ? "Student" : "Admin",
+  designation: role === "student" ? "Student" : "Counselor",
+}),
 });
 
 
@@ -123,29 +121,11 @@ const API_BASE_URL =
   // ============================================
   // VERIFY OTP FUNCTION
   // ============================================
-  const verifyOtp = async (email: string, otp: string) => {
-    try {
-      setLoading(true);
-      const res = await fetch(`${API_BASE_URL}/api/auth/verify-otp`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ email, otp }),
-});
+  const verifyOtp = async (_email: string, _otp: string) => {
+  // OTP not implemented in backend yet
+  return Promise.resolve();
+};
 
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "OTP verification failed");
-      }
-
-      sessionStorage.removeItem("registeredEmail");
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      throw error;
-    }
-  };
 
   // ============================================
   // LOGIN FUNCTION
