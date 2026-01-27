@@ -169,37 +169,6 @@ exports.login = async (req, res) => {
   }
 };
 
-// ================= GET OTP FOR TESTING =================
-exports.getOtpForTesting = async (req, res) => {
-  try {
-    const { email } = req.query;
-
-    if (!email) {
-      return res.status(400).json({ message: "Email is required" });
-    }
-
-    const otpRecord = await Otp.findOne({ email: email.toLowerCase() }).sort({ createdAt: -1 });
-
-    if (!otpRecord) {
-      return res.status(400).json({ message: "No OTP found for this email. Please register first." });
-    }
-
-    if (otpRecord.expiresAt < new Date()) {
-      return res.status(400).json({ message: "OTP has expired. Please register again." });
-    }
-
-    res.json({
-      message: "OTP retrieved (TESTING ONLY)",
-      email: email.toLowerCase(),
-      otp: otpRecord.otp,
-      expiresAt: otpRecord.expiresAt,
-    });
-  } catch (error) {
-    console.error("GET OTP ERROR:", error);
-    res.status(500).json({ message: "Failed to retrieve OTP" });
-  }
-};
-
 // ================= RESEND OTP =================
 exports.resendOtp = async (req, res) => {
   try {
@@ -245,4 +214,15 @@ exports.resendOtp = async (req, res) => {
     console.error("RESEND OTP ERROR:", error);
     res.status(500).json({ message: "Failed to resend OTP" });
   }
+};
+
+// Add refresh and logout stubs for completeness
+exports.refreshToken = async (req, res) => {
+  // Implement your refresh logic here
+  res.json({ message: "Token refreshed (stub)" });
+};
+
+exports.logout = async (req, res) => {
+  // Implement your logout logic here
+  res.json({ message: "Logged out (stub)" });
 };

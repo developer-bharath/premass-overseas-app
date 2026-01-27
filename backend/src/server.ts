@@ -376,6 +376,16 @@ app.get('/api/v1/employees/:id', authMiddleware, async (req: AuthRequest, res: R
     return sendResponse(res, 500, null, '', 'Server error');
   }
 });
+app.get('/api/health', (_req, res) => {
+  res.json({
+    success: true,
+    data: {
+      status: 'ok',
+      timestamp: new Date(),
+    },
+  });
+});
+
 
 // Create employee
 app.post('/api/v1/employees', authMiddleware, async (req: AuthRequest, res: Response) => {
@@ -718,7 +728,7 @@ app.put(
 
 // Delete assignment
 app.delete(
-  '/api/v1/assignments/:id',
+  '/api/assignments/:id',
   authMiddleware,
   async (req: AuthRequest, res: Response) => {
     try {
