@@ -10,7 +10,6 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Chatbot from "./components/Chatbot";
-import WelcomeModal from "./components/WelcomeModal";
 
 // Public Pages
 import Home from "./pages/Home";
@@ -24,7 +23,6 @@ import Blog from "./pages/Blog";
 import BlogDetail from "./pages/BlogDetail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import VerifyOtp from "./pages/VerifyOtp";
 import Countries from "./pages/Countries";
 import CountryDetail from "./pages/CountryDetail";
 import Profile from "./pages/Profile";
@@ -57,7 +55,6 @@ export default function App() {
               <Route path="/countries/:country" element={<CountryDetail />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/verify-otp" element={<VerifyOtp />} />
               
               {/* Protected Routes - Student */}
               <Route
@@ -115,7 +112,6 @@ export default function App() {
           </main>
           <Footer />
           <Chatbot />
-          <WelcomeModal />
         </Router>
       </ErrorBoundary>
     </AuthProvider>

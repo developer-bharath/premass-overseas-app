@@ -3,12 +3,6 @@ const bcrypt = require("bcryptjs");
 const axios = require("axios");
 
 // ================= REGISTER =================
-// 
-// 📚 WHAT'S NEW:
-// 1. Import email service functions
-// 2. Call sendOtpEmail() after generating OTP
-// 3. Handle email success/failure gracefully
-// 4. Keep console.log as fallback for development
 
 // Verify Google reCAPTCHA token
 const verifyRecaptcha = async (token) => {
@@ -130,56 +124,6 @@ exports.register = async (req, res) => {
   }
 };
 
-// ================= VERIFY OTP =================
-// 
-// 📚 WHAT'S NEW:
-// 1. After successful verification, get user details
-// 2. Send welcome email with user's name and role
-// 3. Continue even if welcome email fails (graceful degradation)
-
-exports.verifyOtp = async (req, res) => {
-  try {
-    const email = (req.body.email || "").trim().toLowerCase();
-    const otp = (req.body.otp || "").trim();
-    if (!email || !otp) {
-      return res.status(400).json({ message: "Email and OTP are required" });
-    }
-
-    const otpRecord = await Otp.findOne({ email }).sort({ createdAt: -1 });
-    if (!otpRecord) {
-      return res.status(400).json({ message: "OTP not found. Please register again or resend OTP." });
-    }
-    if (otpRecord.otp !== otp) {
-      return res.status(400).json({ message: "Invalid OTP" });
-    }
-    if (otpRecord.expiresAt < new Date()) {
-      return res.status(400).json({ message: "OTP expired. Please resend OTP." });
-    }
-
-    const user = await User.findOneAndUpdate(
-      { email },
-      { isEmailVerified: true },
-      { new: true }
-    );
-    await Otp.deleteMany({ email });
-
-    if (user) {
-      setImmediate(() => {
-        sendWelcomeEmail(email, user.name, user.role)
-          .then((r) => {
-            if (r.success) console.log("✅ Welcome email sent to", email);
-            else console.warn("⚠️ Welcome email failed");
-          })
-          .catch((e) => console.warn("⚠️ Welcome email error:", e.message));
-      });
-    }
-
-    res.json({ message: "Email verified successfully" });
-  } catch (error) {
-    console.error("VERIFY OTP ERROR:", error);
-    res.status(500).json({ message: "OTP verification failed" });
-  }
-};
 const jwt = require("jsonwebtoken");
 
 // ================= LOGIN =================
@@ -222,63 +166,6 @@ exports.login = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: "Login failed" });
-  }
-};
-
-// ================= RESEND OTP =================
-exports.resendOtp = async (req, res) => {
-  try {
-    const { email } = req.body;
-
-    if (!email) {
-      return res.status(400).json({ message: "Email is required" });
-    }
-
-    const user = await User.findOne({ email: (email || "").trim().toLowerCase() });
-    if (!user) {
-      return res.status(400).json({ message: "User not found. Please register first." });
-    }
-
-    const em = email.trim().toLowerCase();
-    await Otp.deleteMany({ email: em });
-
-    const otpCode = generateOtp();
-    await Otp.create({
-      email: em,
-      otp: otpCode,
-      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
-    });
-
-    console.log("📧 RESEND OTP CODE FOR", em, ":", otpCode);
-
-    setImmediate(() => {
-      sendOtpEmail(email, otpCode, user.name)
-        .then((r) => {
-          if (r.success) {
-            console.log("✅ OTP resent to", email);
-          } else {
-            console.error("❌ RESEND OTP EMAIL FAILED for", email);
-            console.error("   Error:", r.error);
-            if (r.details) {
-              console.error("   Details:", JSON.stringify(r.details, null, 2));
-            }
-            console.error("   OTP CODE (check Railway logs):", otpCode);
-          }
-        })
-        .catch((err) => {
-          console.error("❌ Resend email exception:", err.message);
-          console.error("   Stack:", err.stack);
-          console.error("   OTP CODE (check Railway logs):", otpCode);
-        });
-    });
-
-    res.json({
-      message: "OTP resent successfully. Check your email.",
-      emailSent: true,
-    });
-  } catch (error) {
-    console.error("RESEND OTP ERROR:", error);
-    res.status(500).json({ message: "Failed to resend OTP" });
   }
 };
 

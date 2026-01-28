@@ -60,26 +60,6 @@ export const authAPI = {
     return result;
   },
 
-  verifyOtp: async (data: { email: string; otp: string }) => {
-    const response = await fetch(`${API_BASE_URL}/api/auth/verify-otp`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    const result = await handleResponse(response);
-    if (result.token) setToken(result.token);
-    return result;
-  },
-
-  resendOtp: async (data: { email: string }) => {
-    const response = await fetch(`${API_BASE_URL}/api/auth/resend-otp`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    return handleResponse(response);
-  },
-
   getProfile: async () => {
     const response = await fetch(`${API_BASE_URL}/api/auth/profile`, {
       headers: getAuthHeaders(),

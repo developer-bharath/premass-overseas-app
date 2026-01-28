@@ -40,7 +40,6 @@ export default function Register() {
     e.preventDefault();
     setError("");
     setSuccess(false);
-
     // Validation
     if (!formData.name || !formData.email || !formData.password) {
       setError("All fields are required");
@@ -97,38 +96,43 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#054374] to-[#073a57] flex items-center justify-center px-6 py-12">
-      <div className="w-full max-w-md">
-        {/* Card */}
-        <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-10">
+    <div className="min-h-screen bg-gradient-to-br from-[#05345c] via-[#054374] to-[#0b2f4a] flex items-center justify-center px-6 py-12">
+      <div className="w-full max-w-5xl grid md:grid-cols-2 gap-8 items-stretch">
+        <div className="hidden md:flex flex-col justify-between rounded-3xl p-10 bg-white/10 border border-white/20 text-white">
+          <div>
+            <span className="inline-flex items-center gap-2 text-sm uppercase tracking-widest text-white/70">
+              Premass Overseas
+            </span>
+            <h2 className="text-4xl font-bold mt-4 leading-tight">
+              Start your overseas journey with a premium account.
+            </h2>
+            <p className="text-white/80 mt-4">
+              Get personalized guidance, document support, and verified services in one place.
+            </p>
+          </div>
+          <div className="space-y-3 text-sm text-white/80">
+            <p>✓ Expert counsellors and verified partners</p>
+            <p>✓ Secure onboarding with reCAPTCHA</p>
+            <p>✓ Student and staff access in one portal</p>
+          </div>
+        </div>
 
-          {/* Header */}
+        <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-10">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-[#054374] mb-2">Create Account</h1>
-            <p className="text-gray-600">Join Premass Overseas for expert guidance</p>
+            <h1 className="text-3xl font-bold text-[#054374] mb-2">Create Your Account</h1>
+            <p className="text-gray-600">Premium onboarding for real-world overseas services</p>
           </div>
 
-          {/* Error Message */}
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded">
-              <p className="text-red-700 text-sm font-medium">{error}</p>
-            </div>
-          )}
-
-          {/* Success Message */}
           {success && (
-            <div className="mb-6 p-4 bg-green-50 border-l-4 border-green-500 rounded flex items-center gap-3">
+            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl flex items-center gap-3">
               <CheckCircle size={20} weight="duotone" className="text-green-600" />
               <p className="text-green-700 font-medium">Registration successful! Redirecting...</p>
             </div>
           )}
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-
-            {/* Name Field */}
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+              <label className="block text-sm font-semibold text-[#054374] mb-2">Full Name *</label>
               <div className="relative">
                 <User size={20} weight="duotone" className="absolute left-3 top-3.5 text-gray-400" />
                 <input
@@ -137,15 +141,14 @@ export default function Register() {
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="John Doe"
-                  className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
+                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
                   disabled={isLoading}
                 />
               </div>
             </div>
 
-            {/* Email Field */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+              <label className="block text-sm font-semibold text-[#054374] mb-2">Email Address *</label>
               <div className="relative">
                 <Envelope size={20} weight="duotone" className="absolute left-3 top-3.5 text-gray-400" />
                 <input
@@ -154,15 +157,14 @@ export default function Register() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="john@example.com"
-                  className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
+                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
                   disabled={isLoading}
                 />
               </div>
             </div>
 
-            {/* Password Field */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Password *</label>
+              <label className="block text-sm font-semibold text-[#054374] mb-2">Password *</label>
               <div className="relative">
                 <LockKey size={20} weight="duotone" className="absolute left-3 top-3.5 text-gray-400" />
                 <input
@@ -171,24 +173,23 @@ export default function Register() {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-10 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
+                  className="w-full pl-10 pr-10 py-3 border-2 border-gray-200 rounded-xl focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
                   disabled={isLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600"
                   disabled={isLoading}
                 >
                   {showPassword ? <EyeSlash size={20} weight="duotone" /> : <Eye size={20} weight="duotone" />}
                 </button>
               </div>
-              <p className="text-xs text-gray-500 mt-1">Min 6 characters</p>
+              <p className="text-xs text-gray-500 mt-1">Minimum 6 characters</p>
             </div>
 
-            {/* Confirm Password Field */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password *</label>
+              <label className="block text-sm font-semibold text-[#054374] mb-2">Confirm Password *</label>
               <div className="relative">
                 <LockKey size={20} weight="duotone" className="absolute left-3 top-3.5 text-gray-400" />
                 <input
@@ -197,13 +198,13 @@ export default function Register() {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-10 py-2.5 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
+                  className="w-full pl-10 pr-10 py-3 border-2 border-gray-200 rounded-xl focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
                   disabled={isLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600"
                   disabled={isLoading}
                 >
                   {showConfirmPassword ? <EyeSlash size={20} weight="duotone" /> : <Eye size={20} weight="duotone" />}
@@ -211,11 +212,10 @@ export default function Register() {
               </div>
             </div>
 
-            {/* Role Selection */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">I am a: *</label>
-              <div className="flex gap-3">
-                <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{ borderColor: formData.role === "student" ? "#cd9429" : "#e5e7eb" }}>
+              <label className="block text-sm font-semibold text-[#054374] mb-3">I am a *</label>
+              <div className="grid grid-cols-2 gap-3">
+                <label className="flex items-center gap-2 p-3 border-2 rounded-xl cursor-pointer transition-all" style={{ borderColor: formData.role === "student" ? "#cd9429" : "#e5e7eb" }}>
                   <input
                     type="radio"
                     value="student"
@@ -226,7 +226,7 @@ export default function Register() {
                   />
                   <span className="font-medium text-sm">Student</span>
                 </label>
-                <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{ borderColor: formData.role === "employee" ? "#cd9429" : "#e5e7eb" }}>
+                <label className="flex items-center gap-2 p-3 border-2 rounded-xl cursor-pointer transition-all" style={{ borderColor: formData.role === "employee" ? "#cd9429" : "#e5e7eb" }}>
                   <input
                     type="radio"
                     value="employee"
@@ -240,13 +240,14 @@ export default function Register() {
               </div>
             </div>
 
-            {/* Google reCAPTCHA */}
             {RECAPTCHA_SITE_KEY && (
               <div className="flex justify-center py-2">
                 <ReCAPTCHA
                   ref={recaptchaRef}
                   sitekey={RECAPTCHA_SITE_KEY}
-                  onChange={(token: string | null) => setRecaptchaToken(token)}
+                  onChange={(token: string | null) => {
+                    setRecaptchaToken(token);
+                  }}
                   onExpired={() => setRecaptchaToken(null)}
                   onError={() => {
                     setRecaptchaToken(null);
@@ -256,11 +257,10 @@ export default function Register() {
               </div>
             )}
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-[#054374] to-[#073a57] hover:shadow-lg disabled:opacity-60 text-white font-semibold py-2.5 px-4 rounded-lg transition flex items-center justify-center gap-2 mt-6"
+              className="w-full bg-gradient-to-r from-[#054374] to-[#073a57] hover:shadow-lg disabled:opacity-60 text-white font-semibold py-3 px-4 rounded-xl transition flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>
@@ -271,22 +271,17 @@ export default function Register() {
                 "Create Account"
               )}
             </button>
+            {error && (
+              <p className="text-red-600 text-sm text-center mt-2">{error}</p>
+            )}
           </form>
 
-          {/* Divider */}
-          <div className="my-6 flex items-center">
-            <div className="flex-1 border-t border-gray-200"></div>
-            <span className="px-3 text-gray-500 text-sm">or</span>
-            <div className="flex-1 border-t border-gray-200"></div>
-          </div>
-
-          {/* Login Link */}
-          <p className="text-center text-gray-600 text-sm">
+          <div className="mt-6 text-center text-sm text-gray-600">
             Already have an account?{" "}
             <a href="/login" className="text-[#cd9429] hover:underline font-semibold">
               Login here
             </a>
-          </p>
+          </div>
         </div>
       </div>
     </div>

@@ -67,30 +67,36 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#054374] to-[#073a57] flex items-center justify-center px-6 py-12">
-      <div className="w-full max-w-md">
-        {/* Card */}
-        <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-10">
+    <div className="min-h-screen bg-gradient-to-br from-[#05345c] via-[#054374] to-[#0b2f4a] flex items-center justify-center px-6 py-12">
+      <div className="w-full max-w-5xl grid md:grid-cols-2 gap-8 items-stretch">
+        <div className="hidden md:flex flex-col justify-between rounded-3xl p-10 bg-white/10 border border-white/20 text-white">
+          <div>
+            <span className="inline-flex items-center gap-2 text-sm uppercase tracking-widest text-white/70">
+              Premass Overseas
+            </span>
+            <h2 className="text-4xl font-bold mt-4 leading-tight">
+              Welcome back to your global admissions hub.
+            </h2>
+            <p className="text-white/80 mt-4">
+              Track your progress, access services, and connect with your consultant team.
+            </p>
+          </div>
+          <div className="space-y-3 text-sm text-white/80">
+            <p>✓ Secure role-based access</p>
+            <p>✓ Student and staff dashboards</p>
+            <p>✓ Dedicated support for every stage</p>
+          </div>
+        </div>
 
-          {/* Header */}
+        <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-10">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-[#054374] mb-2">Welcome Back</h1>
-            <p className="text-gray-600">Login to your Premass Overseas account</p>
+            <h1 className="text-3xl font-bold text-[#054374] mb-2">Login to Premass</h1>
+            <p className="text-gray-600">Access your account and continue your journey</p>
           </div>
 
-          {/* Error Message */}
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded">
-              <p className="text-red-700 text-sm font-medium">{error}</p>
-            </div>
-          )}
-
-          {/* Form */}
           <form onSubmit={handleLogin} className="space-y-5">
-
-            {/* Role Selection */}
-            <div className="flex gap-3 mb-6">
-              <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{ borderColor: role === "student" ? "#cd9429" : "#e0e7ff" }}>
+            <div className="grid grid-cols-2 gap-3">
+              <label className="flex items-center gap-2 p-3 border-2 rounded-xl cursor-pointer transition-all" style={{ borderColor: role === "student" ? "#cd9429" : "#e5e7eb" }}>
                 <input
                   type="radio"
                   value="student"
@@ -100,7 +106,7 @@ export default function Login() {
                 />
                 <span className="font-medium text-sm">Student</span>
               </label>
-              <label className="flex-1 flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all" style={{ borderColor: role === "employee" ? "#cd9429" : "#e0e7ff" }}>
+              <label className="flex items-center gap-2 p-3 border-2 rounded-xl cursor-pointer transition-all" style={{ borderColor: role === "employee" ? "#cd9429" : "#e5e7eb" }}>
                 <input
                   type="radio"
                   value="employee"
@@ -108,11 +114,10 @@ export default function Login() {
                   onChange={(e) => setRole(e.target.value as "employee")}
                   className="w-4 h-4"
                 />
-                <span className="font-medium text-sm">Employee</span>
+                <span className="font-medium text-sm">Staff</span>
               </label>
             </div>
 
-            {/* Email */}
             <div>
               <label className="block text-sm font-semibold text-[#054374] mb-2">Email Address</label>
               <div className="relative">
@@ -125,13 +130,12 @@ export default function Login() {
                     setError("");
                   }}
                   placeholder="you@example.com"
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:outline-none transition-all"
+                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#cd9429] focus:outline-none transition-all"
                   disabled={isLoading}
                 />
               </div>
             </div>
 
-            {/* Password */}
             <div>
               <label className="block text-sm font-semibold text-[#054374] mb-2">Password</label>
               <div className="relative">
@@ -144,7 +148,7 @@ export default function Login() {
                     setError("");
                   }}
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-12 py-3 border-2 border-gray-200 rounded-lg focus:border-[#cd9429] focus:outline-none transition-all"
+                  className="w-full pl-10 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-[#cd9429] focus:outline-none transition-all"
                   disabled={isLoading}
                 />
                 <button
@@ -158,21 +162,24 @@ export default function Login() {
               </div>
             </div>
 
-            {/* Remember Me */}
-            <label className="flex items-center gap-2 text-sm text-gray-700">
-              <input
-                type="checkbox"
-                className="w-4 h-4 rounded border-gray-300"
-                disabled={isLoading}
-              />
-              <span>Remember me</span>
-            </label>
+            <div className="flex items-center justify-between text-sm text-gray-600">
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  className="w-4 h-4 rounded border-gray-300"
+                  disabled={isLoading}
+                />
+                <span>Remember me</span>
+              </label>
+              <Link to="#" className="text-[#cd9429] hover:text-orange-600 font-medium">
+                Forgot password?
+              </Link>
+            </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-[#cd9429] to-orange-600 text-white font-bold py-3 rounded-lg hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70"
+              className="w-full bg-gradient-to-r from-[#cd9429] to-orange-600 text-white font-bold py-3 rounded-xl hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70"
             >
               {isLoading ? (
                 <>
@@ -183,54 +190,23 @@ export default function Login() {
                 "Login"
               )}
             </button>
-
-            {/* Forgot Password */}
-            <div className="text-center">
-              <Link
-                to="#"
-                className="text-sm text-[#cd9429] hover:text-orange-600 font-medium"
-              >
-                Forgot password?
-              </Link>
-            </div>
+            {error && (
+              <p className="text-red-600 text-sm text-center mt-2">{error}</p>
+            )}
           </form>
 
-          {/* Divider */}
-          <div className="my-6 flex items-center gap-3">
-            <div className="flex-1 h-px bg-gray-200"></div>
-            <span className="text-sm text-gray-500">OR</span>
-            <div className="flex-1 h-px bg-gray-200"></div>
+          <div className="mt-6 text-center text-sm text-gray-600">
+            Don't have an account?{" "}
+            <Link to="/register" className="font-semibold text-[#cd9429] hover:underline">
+              Create one
+            </Link>
           </div>
 
-          {/* Register Link */}
-          <div className="text-center">
-            <p className="text-sm text-gray-600">
-              Don't have an account?{" "}
-              <Link
-                to="/register"
-                className="font-bold text-[#cd9429] hover:text-orange-600 transition-colors"
-              >
-                Sign up here
-              </Link>
-            </p>
+          <div className="text-center mt-6">
+            <Link to="/" className="text-sm text-gray-500 hover:text-[#cd9429] transition-colors font-medium">
+              ← Back to Home
+            </Link>
           </div>
-
-          {/* Demo Info */}
-          <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <p className="text-xs text-blue-800">
-              <strong>Demo Account:</strong> Use any email with password to test (your backend validates)
-            </p>
-          </div>
-        </div>
-
-        {/* Footer */}
-        <div className="text-center mt-8">
-          <Link
-            to="/"
-            className="text-white hover:text-[#cd9429] transition-colors font-medium"
-          >
-            ← Back to Home
-          </Link>
         </div>
       </div>
     </div>

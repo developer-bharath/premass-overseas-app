@@ -35,8 +35,6 @@ export interface AuthContextType {
     role: "student" | "employee",
     recaptchaToken?: string
   ) => Promise<void>;
-  verifyOtp: (email: string, otp: string) => Promise<void>;
-  resendOtp: (email: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -149,123 +147,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // ============================================
-  // VERIFY OTP FUNCTION
-  // ============================================
-  const verifyOtp = async (email: string, otp: string) => {
-    try {
-      setLoading(true);
-      
-      // Create AbortController for timeout
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
-
-      console.log("📤 Verifying OTP:", { email, apiUrl: `${API_BASE_URL}/api/auth/verify-otp` });
-
-      const res = await fetch(`${API_BASE_URL}/api/auth/verify-otp`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, otp }),
-        signal: controller.signal,
-      });
-
-      clearTimeout(timeoutId);
-
-      console.log("📥 OTP verification response status:", res.status);
-
-      // Handle network errors
-      if (!res.ok) {
-        let errorMessage = "OTP verification failed";
-        try {
-          const response = await res.json();
-          errorMessage = response.message || response.error || errorMessage;
-          console.error("❌ OTP verification error:", errorMessage);
-        } catch {
-          errorMessage = res.statusText || errorMessage;
-          console.error("❌ OTP verification error (no JSON):", res.statusText);
-        }
-        throw new Error(errorMessage);
-      }
-
-      const response = await res.json();
-      console.log("✅ OTP verified successfully:", response);
-
-      // Remove email from session storage after successful verification
-      sessionStorage.removeItem("registeredEmail");
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      console.error("❌ OTP verification catch error:", error);
-      
-      // Handle timeout
-      if (error instanceof Error && error.name === 'AbortError') {
-        throw new Error("Request timed out. Please try again.");
-      }
-      
-      // Improve error messages for network issues
-      if (error instanceof TypeError && error.message.includes("fetch")) {
-        throw new Error("Unable to connect to server. Please check your internet connection.");
-      }
-      
-      throw error;
-    }
-  };
-
-
-  // ============================================
-  // RESEND OTP FUNCTION
-  // ============================================
-  const resendOtp = async (email: string) => {
-    try {
-      setLoading(true);
-      
-      // Create AbortController for timeout
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000);
-
-      console.log("📤 Resending OTP:", { email, apiUrl: `${API_BASE_URL}/api/auth/resend-otp` });
-
-      const res = await fetch(`${API_BASE_URL}/api/auth/resend-otp`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-        signal: controller.signal,
-      });
-
-      clearTimeout(timeoutId);
-
-      console.log("📥 Resend OTP response status:", res.status);
-
-      if (!res.ok) {
-        let errorMessage = "Failed to resend OTP";
-        try {
-          const response = await res.json();
-          errorMessage = response.message || response.error || errorMessage;
-          console.error("❌ Resend OTP error:", errorMessage);
-        } catch {
-          errorMessage = res.statusText || errorMessage;
-        }
-        throw new Error(errorMessage);
-      }
-
-      const response = await res.json();
-      console.log("✅ OTP resent successfully:", response);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      console.error("❌ Resend OTP catch error:", error);
-      
-      if (error instanceof Error && error.name === 'AbortError') {
-        throw new Error("Request timed out. Please try again.");
-      }
-      
-      if (error instanceof TypeError && error.message.includes("fetch")) {
-        throw new Error("Unable to connect to server. Please check your internet connection.");
-      }
-      
-      throw error;
-    }
-  };
 
   // ============================================
   // LOGIN FUNCTION
@@ -353,7 +234,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("role");
-    sessionStorage.removeItem("registeredEmail");
     setUser(null);
     setToken(null);
   };
@@ -365,8 +245,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isAuthenticated: !!token && !!user,
     login,
     register,
-    verifyOtp,
-    resendOtp,
     logout,
   };
 
