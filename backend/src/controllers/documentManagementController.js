@@ -11,26 +11,42 @@ exports.uploadDocument = async (req, res) => {
       documentName,
       documentType,
       category,
-      fileUrl,
       expiryDate,
       remarks,
     } = req.body;
+    const file = req.file;
 
     const document = await DocumentManagement.create({
-      studentId: req.user.id,
-      documentName,
-      documentType,
-      category,
-      fileUrl,
-      expiryDate: expiryDate ? new Date(expiryDate) : null,
-      uploadedDate: new Date(),
-      verificationStatus: 'pending',
-      remarks,
-      timeline: [
+      owner: req.user.id,
+      documentName: documentName || file?.originalname || "Document",
+      documentType: documentType || "other",
+      category: category || "personal",
+      documentDetails: {
+        expiryDate: expiryDate ? new Date(expiryDate) : null,
+      },
+      fileInfo: file
+        ? {
+            fileName: file.originalname,
+            fileSize: file.size,
+            fileType: file.mimetype,
+            uploadedDate: new Date(),
+          }
+        : undefined,
+      verification: {
+        status: "pending",
+      },
+      notes: remarks
+        ? [
+            {
+              note: remarks,
+              createdBy: req.user.id,
+            },
+          ]
+        : [],
+      auditLog: [
         {
-          event: 'Document uploaded',
-          date: new Date(),
-          actionBy: req.user.id,
+          action: "Document uploaded",
+          performedBy: req.user.id,
         },
       ],
     });
@@ -54,12 +70,15 @@ exports.getAllDocuments = async (req, res) => {
 
     let filter = {};
     if (category) filter.category = category;
-    if (verificationStatus) filter.verificationStatus = verificationStatus;
-    if (studentId) filter.studentId = studentId;
+    if (verificationStatus) filter["verification.status"] = verificationStatus;
+    if (studentId) filter.owner = studentId;
+    if (req.user.role === "student") {
+      filter.owner = req.user.id;
+    }
 
     const documents = await DocumentManagement.find(filter)
-      .populate('studentId', 'name email')
-      .sort({ uploadedDate: -1 });
+      .populate('owner', 'name email')
+      .sort({ createdAt: -1 });
 
     res.json({
       message: 'Documents retrieved successfully',
@@ -78,11 +97,13 @@ exports.getAllDocuments = async (req, res) => {
 exports.getDocumentById = async (req, res) => {
   try {
     const document = await DocumentManagement.findById(req.params.id)
-      .populate('studentId', 'name email')
-      .populate('verifiedBy', 'name email');
+      .populate('owner', 'name email');
 
     if (!document) {
       return res.status(404).json({ message: 'Document not found' });
+    }
+    if (req.user.role === "student" && String(document.owner) !== req.user.id) {
+      return res.status(403).json({ message: "Access denied" });
     }
 
     res.json({
@@ -106,15 +127,14 @@ exports.verifyDocument = async (req, res) => {
     const document = await DocumentManagement.findByIdAndUpdate(
       id,
       {
-        verificationStatus,
-        verifiedBy: req.user.id,
-        verificationDate: new Date(),
-        verificationNotes,
+        "verification.status": verificationStatus,
+        "verification.verifiedBy": req.user.id,
+        "verification.verificationDate": new Date(),
+        "verification.rejectionReason": verificationNotes,
         $push: {
-          timeline: {
-            event: `Document ${verificationStatus}`,
-            date: new Date(),
-            actionBy: req.user.id,
+          auditLog: {
+            action: `Document ${verificationStatus}`,
+            performedBy: req.user.id,
           },
         },
       },
@@ -147,17 +167,14 @@ exports.grantAccess = async (req, res) => {
       id,
       {
         $push: {
-          accessControl: {
-            grantedTo: userId,
-            accessType,
-            grantedDate: new Date(),
-            expiryDate: expiryDate ? new Date(expiryDate) : null,
-            grantedBy: req.user.id,
+          "accessControl.accessibleBy": {
+            userId,
+            accessLevel: accessType,
+            role: "staff",
           },
-          timeline: {
-            event: `Access granted to user`,
-            date: new Date(),
-            actionBy: req.user.id,
+          auditLog: {
+            action: `Access granted to user`,
+            performedBy: req.user.id,
           },
         },
       },
@@ -189,13 +206,13 @@ exports.getExpiringDocuments = async (req, res) => {
     expiryDate.setDate(expiryDate.getDate() + parseInt(daysFromNow));
 
     const documents = await DocumentManagement.find({
-      expiryDate: {
+      "documentDetails.expiryDate": {
         $lte: expiryDate,
         $gte: new Date(),
       },
     })
-      .populate('studentId', 'name email')
-      .sort({ expiryDate: 1 });
+      .populate('owner', 'name email')
+      .sort({ "documentDetails.expiryDate": 1 });
 
     res.json({
       message: 'Expiring documents retrieved successfully',
@@ -239,13 +256,13 @@ exports.getDocumentAnalytics = async (req, res) => {
   try {
     const totalDocuments = await DocumentManagement.countDocuments();
     const verifiedDocuments = await DocumentManagement.countDocuments({
-      verificationStatus: 'verified',
+      "verification.status": 'approved',
     });
     const pendingDocuments = await DocumentManagement.countDocuments({
-      verificationStatus: 'pending',
+      "verification.status": 'pending',
     });
     const rejectedDocuments = await DocumentManagement.countDocuments({
-      verificationStatus: 'rejected',
+      "verification.status": 'rejected',
     });
 
     // Documents by category
