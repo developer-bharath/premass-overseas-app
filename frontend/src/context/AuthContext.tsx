@@ -1,7 +1,16 @@
 import React, { createContext, useState, useEffect, ReactNode } from "react";
-const API_BASE_URL =
+
+// API must point to Railway backend. Never use Vercel URL (frontend) for API.
+const RAILWAY_API = "https://premass-overseas-app-production.up.railway.app";
+const envUrl = (
   import.meta.env.VITE_API_URL ||
-  "https://premass-overseas-app-production.up.railway.app";
+  import.meta.env.VITE_API_BASE_URL ||
+  ""
+).trim();
+const API_BASE_URL =
+  envUrl && !envUrl.includes("vercel.app")
+    ? envUrl.replace(/\/$/, "").replace(/\/api\/?.*$/, "")
+    : RAILWAY_API;
 
 
 

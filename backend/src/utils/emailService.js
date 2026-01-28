@@ -21,40 +21,26 @@ const nodemailer = require('nodemailer');
 // For development, we'll use Gmail (easy to set up)
 // For production, you'd use services like SendGrid, AWS SES, etc.
 
-const createTransporter = async () => {
-  // Check if email credentials are configured
+// Create transporter synchronously - NO verify() (causes connection timeout on Railway)
+const createTransporter = () => {
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
     console.warn('⚠️ Email credentials not configured. Email sending will be disabled.');
     return null;
   }
-
   try {
-    const transporter = nodemailer.createTransport({
+    return nodemailer.createTransport({
       service: 'gmail',
       host: process.env.EMAIL_HOST || 'smtp.gmail.com',
       port: parseInt(process.env.EMAIL_PORT || '587'),
-      secure: process.env.EMAIL_SECURE === 'true', // true for 465, false for other ports
+      secure: process.env.EMAIL_SECURE === 'true',
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
-      tls: {
-        rejectUnauthorized: false // Allow self-signed certificates
-      }
+      tls: { rejectUnauthorized: false },
+      connectionTimeout: 10000,  // 10s max to connect
+      greetingTimeout: 10000,
     });
-    
-    // Verify transporter configuration (only in production or when explicitly enabled)
-    if (process.env.NODE_ENV === 'production' || process.env.VERIFY_EMAIL === 'true') {
-      try {
-        await transporter.verify();
-        console.log('✅ Email transporter configured and verified');
-      } catch (verifyError) {
-        console.warn('⚠️ Email transporter verification failed:', verifyError.message);
-        // Still return transporter - verification might fail but sending could work
-      }
-    }
-    
-    return transporter;
   } catch (error) {
     console.error('❌ Error creating email transporter:', error.message);
     return null;
@@ -74,9 +60,7 @@ const createTransporter = async () => {
 
 const sendOtpEmail = async (email, otp, name) => {
   try {
-    const transporter = await createTransporter();
-    
-    // If transporter is null (credentials not configured), return failure gracefully
+    const transporter = createTransporter();
     if (!transporter) {
       console.warn('⚠️ Email transporter not available. Skipping email send.');
       return { success: false, error: 'Email service not configured' };
@@ -174,16 +158,24 @@ const sendOtpEmail = async (email, otp, name) => {
       `,
     };
 
-    // Send the email - this is an async operation
-    const info = await transporter.sendMail(mailOptions);
-    
+    let timeoutId;
+    const sendPromise = transporter.sendMail(mailOptions);
+    const timeoutPromise = new Promise((_, rej) => {
+      timeoutId = setTimeout(() => rej(new Error('Email send timeout (15s)')), 15000);
+    });
+    let info;
+    try {
+      info = await Promise.race([sendPromise, timeoutPromise]);
+      clearTimeout(timeoutId);
+    } catch (e) {
+      clearTimeout(timeoutId);
+      throw e;
+    }
     console.log('✅ Email sent successfully:', info.messageId);
     return { success: true, messageId: info.messageId };
-    
   } catch (error) {
-    console.error('❌ Error sending email:', error);
-    // We don't throw the error - we return it so the controller can decide what to do
-    return { success: false, error: error.message };
+    console.error('❌ Error sending email:', error.message || error);
+    return { success: false, error: error.message || String(error) };
   }
 };
 
@@ -195,9 +187,7 @@ const sendOtpEmail = async (email, otp, name) => {
 
 const sendWelcomeEmail = async (email, name, role) => {
   try {
-    const transporter = await createTransporter();
-    
-    // If transporter is null (credentials not configured), return failure gracefully
+    const transporter = createTransporter();
     if (!transporter) {
       console.warn('⚠️ Email transporter not available. Skipping welcome email.');
       return { success: false, error: 'Email service not configured' };

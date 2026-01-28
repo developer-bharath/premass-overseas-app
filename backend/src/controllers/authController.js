@@ -17,100 +17,70 @@ function generateOtp() {
 
 exports.register = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
-
-    // Validation
+    let { name, email, password, role } = req.body;
     if (!name || !email || !password || !role) {
       return res.status(400).json({ 
-        message: "All fields are required: name, email, password, role" 
+        message: "All fields are required: name, email, password, role",
+        code: "MISSING_FIELDS"
       });
     }
+    name = String(name).trim();
+    email = String(email).trim().toLowerCase();
+    role = String(role).trim().toLowerCase();
+    if (role === "staff") role = "employee";
 
-    // Validate role
     const validRoles = ["student", "employee", "counselor", "service_manager", "hr_manager", "department_head", "super_admin"];
     if (!validRoles.includes(role)) {
       return res.status(400).json({ 
-        message: `Invalid role. Must be one of: ${validRoles.join(", ")}` 
+        message: `Invalid role. Use "student" or "employee".`,
+        code: "INVALID_ROLE"
       });
     }
 
-    // Check if user exists
-    const userExists = await User.findOne({ email: email.toLowerCase() });
+    const userExists = await User.findOne({ email });
     if (userExists) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({ 
+        message: "User already exists. Try logging in or use a different email.",
+        code: "USER_EXISTS"
+      });
     }
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user
     const user = await User.create({
-      name: name.trim(),
-      email: email.toLowerCase().trim(),
+      name,
+      email,
       password: hashedPassword,
-      role: role.toLowerCase(),
+      role,
     });
 
-    // Generate OTP
     const otp = generateOtp();
-
-    // Create OTP record
     await Otp.create({
-      email: email.toLowerCase().trim(),
-      otp: otp,
+      email,
+      otp,
       expiresAt: new Date(Date.now() + 10 * 60 * 1000),
     });
 
-    // ==========================================
-    // SEND OTP EMAIL (REQUIRED - with retry logic)
-    // ==========================================
-    let emailSent = false;
-    let emailError = null;
-    
-    // Try sending email with retry
-    for (let attempt = 1; attempt <= 2; attempt++) {
-      try {
-        console.log(`📧 Attempting to send OTP email (attempt ${attempt}/2)...`);
-        const emailResult = await sendOtpEmail(email, otp, name);
-        emailSent = emailResult.success;
-        
-        if (emailResult.success) {
-          console.log("✅ OTP email sent successfully to", email);
-          break; // Success, exit retry loop
-        } else {
-          emailError = emailResult.error || "Unknown email error";
-          console.warn(`⚠️ Email attempt ${attempt} failed:`, emailError);
-          if (attempt === 2) {
-            console.error("❌ All email attempts failed. OTP:", otp);
-          }
-        }
-      } catch (emailErr) {
-        emailError = emailErr.message;
-        console.error(`⚠️ Email service error (attempt ${attempt}):`, emailErr.message);
-        if (attempt === 2) {
-          console.error("❌ Email sending failed after retries. OTP:", otp);
-        }
-      }
-      
-      // Wait 2 seconds before retry (if not last attempt)
-      if (attempt < 2 && !emailSent) {
-        await new Promise(resolve => setTimeout(resolve, 2000));
-      }
-    }
-    
-    // Log OTP to Railway logs as backup (always available)
-    console.log("📧 OTP CODE FOR", email, ":", otp, "(Also check Railway logs if email not received)");
+    // Log OTP to Railway logs immediately (user can check logs if email fails)
+    console.log("📧 OTP CODE FOR", email, ":", otp);
+    console.log("✅ User created:", { id: user._id, email: user.email, role: user.role });
 
-    // Always log OTP to Railway logs (for debugging if email fails)
-    console.log("📧 OTP generated for", email, ":", otp);
-    console.log("✅ User created successfully:", { id: user._id, email: user.email, role: user.role });
-    console.log("📬 Email sent status:", emailSent ? "✅ Sent" : "❌ Failed");
+    // ==========================================
+    // SEND OTP EMAIL IN BACKGROUND (do not block response)
+    // ==========================================
+    setImmediate(() => {
+      sendOtpEmail(email, otp, name)
+        .then((r) => {
+          if (r.success) console.log("✅ OTP email sent to", email);
+          else console.warn("⚠️ OTP email failed:", r.error, "| OTP:", otp);
+        })
+        .catch((err) => console.error("⚠️ OTP email error:", err.message, "| OTP:", otp));
+    });
 
     res.status(201).json({
-      message: emailSent 
-        ? "Registered successfully. Check your email for OTP." 
-        : "Registered successfully. OTP sent (check email or contact support if not received).",
-      emailSent: emailSent,
+      message: "Registered successfully. Check your email for OTP.",
+      emailSent: true,
     });
   } catch (error) {
     console.error("❌ REGISTER ERROR:", error);
@@ -142,43 +112,39 @@ exports.register = async (req, res) => {
 
 exports.verifyOtp = async (req, res) => {
   try {
-    const email = req.body.email.trim().toLowerCase();
-    const otp = req.body.otp.trim();
-
-    const otpRecord = await Otp.findOne({ email }).sort({ createdAt: -1 });
-
-    if (!otpRecord) {
-      return res.status(400).json({ message: "OTP not found" });
+    const email = (req.body.email || "").trim().toLowerCase();
+    const otp = (req.body.otp || "").trim();
+    if (!email || !otp) {
+      return res.status(400).json({ message: "Email and OTP are required" });
     }
 
+    const otpRecord = await Otp.findOne({ email }).sort({ createdAt: -1 });
+    if (!otpRecord) {
+      return res.status(400).json({ message: "OTP not found. Please register again or resend OTP." });
+    }
     if (otpRecord.otp !== otp) {
       return res.status(400).json({ message: "Invalid OTP" });
     }
-
     if (otpRecord.expiresAt < new Date()) {
-      return res.status(400).json({ message: "OTP expired" });
+      return res.status(400).json({ message: "OTP expired. Please resend OTP." });
     }
 
-    // Update user's email verification status
     const user = await User.findOneAndUpdate(
       { email },
       { isEmailVerified: true },
-      { new: true } // Return the updated user document
+      { new: true }
     );
-
     await Otp.deleteMany({ email });
 
-    // ==========================================
-    // SEND WELCOME EMAIL
-    // ==========================================
-    // Send a welcome email after successful verification
     if (user) {
-      const welcomeResult = await sendWelcomeEmail(email, user.name, user.role);
-      if (welcomeResult.success) {
-        console.log("✅ Welcome email sent to", email);
-      } else {
-        console.warn("⚠️ Welcome email failed, but verification succeeded");
-      }
+      setImmediate(() => {
+        sendWelcomeEmail(email, user.name, user.role)
+          .then((r) => {
+            if (r.success) console.log("✅ Welcome email sent to", email);
+            else console.warn("⚠️ Welcome email failed");
+          })
+          .catch((e) => console.warn("⚠️ Welcome email error:", e.message));
+      });
     }
 
     res.json({ message: "Email verified successfully" });
@@ -240,52 +206,35 @@ exports.resendOtp = async (req, res) => {
       return res.status(400).json({ message: "Email is required" });
     }
 
-    const user = await User.findOne({ email: email.toLowerCase() });
+    const user = await User.findOne({ email: (email || "").trim().toLowerCase() });
     if (!user) {
       return res.status(400).json({ message: "User not found. Please register first." });
     }
 
-    // Delete old OTPs
-    await Otp.deleteMany({ email: email.toLowerCase() });
+    const em = email.trim().toLowerCase();
+    await Otp.deleteMany({ email: em });
 
-    // Generate new OTP
     const otpCode = generateOtp();
-
     await Otp.create({
-      email: email.toLowerCase(),
+      email: em,
       otp: otpCode,
       expiresAt: new Date(Date.now() + 10 * 60 * 1000),
     });
 
-    // Send OTP email with retry
-    let emailSent = false;
-    for (let attempt = 1; attempt <= 2; attempt++) {
-      try {
-        console.log(`📧 Resending OTP email (attempt ${attempt}/2)...`);
-        const emailResult = await sendOtpEmail(email, otpCode, user.name);
-        emailSent = emailResult.success;
-        
-        if (emailResult.success) {
-          console.log("✅ OTP resent successfully to", email);
-          break;
-        } else {
-          console.warn(`⚠️ Resend attempt ${attempt} failed:`, emailResult.error);
-        }
-      } catch (emailErr) {
-        console.error(`⚠️ Resend email error (attempt ${attempt}):`, emailErr.message);
-      }
-      
-      if (attempt < 2 && !emailSent) {
-        await new Promise(resolve => setTimeout(resolve, 2000));
-      }
-    }
-    
-    // Always log OTP to Railway logs
-    console.log("📧 RESEND OTP CODE FOR", email, ":", otpCode);
+    console.log("📧 RESEND OTP CODE FOR", em, ":", otpCode);
+
+    setImmediate(() => {
+      sendOtpEmail(email, otpCode, user.name)
+        .then((r) => {
+          if (r.success) console.log("✅ OTP resent to", email);
+          else console.warn("⚠️ Resend failed:", r.error, "| OTP:", otpCode);
+        })
+        .catch((err) => console.error("⚠️ Resend error:", err.message, "| OTP:", otpCode));
+    });
 
     res.json({
       message: "OTP resent successfully. Check your email.",
-      emailSent: emailResult.success,
+      emailSent: true,
     });
   } catch (error) {
     console.error("RESEND OTP ERROR:", error);
