@@ -10,6 +10,7 @@
 // 5. Async/await - Handling asynchronous operations
 
 const nodemailer = require('nodemailer');
+const { google } = require('googleapis');
 
 // ==========================================
 // TRANSPORTER CONFIGURATION
@@ -30,26 +31,38 @@ const createTransporter = () => {
     return null;
   }
   try {
+    // Try port 465 (SSL) first if EMAIL_PORT not explicitly set, as it's more reliable from cloud platforms
+    const port = process.env.EMAIL_PORT ? parseInt(process.env.EMAIL_PORT) : 465;
+    const secure = port === 465 || process.env.EMAIL_SECURE === 'true';
+    
     const config = {
       service: 'gmail',
       host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-      port: parseInt(process.env.EMAIL_PORT || '587'),
-      secure: process.env.EMAIL_SECURE === 'true',
+      port: port,
+      secure: secure, // true for 465, false for other ports
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
-      tls: { rejectUnauthorized: false },
-      connectionTimeout: 10000,
-      greetingTimeout: 10000,
-      socketTimeout: 15000,
+      tls: { 
+        rejectUnauthorized: false,
+        ciphers: 'SSLv3' // Sometimes helps with connection issues
+      },
+      connectionTimeout: 20000, // Increased timeout for Gmail
+      greetingTimeout: 20000,
+      socketTimeout: 30000,
+      // Additional options for better Gmail compatibility
+      pool: true, // Use connection pooling
+      maxConnections: 1,
+      maxMessages: 3,
     };
     console.log('📧 Creating email transporter:', {
       host: config.host,
       port: config.port,
       secure: config.secure,
       user: config.auth.user,
-      pass: config.auth.pass ? '***' : 'MISSING'
+      pass: config.auth.pass ? '***' : 'MISSING',
+      timeout: config.connectionTimeout
     });
     return nodemailer.createTransport(config);
   } catch (error) {

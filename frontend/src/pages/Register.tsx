@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Envelope, LockKey, User, CircleNotch, CheckCircle, Eye, EyeSlash, ShieldCheck } from "phosphor-react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { Envelope, LockKey, User, CircleNotch, CheckCircle, Eye, EyeSlash } from "phosphor-react";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -16,10 +17,13 @@ export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isHuman, setIsHuman] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const navigate = useNavigate();
   const { register } = useAuth();
+
+  const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "";
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -52,8 +56,8 @@ export default function Register() {
       return;
     }
 
-    if (!isHuman) {
-      setError("Please confirm you're not a robot");
+    if (RECAPTCHA_SITE_KEY && !recaptchaToken) {
+      setError("Please complete the reCAPTCHA verification");
       return;
     }
 
@@ -67,16 +71,17 @@ export default function Register() {
         formData.name,
         formData.email,
         formData.password,
-        formData.role
+        formData.role,
+        recaptchaToken || undefined
       );
       
       console.log("✅ Registration successful, showing success message");
       setSuccess(true);
 
-      // Redirect to OTP verification
+      // Redirect to login (no OTP needed)
       setTimeout(() => {
-        navigate("/verify-otp", {
-          state: { email: formData.email },
+        navigate("/login", {
+          state: { message: "Registration successful! Please login." },
         });
       }, 1500);
     } catch (err) {
@@ -234,20 +239,21 @@ export default function Register() {
               </div>
             </div>
 
-            {/* Human Verification Checkbox */}
-            <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#cd9429]/50 transition">
-              <input
-                type="checkbox"
-                id="humanCheck"
-                checked={isHuman}
-                onChange={(e) => setIsHuman(e.target.checked)}
-                className="w-5 h-5 text-[#cd9429] border-gray-300 rounded focus:ring-[#cd9429] cursor-pointer"
-              />
-              <label htmlFor="humanCheck" className="flex items-center gap-2 cursor-pointer text-sm text-gray-700 font-medium">
-                <ShieldCheck size={20} weight="duotone" className="text-green-600" />
-                I'm not a robot
-              </label>
-            </div>
+            {/* Google reCAPTCHA */}
+            {RECAPTCHA_SITE_KEY && (
+              <div className="flex justify-center py-2">
+                <ReCAPTCHA
+                  ref={recaptchaRef}
+                  sitekey={RECAPTCHA_SITE_KEY}
+                  onChange={(token) => setRecaptchaToken(token)}
+                  onExpired={() => setRecaptchaToken(null)}
+                  onError={() => {
+                    setRecaptchaToken(null);
+                    setError("reCAPTCHA error. Please try again.");
+                  }}
+                />
+              </div>
+            )}
 
             {/* Submit Button */}
             <button

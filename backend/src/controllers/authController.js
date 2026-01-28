@@ -1,11 +1,6 @@
 const User = require("../models/User");
-const Otp = require("../models/Otp");
 const bcrypt = require("bcryptjs");
-const { sendOtpEmail, sendWelcomeEmail } = require("../utils/emailService");
-
-function generateOtp() {
-  return Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
-}
+const axios = require("axios");
 
 // ================= REGISTER =================
 // 
@@ -15,15 +10,61 @@ function generateOtp() {
 // 3. Handle email success/failure gracefully
 // 4. Keep console.log as fallback for development
 
+// Verify Google reCAPTCHA token
+const verifyRecaptcha = async (token) => {
+  if (!process.env.RECAPTCHA_SECRET_KEY) {
+    console.warn("⚠️ RECAPTCHA_SECRET_KEY not set - skipping verification");
+    return true; // Allow registration in development if reCAPTCHA not configured
+  }
+
+  try {
+    const response = await axios.post(
+      "https://www.google.com/recaptcha/api/siteverify",
+      null,
+      {
+        params: {
+          secret: process.env.RECAPTCHA_SECRET_KEY,
+          response: token,
+        },
+      }
+    );
+
+    return response.data.success === true;
+  } catch (error) {
+    console.error("❌ reCAPTCHA verification error:", error.message);
+    return false;
+  }
+};
+
 exports.register = async (req, res) => {
   try {
-    let { name, email, password, role } = req.body;
+    let { name, email, password, role, recaptchaToken } = req.body;
+    
     if (!name || !email || !password || !role) {
       return res.status(400).json({ 
         message: "All fields are required: name, email, password, role",
         code: "MISSING_FIELDS"
       });
     }
+
+    // Verify reCAPTCHA
+    if (process.env.RECAPTCHA_SECRET_KEY && !recaptchaToken) {
+      return res.status(400).json({
+        message: "reCAPTCHA verification required",
+        code: "RECAPTCHA_MISSING"
+      });
+    }
+
+    if (recaptchaToken) {
+      const isValidRecaptcha = await verifyRecaptcha(recaptchaToken);
+      if (!isValidRecaptcha) {
+        return res.status(400).json({
+          message: "reCAPTCHA verification failed. Please try again.",
+          code: "RECAPTCHA_FAILED"
+        });
+      }
+    }
+
     name = String(name).trim();
     email = String(email).trim().toLowerCase();
     role = String(role).trim().toLowerCase();
@@ -48,51 +89,25 @@ exports.register = async (req, res) => {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Create user with email verified (no OTP needed)
     const user = await User.create({
       name,
       email,
       password: hashedPassword,
       role,
+      isEmailVerified: true, // Auto-verify since we're using reCAPTCHA
     });
 
-    const otp = generateOtp();
-    await Otp.create({
-      email,
-      otp,
-      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
-    });
-
-    // Log OTP to Railway logs immediately (user can check logs if email fails)
-    console.log("📧 OTP CODE FOR", email, ":", otp);
     console.log("✅ User created:", { id: user._id, email: user.email, role: user.role });
 
-    // ==========================================
-    // SEND OTP EMAIL IN BACKGROUND (do not block response)
-    // ==========================================
-    setImmediate(() => {
-      sendOtpEmail(email, otp, name)
-        .then((r) => {
-          if (r.success) {
-            console.log("✅ OTP email sent to", email);
-          } else {
-            console.error("❌ OTP EMAIL FAILED for", email);
-            console.error("   Error:", r.error);
-            if (r.details) {
-              console.error("   Details:", JSON.stringify(r.details, null, 2));
-            }
-            console.error("   OTP CODE (check Railway logs):", otp);
-          }
-        })
-        .catch((err) => {
-          console.error("❌ OTP email exception:", err.message);
-          console.error("   Stack:", err.stack);
-          console.error("   OTP CODE (check Railway logs):", otp);
-        });
-    });
-
     res.status(201).json({
-      message: "Registered successfully. Check your email for OTP.",
-      emailSent: true,
+      message: "Registered successfully. You can now login.",
+      user: {
+        id: user._id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      },
     });
   } catch (error) {
     console.error("❌ REGISTER ERROR:", error);
@@ -179,9 +194,10 @@ exports.login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    if (!user.isEmailVerified) {
-      return res.status(400).json({ message: "Email not verified" });
-    }
+    // Email verification no longer required (using reCAPTCHA instead)
+    // if (!user.isEmailVerified) {
+    //   return res.status(400).json({ message: "Email not verified" });
+    // }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
