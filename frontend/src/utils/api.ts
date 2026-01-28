@@ -1,6 +1,6 @@
 // API Service - All backend endpoints and request handling
 // Read Vite env at build-time via import.meta.env
-const API_BASE_URL =
+export const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') ||
   'https://premass-overseas-app-production.up.railway.app';
 
@@ -253,14 +253,14 @@ export const visaImmigrationAPI = {
 export const documentManagementAPI = {
   getDocuments: async (page = 1, limit = 10) => {
     const response = await fetch(
-      `${API_BASE_URL}/document-management?page=${page}&limit=${limit}`,
+      `${API_BASE_URL}/documents?page=${page}&limit=${limit}`,
       { headers: getAuthHeaders() }
     );
     return handleResponse(response);
   },
 
   uploadDocument: async (formData: FormData) => {
-    const response = await fetch(`${API_BASE_URL}/document-management/upload`, {
+    const response = await fetch(`${API_BASE_URL}/documents/upload`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${getToken()}` },
       body: formData,
@@ -269,7 +269,7 @@ export const documentManagementAPI = {
   },
 
   verifyDocument: async (id: string) => {
-    const response = await fetch(`${API_BASE_URL}/document-management/${id}/verify`, {
+    const response = await fetch(`${API_BASE_URL}/documents/${id}/verify`, {
       method: 'PUT',
       headers: getAuthHeaders(),
     });
@@ -277,7 +277,7 @@ export const documentManagementAPI = {
   },
 
   deleteDocument: async (id: string) => {
-    const response = await fetch(`${API_BASE_URL}/document-management/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/documents/${id}`, {
       method: 'DELETE',
       headers: getAuthHeaders(),
     });
@@ -285,7 +285,7 @@ export const documentManagementAPI = {
   },
 
   getStats: async () => {
-    const response = await fetch(`${API_BASE_URL}/document-management/stats`, {
+    const response = await fetch(`${API_BASE_URL}/documents/analytics/dashboard`, {
       headers: getAuthHeaders(),
     });
     return handleResponse(response);

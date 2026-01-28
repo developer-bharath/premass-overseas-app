@@ -16,8 +16,12 @@ import {
   ClipboardList,
   Folder,
   Upload,
+  CreditCard,
+  MessageSquare,
+  ShieldCheck,
+  Bell,
 } from "lucide-react";
-import { documentManagementAPI } from "../utils/api";
+import { API_BASE_URL, documentManagementAPI } from "../utils/api";
 
 interface Ticket {
   _id: string;
@@ -42,14 +46,16 @@ interface StudentDocument {
   name: string;
   type: string;
   uploadedAt: string;
-  status: "pending" | "verified" | "rejected";
+  status: "pending" | "approved" | "rejected";
 }
 
 export default function StudentDashboard() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [activeTab, setActiveTab] = useState<"overview" | "tickets" | "applications" | "studentDetails" | "documents">("overview");
+  const [activeTab, setActiveTab] = useState<
+    "overview" | "tickets" | "applications" | "studentDetails" | "documents" | "visa" | "payments" | "chat" | "settings"
+  >("overview");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
   const [documents, setDocuments] = useState<StudentDocument[]>([]);
   const [documentsLoading, setDocumentsLoading] = useState(false);
@@ -57,6 +63,8 @@ export default function StudentDashboard() {
   const [documentType, setDocumentType] = useState("passport");
   const [documentFile, setDocumentFile] = useState<File | null>(null);
   const [profileSaved, setProfileSaved] = useState(false);
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [profileError, setProfileError] = useState("");
   const [profileData, setProfileData] = useState({
     personalDetails: {
       fullName: "",
@@ -182,7 +190,7 @@ export default function StudentDashboard() {
     const fetchTickets = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:4000/api/student/tickets", {
+        const response = await fetch(`${API_BASE_URL}/student/tickets`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -215,19 +223,54 @@ export default function StudentDashboard() {
 
   useEffect(() => {
     if (!user) return;
+    const fetchProfile = async () => {
+      try {
+        setProfileLoading(true);
+        setProfileError("");
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${API_BASE_URL}/student/profile`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!response.ok) throw new Error("Failed to load profile");
+        const data = await response.json();
+        if (data && data.personalDetails) {
+          setProfileData((prev) => ({
+            ...prev,
+            ...data,
+            contactDetails: {
+              ...prev.contactDetails,
+              ...data.contactDetails,
+            },
+            personalDetails: {
+              ...prev.personalDetails,
+              ...data.personalDetails,
+            },
+          }));
+        }
+      } catch (err) {
+        setProfileError("Unable to load student details. You can still fill the form.");
+      } finally {
+        setProfileLoading(false);
+      }
+    };
+    fetchProfile();
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) return;
     const fetchDocuments = async () => {
       try {
         setDocumentsLoading(true);
         setDocumentsError("");
         const response = await documentManagementAPI.getDocuments(1, 20);
-        const list = Array.isArray(response?.data) ? response.data : response;
+        const list = response?.documents || response?.data || response;
         if (Array.isArray(list)) {
           const normalized = list.map((doc: any) => ({
             id: doc._id || doc.id || String(Math.random()),
-            name: doc.name || doc.filename || "Document",
-            type: doc.type || doc.category || "General",
-            uploadedAt: doc.createdAt || new Date().toISOString(),
-            status: doc.status || "pending",
+            name: doc.documentName || doc.name || doc.filename || "Document",
+            type: doc.documentType || doc.type || doc.category || "General",
+            uploadedAt: doc.fileInfo?.uploadedDate || doc.createdAt || new Date().toISOString(),
+            status: doc.verification?.status || doc.status || "pending",
           }));
           setDocuments(normalized);
         }
@@ -254,9 +297,24 @@ export default function StudentDashboard() {
     });
   };
 
-  const handleProfileSubmit = (e: React.FormEvent) => {
+  const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setProfileSaved(true);
+    try {
+      setProfileError("");
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${API_BASE_URL}/student/profile`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(profileData),
+      });
+      if (!response.ok) throw new Error("Failed to save profile");
+      setProfileSaved(true);
+    } catch (err) {
+      setProfileError("Failed to save profile. Please try again.");
+    }
   };
 
   const handleDocumentUpload = async (e: React.FormEvent) => {
@@ -269,14 +327,17 @@ export default function StudentDashboard() {
       setDocumentsError("");
       const formData = new FormData();
       formData.append("file", documentFile);
-      formData.append("type", documentType);
+      formData.append("documentType", documentType);
+      formData.append("documentName", documentFile.name);
+      formData.append("category", "personal");
       const response = await documentManagementAPI.uploadDocument(formData);
+      const created = response?.document || response;
       const newDoc = {
-        id: response?._id || response?.id || String(Date.now()),
-        name: response?.name || documentFile.name,
-        type: response?.type || documentType,
-        uploadedAt: response?.createdAt || new Date().toISOString(),
-        status: response?.status || "pending",
+        id: created?._id || created?.id || String(Date.now()),
+        name: created?.documentName || documentFile.name,
+        type: created?.documentType || documentType,
+        uploadedAt: created?.fileInfo?.uploadedDate || created?.createdAt || new Date().toISOString(),
+        status: created?.verification?.status || "pending",
       };
       setDocuments((prev) => [newDoc, ...prev]);
       setDocumentFile(null);
@@ -296,6 +357,24 @@ export default function StudentDashboard() {
 
   const filteredTickets =
     selectedStatus === "all" ? tickets : tickets.filter((t) => t.status === selectedStatus);
+
+  const profileCompletion = (() => {
+    const checks = [
+      profileData.personalDetails.fullName,
+      profileData.personalDetails.gender,
+      profileData.personalDetails.dateOfBirth,
+      profileData.personalDetails.nationality,
+      profileData.personalDetails.passportNumber,
+      profileData.contactDetails.primaryMobile,
+      profileData.contactDetails.email,
+      profileData.studyLevel.applyingFor,
+      profileData.academicHistory.tenth.schoolName,
+      profileData.academicHistory.twelfth.collegeName,
+      profileData.studyPreferences.preferredCourse,
+    ];
+    const filled = checks.filter((val) => String(val || "").trim()).length;
+    return Math.round((filled / checks.length) * 100);
+  })();
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -359,6 +438,10 @@ export default function StudentDashboard() {
             { id: "applications", label: "Applications", icon: BookOpen },
             { id: "studentDetails", label: "Student Details", icon: ClipboardList },
             { id: "documents", label: "Documents", icon: Folder },
+            { id: "visa", label: "Visa Tracking", icon: ShieldCheck },
+            { id: "payments", label: "Payments", icon: CreditCard },
+            { id: "chat", label: "Counselor Chat", icon: MessageSquare },
+            { id: "settings", label: "Settings", icon: Settings },
           ].map((item) => {
             const Icon = item.icon;
             return (
@@ -412,8 +495,16 @@ export default function StudentDashboard() {
         {/* OVERVIEW TAB */}
         {activeTab === "overview" && (
           <div>
-            {/* Stats Cards */}
             <div className="grid grid-cols-4 gap-6 mb-8">
+              <div className="bg-white rounded-xl p-6 shadow-sm border-l-4 border-[#cd9429]">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-gray-600 text-sm font-medium">Profile Completion</p>
+                    <p className="text-3xl font-bold text-[#054374] mt-2">{profileCompletion}%</p>
+                  </div>
+                  <User className="text-[#cd9429]" size={40} />
+                </div>
+              </div>
               <div className="bg-white rounded-xl p-6 shadow-sm border-l-4 border-blue-500">
                 <div className="flex items-center justify-between">
                   <div>
@@ -425,31 +516,17 @@ export default function StudentDashboard() {
                   <AlertCircle className="text-blue-500" size={40} />
                 </div>
               </div>
-
-              <div className="bg-white rounded-xl p-6 shadow-sm border-l-4 border-[#cd9429]">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-gray-600 text-sm font-medium">In Progress</p>
-                    <p className="text-3xl font-bold text-[#054374] mt-2">
-                      {tickets.filter((t) => t.status === "in-progress").length}
-                    </p>
-                  </div>
-                  <Clock className="text-[#cd9429]" size={40} />
-                </div>
-              </div>
-
               <div className="bg-white rounded-xl p-6 shadow-sm border-l-4 border-green-500">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-gray-600 text-sm font-medium">Resolved</p>
+                    <p className="text-gray-600 text-sm font-medium">Documents Pending</p>
                     <p className="text-3xl font-bold text-[#054374] mt-2">
-                      {tickets.filter((t) => t.status === "resolved").length}
+                      {documents.filter((d) => d.status === "pending").length}
                     </p>
                   </div>
-                  <CheckCircle className="text-green-500" size={40} />
+                  <Folder className="text-green-500" size={40} />
                 </div>
               </div>
-
               <div className="bg-white rounded-xl p-6 shadow-sm border-l-4 border-purple-500">
                 <div className="flex items-center justify-between">
                   <div>
@@ -461,39 +538,56 @@ export default function StudentDashboard() {
               </div>
             </div>
 
-            {/* Recent Activity */}
             <div className="grid grid-cols-2 gap-8">
-              {/* Recent Tickets */}
               <div className="bg-white rounded-xl p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-[#0A3A5E] mb-4">Recent Tickets</h3>
-                <div className="space-y-3">
-                  {tickets.slice(0, 3).map((ticket) => (
-                    <div key={ticket._id} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-                      {getStatusIcon(ticket.status)}
-                      <div className="flex-1">
-                        <p className="font-medium text-gray-800">{ticket.title}</p>
-                        <p className="text-xs text-gray-500 capitalize">{ticket.status}</p>
-                      </div>
+                <h3 className="text-lg font-bold text-[#0A3A5E] mb-4">Application Status Timeline</h3>
+                <div className="space-y-3 text-sm text-gray-600">
+                  {[
+                    "Profile Created",
+                    "Documents Submitted",
+                    "Documents Verified",
+                    "Application Submitted",
+                    "Offer Received",
+                    "Offer Accepted",
+                  ].map((step, idx) => (
+                    <div key={step} className="flex items-center gap-3">
+                      <div className={`w-3 h-3 rounded-full ${idx < 2 ? "bg-green-500" : "bg-gray-300"}`} />
+                      <span>{step}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Recent Applications */}
-              <div className="bg-white rounded-xl p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-[#0A3A5E] mb-4">Recent Applications</h3>
-                <div className="space-y-3">
-                  {applications.slice(0, 3).map((app) => (
-                    <div key={app.id} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-                      <BookOpen className="text-purple-500" size={18} />
-                      <div className="flex-1">
-                        <p className="font-medium text-gray-800">{app.university}, {app.country}</p>
-                        <p className={`text-xs font-semibold capitalize ${getApplicationStatusBadge(app.status)}`}>
-                          {app.status}
-                        </p>
-                      </div>
+              <div className="bg-white rounded-xl p-6 shadow-sm space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-bold text-[#0A3A5E]">Assigned Counselor</h3>
+                  <span className="text-xs px-3 py-1 bg-blue-100 text-blue-700 rounded-full">Active</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-800">Ms. Priya Sharma</p>
+                  <p className="text-sm text-gray-500">+91 98765 43210</p>
+                  <p className="text-sm text-gray-500">counselor@premassoverseas.com</p>
+                </div>
+                <div className="border-t pt-4">
+                  <h4 className="text-sm font-semibold text-gray-700 mb-2">AI Suggestions</h4>
+                  <ul className="text-sm text-gray-600 list-disc list-inside space-y-1">
+                    <li>Upload passport and transcripts to unlock applications.</li>
+                    <li>Complete IELTS score to strengthen profile.</li>
+                    <li>Update preferred intake for faster matching.</li>
+                  </ul>
+                </div>
+                <div className="border-t pt-4">
+                  <h4 className="text-sm font-semibold text-gray-700 mb-2">Notifications</h4>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <Bell size={16} />
+                      <span>Your document review is in progress.</span>
                     </div>
-                  ))}
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <Bell size={16} />
+                      <span>Next counseling call scheduled for Friday.</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -643,6 +737,12 @@ export default function StudentDashboard() {
                 </span>
               )}
             </div>
+            {profileLoading && (
+              <div className="mb-4 text-sm text-gray-600">Loading your student details...</div>
+            )}
+            {profileError && (
+              <div className="mb-4 text-sm text-red-600">{profileError}</div>
+            )}
 
             <form onSubmit={handleProfileSubmit} className="space-y-8">
               <div className="bg-white rounded-xl p-6 shadow-sm">
@@ -1152,11 +1252,11 @@ export default function StudentDashboard() {
                           <p className="text-xs text-gray-500">{doc.type} • {new Date(doc.uploadedAt).toLocaleDateString()}</p>
                         </div>
                         <span className={`text-xs font-semibold px-3 py-1 rounded-full ${
-                          doc.status === "verified" ? "bg-green-100 text-green-700" :
+                          doc.status === "approved" ? "bg-green-100 text-green-700" :
                           doc.status === "rejected" ? "bg-red-100 text-red-700" :
                           "bg-yellow-100 text-yellow-700"
                         }`}>
-                          {doc.status}
+                          {doc.status === "approved" ? "approved" : doc.status}
                         </span>
                       </div>
                     ))}
@@ -1174,10 +1274,17 @@ export default function StudentDashboard() {
                     className="w-full px-4 py-3 border border-gray-200 rounded-lg"
                   >
                     <option value="passport">Passport</option>
-                    <option value="academicCertificates">Academic Certificates</option>
-                    <option value="transcripts">Transcripts</option>
-                    <option value="testScores">Test Scores</option>
+                    <option value="transcript">Transcripts</option>
+                    <option value="degree_certificate">Degree Certificate</option>
+                    <option value="test_scores">Test Scores</option>
+                    <option value="bank_statement">Bank Statement</option>
+                    <option value="financial_documents">Financial Documents</option>
+                    <option value="medical_reports">Medical Reports</option>
+                    <option value="pcc">Police Clearance (PCC)</option>
+                    <option value="recommendation_letter">Recommendation Letter</option>
+                    <option value="employment_letter">Employment Letter</option>
                     <option value="resume">Resume</option>
+                    <option value="birth_certificate">Birth Certificate</option>
                     <option value="other">Other</option>
                   </select>
                   <input
@@ -1192,6 +1299,149 @@ export default function StudentDashboard() {
                     Upload Document
                   </button>
                 </form>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "visa" && (
+          <div>
+            <h2 className="text-2xl font-bold text-[#0A3A5E] mb-6">Visa Tracking</h2>
+            <div className="grid lg:grid-cols-2 gap-6">
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-[#054374] mb-4">Visa Process Timeline</h3>
+                <div className="space-y-3 text-sm text-gray-600">
+                  {[
+                    "Offer Letter Received",
+                    "Visa File Prepared",
+                    "Visa Appointment Booked",
+                    "Biometrics Completed",
+                    "Visa Decision",
+                  ].map((step, idx) => (
+                    <div key={step} className="flex items-center gap-3">
+                      <div className={`w-3 h-3 rounded-full ${idx < 2 ? "bg-green-500" : "bg-gray-300"}`} />
+                      <span>{step}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-[#054374] mb-4">Visa Checklist</h3>
+                <div className="space-y-3 text-sm text-gray-600">
+                  {[
+                    "Passport Validity",
+                    "Financial Proofs",
+                    "Medical Reports",
+                    "Visa Application Form",
+                    "Travel History",
+                  ].map((item) => (
+                    <label key={item} className="flex items-center gap-2">
+                      <input type="checkbox" />
+                      <span>{item}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "payments" && (
+          <div>
+            <h2 className="text-2xl font-bold text-[#0A3A5E] mb-6">Payments</h2>
+            <div className="grid lg:grid-cols-2 gap-6">
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-[#054374] mb-4">Outstanding Fees</h3>
+                <div className="space-y-3 text-sm text-gray-600">
+                  <div className="flex items-center justify-between">
+                    <span>Application Fee</span>
+                    <span className="font-semibold text-[#054374]">₹12,000</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>Visa Processing Fee</span>
+                    <span className="font-semibold text-[#054374]">₹8,500</span>
+                  </div>
+                  <button className="mt-4 w-full py-2 bg-[#054374] text-white rounded-lg font-semibold">
+                    Pay Now
+                  </button>
+                </div>
+              </div>
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-[#054374] mb-4">Payment History</h3>
+                <div className="space-y-3 text-sm text-gray-600">
+                  {[
+                    { label: "Registration Fee", amount: "₹5,000", date: "02 Feb 2025" },
+                    { label: "Counseling Fee", amount: "₹3,500", date: "15 Feb 2025" },
+                  ].map((payment) => (
+                    <div key={payment.label} className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium text-gray-800">{payment.label}</p>
+                        <p className="text-xs text-gray-500">{payment.date}</p>
+                      </div>
+                      <span className="font-semibold text-green-600">{payment.amount}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "chat" && (
+          <div>
+            <h2 className="text-2xl font-bold text-[#0A3A5E] mb-6">Counselor Chat</h2>
+            <div className="bg-white rounded-xl p-6 shadow-sm space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-gray-800">Ms. Priya Sharma</p>
+                  <p className="text-sm text-gray-500">Senior Overseas Counselor</p>
+                </div>
+                <span className="px-3 py-1 text-xs rounded-full bg-green-100 text-green-700">Online</span>
+              </div>
+              <div className="h-48 bg-gray-50 rounded-lg p-4 text-sm text-gray-500">
+                Messages will appear here. Start a conversation with your counselor.
+              </div>
+              <div className="flex gap-3">
+                <input
+                  type="text"
+                  placeholder="Type your message..."
+                  className="flex-1 px-4 py-3 border border-gray-200 rounded-lg"
+                />
+                <button className="px-6 py-3 bg-[#F5A623] text-white rounded-lg font-semibold">
+                  Send
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "settings" && (
+          <div>
+            <h2 className="text-2xl font-bold text-[#0A3A5E] mb-6">Settings</h2>
+            <div className="grid lg:grid-cols-2 gap-6">
+              <div className="bg-white rounded-xl p-6 shadow-sm space-y-4">
+                <h3 className="text-lg font-bold text-[#054374]">Notifications</h3>
+                <label className="flex items-center gap-3 text-sm text-gray-600">
+                  <input type="checkbox" defaultChecked />
+                  <span>Email updates for application status</span>
+                </label>
+                <label className="flex items-center gap-3 text-sm text-gray-600">
+                  <input type="checkbox" defaultChecked />
+                  <span>SMS alerts for visa milestones</span>
+                </label>
+                <label className="flex items-center gap-3 text-sm text-gray-600">
+                  <input type="checkbox" />
+                  <span>Marketing and scholarship updates</span>
+                </label>
+              </div>
+              <div className="bg-white rounded-xl p-6 shadow-sm space-y-4">
+                <h3 className="text-lg font-bold text-[#054374]">Account</h3>
+                <button className="w-full py-2 border border-gray-200 rounded-lg font-semibold text-gray-700">
+                  Change Password
+                </button>
+                <button className="w-full py-2 border border-red-200 text-red-600 rounded-lg font-semibold">
+                  Deactivate Account
+                </button>
               </div>
             </div>
           </div>
