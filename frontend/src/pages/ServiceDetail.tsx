@@ -7,6 +7,7 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useMemo, useRef } from "react";
 import { services } from "../data/services";
 import { serviceContent } from "../data/serviceContent";
+import { IMAGES } from "../data/images";
 
 export default function ServiceDetail() {
   const { category, service } = useParams();
@@ -41,11 +42,16 @@ export default function ServiceDetail() {
     setTimeout(() => mainRef.current?.focus(), 0);
   }, [activeService.name, activeCategory.category]);
 
+  const heroImage =
+    content?.hero?.image ||
+    IMAGES.home.services[activeCategory.slug] ||
+    IMAGES.home.hero;
+
   return (
-    <section className="bg-[#F8FAFC] py-16">
+    <section className="bg-white py-16">
       <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-[280px_1fr] gap-10">
         {/* LEFT SIDEBAR */}
-        <aside className="sticky top-28 h-fit bg-white rounded-2xl p-6 shadow-md">
+        <aside className="sticky top-28 h-fit bg-white rounded-2xl p-6 shadow-lg border border-[#054374]/10">
           <h3 className="text-lg font-semibold text-[#054374] mb-4">Services</h3>
           {services.map((group) => (
             <div key={group.slug} className="mb-6">
@@ -55,7 +61,7 @@ export default function ServiceDetail() {
               <ul className="space-y-2 ml-2">
                 {group.items.map((item) => (
                   <li key={item.slug}>
-                    <Link to={`/services/${group.slug}/${item.slug}`} className={`text-sm transition ${item.slug === service ? "text-[#cd9429] font-semibold" : "text-gray-600 hover:text-[#054374]"}`}>
+                    <Link to={`/services/${group.slug}/${item.slug}`} className={`text-sm transition ${item.slug === service ? "text-[#cd9429] font-semibold" : "text-slate-900 hover:text-[#054374]"}`}>
                       {item.name}
                     </Link>
                   </li>
@@ -69,7 +75,7 @@ export default function ServiceDetail() {
               <ul className="space-y-2 text-sm">
                 {sectionAnchors.map((s) => (
                   <li key={s.id}>
-                    <a href={`#${s.id}`} className="text-gray-600 hover:text-[#054374] transition">
+                    <a href={`#${s.id}`} className="text-slate-900 hover:text-[#054374] transition">
                       {s.title}
                     </a>
                   </li>
@@ -80,9 +86,9 @@ export default function ServiceDetail() {
         </aside>
 
         {/* MAIN CONTENT */}
-        <main ref={mainRef} tabIndex={-1} className="bg-white rounded-2xl p-10 shadow-md">
+        <main ref={mainRef} tabIndex={-1} className="bg-white rounded-2xl p-10 shadow-lg border border-[#054374]/10">
           {/* BREADCRUMB */}
-          <nav className="text-sm text-gray-500 mb-6">
+          <nav className="text-sm text-slate-600 mb-6">
             <ol className="flex space-x-2 flex-wrap">
               <li><Link to="/services" className="hover:text-[#054374]">Services</Link></li>
               <li>/</li>
@@ -107,26 +113,24 @@ export default function ServiceDetail() {
                 </p>
               </div>
             </div>
-            <p className="text-lg text-gray-700 leading-relaxed max-w-3xl mb-6 font-medium">
+            <p className="text-lg text-slate-900 leading-relaxed max-w-3xl mb-6 font-medium">
               {content?.hero?.summary}
             </p>
-            <p className="text-gray-600 leading-relaxed max-w-3xl">
+            <p className="text-slate-900 leading-relaxed max-w-3xl">
               {content?.hero?.description}
             </p>
           </div>
 
           {/* HERO IMAGE */}
-          {content?.hero?.image && (
-            <div className="relative bg-gradient-to-br from-[#054374]/20 via-[#cd9429]/10 to-transparent rounded-2xl h-80 flex items-center justify-center mb-12 overflow-hidden shadow-lg">
-              <img
-                src={content.hero.image}
-                alt={activeService.name}
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-            </div>
-          )}
+          <div className="relative bg-gradient-to-br from-[#054374]/20 via-[#cd9429]/10 to-transparent rounded-2xl h-80 flex items-center justify-center mb-12 overflow-hidden shadow-lg">
+            <img
+              src={heroImage}
+              alt={activeService.name}
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+          </div>
 
           {/* OVERVIEW SECTION */}
           {content?.overview && (
@@ -134,7 +138,7 @@ export default function ServiceDetail() {
               <h2 className="text-3xl font-bold text-[#054374] mb-4">
                 {content.overview.title}
               </h2>
-              <p className="text-gray-700 mb-8 leading-relaxed">
+              <p className="text-slate-900 mb-8 leading-relaxed">
                 {content.overview.description}
               </p>
               <div className="grid md:grid-cols-2 gap-4">
@@ -143,7 +147,7 @@ export default function ServiceDetail() {
                     <div className="w-6 h-6 rounded-full bg-[#cd9429] flex items-center justify-center flex-shrink-0 mt-1">
                       <span className="text-white text-sm font-bold">✓</span>
                     </div>
-                    <p className="text-gray-700 font-medium">{h}</p>
+                    <p className="text-slate-900 font-medium">{h}</p>
                   </div>
                 ))}
               </div>
@@ -170,7 +174,7 @@ export default function ServiceDetail() {
                     <h3 className="text-lg font-bold text-[#054374] mb-2 group-hover:text-[#cd9429] transition">
                       {item.title}
                     </h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">
+                    <p className="text-slate-900 text-sm leading-relaxed">
                       {item.description}
                     </p>
                   </div>
@@ -200,7 +204,7 @@ export default function ServiceDetail() {
                       <h3 className="text-xl font-bold text-[#054374] mb-2 group-hover:text-[#cd9429] transition">
                         {step.title}
                       </h3>
-                      <p className="text-gray-600 leading-relaxed">
+                      <p className="text-slate-900 leading-relaxed">
                         {step.description}
                       </p>
                     </div>
@@ -215,11 +219,11 @@ export default function ServiceDetail() {
             {content?.sections && content.sections.map((sec, idx) => (
               <section key={idx} id={slugify(sec.title)}>
                 <h2 className="text-2xl font-semibold text-[#054374] mb-4">{sec.title}</h2>
-                {sec.body && <p className="text-gray-600 mb-4">{sec.body}</p>}
+                {sec.body && <p className="text-slate-900 mb-4">{sec.body}</p>}
                 {sec.bullets && (
-                  <ul className="list-disc pl-6 space-y-2 text-gray-600">
+                  <ul className="list-disc pl-6 space-y-2 text-slate-900">
                     {sec.bullets.map((b, i) => (
-                      <li key={i} className="text-gray-700">{b}</li>
+                      <li key={i} className="text-slate-900">{b}</li>
                     ))}
                   </ul>
                 )}
@@ -231,12 +235,12 @@ export default function ServiceDetail() {
           {content?.faqs && content.faqs.length > 0 && (
             <div className="mb-12">
               <h2 className="text-2xl font-semibold text-[#054374] mb-6">Frequently Asked Questions</h2>
-              <div className="space-y-4">
+                <div className="space-y-4">
                 {content.faqs.map((f, i) => (
-                  <details key={i} className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition cursor-pointer">
-                    <summary className="font-semibold text-[#054374]">{f.q}</summary>
-                    <p className="text-gray-600 mt-3">{f.a}</p>
-                  </details>
+                    <details key={i} className="p-4 bg-[#F8FAFC] rounded-lg hover:bg-white transition cursor-pointer border border-[#054374]/10">
+                      <summary className="font-semibold text-[#054374]">{f.q}</summary>
+                      <p className="text-slate-900 mt-3">{f.a}</p>
+                    </details>
                 ))}
               </div>
             </div>

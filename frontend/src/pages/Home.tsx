@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import StatsSection from "../components/StatsSection";
 import { services } from "../data/services";
+import { IMAGES } from "../data/images";
 import {
   Book,
   Clipboard,
@@ -22,18 +23,11 @@ const serviceIcons: Record<string, JSX.Element> = {
   countries: <Globe size={28} weight="duotone" />,
 };
 
-const serviceImages: Record<string, string> = {
-  counselling: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&auto=format&fit=crop&q=80",
-  applications: "https://images.unsplash.com/photo-1516383607781-913a19294fd1?w=1200&auto=format&fit=crop&q=80",
-  "test-prep": "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?w=1200&auto=format&fit=crop&q=80",
-  visa: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=1200&auto=format&fit=crop&q=80",
-  "post-arrival": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1200&auto=format&fit=crop&q=80",
-  countries: "https://images.unsplash.com/photo-1433477155337-9aea4e790195?w=1200&auto=format&fit=crop&q=80",
-};
+const serviceImages: Record<string, string> = IMAGES.home.services;
 
 export default function Home() {
   return (
-    <main className="bg-white text-slate-800">
+    <main className="bg-white text-slate-900">
       {/* HERO */}
       <section className="bg-[#054374] text-white">
         <div className="max-w-7xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-12 items-center">
@@ -45,7 +39,7 @@ export default function Home() {
               </span>
             </h1>
 
-            <p className="text-lg text-gray-100 max-w-xl leading-relaxed mb-8">
+            <p className="text-lg text-white/90 max-w-xl leading-relaxed mb-8">
               Expert counselling, visa guidance, and career-driven education planning for your international success.
             </p>
 
@@ -61,8 +55,17 @@ export default function Home() {
 
           <div className="hidden md:flex justify-center">
             <div className="relative w-full h-96">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#cd9429]/20 to-white/10 rounded-3xl border-2 border-[#cd9429]/30 backdrop-blur-sm flex items-center justify-center">
-                <span className="text-white text-2xl font-bold opacity-50">Global Excellence</span>
+              <div className="absolute -inset-2 rounded-3xl bg-gradient-to-br from-[#cd9429]/30 via-white/10 to-[#054374]/30 blur-xl opacity-70"></div>
+              <div className="relative h-full w-full rounded-3xl overflow-hidden border border-white/20 shadow-2xl">
+                <img
+                  src={IMAGES.home.hero}
+                  alt="Students planning overseas education"
+                  className="h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#054374]/70 via-transparent to-[#cd9429]/40" />
+                <div className="absolute bottom-6 left-6 bg-white/90 text-[#054374] px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+                  Trusted by global learners
+                </div>
               </div>
             </div>
           </div>
@@ -78,7 +81,7 @@ export default function Home() {
       <section className="bg-[#F4F6FB] py-24">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-4xl font-bold text-center text-[#054374] mb-4">Why Choose Premass Overseas</h2>
-          <p className="text-center text-gray-600 max-w-3xl mx-auto mb-16">
+          <p className="text-center text-slate-900 max-w-3xl mx-auto mb-16">
             Ethical guidance, regulatory accuracy, and long-term student success.
           </p>
 
@@ -93,7 +96,7 @@ export default function Home() {
                   "Data-driven course and university recommendations",
                   "Dedicated counsellors with global expertise",
                 ],
-                img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&auto=format&fit=crop&q=80",
+                img: IMAGES.home.whyChoose.counselling,
               },
               {
                 title: "Accurate Documentation",
@@ -104,7 +107,7 @@ export default function Home() {
                   "Visa-ready checklists and filing support",
                   "Country-specific compliance guidance",
                 ],
-                img: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?w=1200&auto=format&fit=crop&q=80",
+                img: IMAGES.home.whyChoose.documentation,
               },
               {
                 title: "Global Reach",
@@ -115,7 +118,7 @@ export default function Home() {
                   "Scholarship and funding opportunity mapping",
                   "Local alumni and mentor connect",
                 ],
-                img: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=1200&auto=format&fit=crop&q=80",
+                img: IMAGES.home.whyChoose.reach,
               },
               {
                 title: "Career-Focused",
@@ -126,7 +129,7 @@ export default function Home() {
                   "Interview prep, mock visa, and job-readiness coaching",
                   "Post-arrival support for smooth settlement",
                 ],
-                img: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200&auto=format&fit=crop&q=80",
+                img: IMAGES.home.whyChoose.career,
               },
             ].map((card, idx) => (
               <div key={idx} className="p-8 bg-white rounded-3xl shadow-lg border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition group">
@@ -142,7 +145,7 @@ export default function Home() {
                     <p className="text-sm text-gray-500">{card.subtitle}</p>
                   </div>
                 </div>
-                <ul className="space-y-2 text-gray-700">
+                <ul className="space-y-2 text-slate-900">
                   {card.bullets.map((bullet) => (
                     <li key={bullet} className="flex gap-2">
                       <CheckCircle size={20} weight="duotone" className="text-[#cd9429] mt-1 flex-shrink-0" />
@@ -160,7 +163,7 @@ export default function Home() {
       <section className="bg-white py-24">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-4xl font-bold text-center text-[#054374] mb-4">Our Core Services</h2>
-          <p className="text-center text-gray-600 max-w-3xl mx-auto mb-16">
+          <p className="text-center text-slate-900 max-w-3xl mx-auto mb-16">
             End-to-end overseas education support at every stage of your journey.
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -170,12 +173,12 @@ export default function Home() {
                   <img
                     src={serviceImages[category.slug] || serviceImages.countries}
                     alt={category.category}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#cd9429]/20 via-orange-500/10 to-[#cd9429]/5 flex items-center justify-center text-[#cd9429] text-3xl mb-3 group-hover:from-[#cd9429] group-hover:via-orange-500 group-hover:to-[#cd9429] group-hover:text-white group-hover:scale-110 group-hover:shadow-xl group-hover:shadow-[#cd9429]/30 transition-all duration-300">{serviceIcons[category.slug] ?? <Globe size={32} weight="duotone" />}</div>
                 <h3 className="text-xl font-bold text-[#054374] mb-3 group-hover:text-[#cd9429] transition">{category.category}</h3>
-                <ul className="space-y-2 text-sm text-gray-700 mb-5">
+                <ul className="space-y-2 text-sm text-slate-900 mb-5">
                   {category.items.slice(0, 3).map((item) => (
                     <li key={item.slug} className="flex items-start gap-2 group/item">
                       <span className="text-[#cd9429] mt-1 group-hover/item:translate-x-1 transition-transform">→</span>

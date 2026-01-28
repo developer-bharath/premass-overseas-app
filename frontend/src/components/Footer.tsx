@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { LinkedinLogo, InstagramLogo, FacebookLogo, YoutubeLogo, Phone, Envelope, MapPin } from "phosphor-react";
 import { services } from "../data/services";
+import logo from "../logo.svg";
 
 export default function Footer() {
   return (
@@ -12,7 +13,9 @@ export default function Footer() {
           {/* COMPANY INFO */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-[#cd9429] rounded-lg flex items-center justify-center font-bold text-white">P</div>
+              <div className="w-10 h-10 rounded-lg bg-white/90 flex items-center justify-center shadow-md overflow-hidden">
+                <img src={logo} alt="Premass Overseas" className="w-7 h-7 object-contain" />
+              </div>
               <div>
                 <h3 className="text-lg font-bold">Premass Overseas</h3>
                 <p className="text-xs text-gray-300">Education Consultancy</p>

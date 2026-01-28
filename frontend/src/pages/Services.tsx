@@ -3,6 +3,7 @@ import { useState } from "react";
 import { services } from "../data/services";
 import { servicesDetails } from "../data/servicesDetails";
 import { premiumIcons } from "../utils/premiumIcons";
+import { IMAGES } from "../data/images";
 
 export default function Services() {
   const categoryDescriptions: Record<string, string> = {
@@ -37,38 +38,11 @@ export default function Services() {
     { label: "Success Stories", target: "stories" }
   ];
 
-  const sideGroups = [
-    {
-      label: "Counselling Services",
-      slug: "counselling",
-      items: ["Career Counselling", "Course Selection", "University Shortlisting"]
-    },
-    {
-      label: "Application Services",
-      slug: "applications",
-      items: ["SOP & LOR Writing", "Application Assistance", "Document Preparation"]
-    },
-    {
-      label: "Test Preparation",
-      slug: "test-prep",
-      items: ["IELTS Coaching", "TOEFL Coaching", "PTE Coaching", "GRE & GMAT Coaching"]
-    },
-    {
-      label: "Visa Services",
-      slug: "visa",
-      items: ["Visa Guidance", "Financial Documentation", "Mock Interviews"]
-    },
-    {
-      label: "Post-Arrival Services",
-      slug: "post-arrival",
-      items: ["Accommodation Support", "Airport Pickup", "Bank Account & SIM Setup", "Orientation & Networking"]
-    },
-    {
-      label: "Country-Specific Services",
-      slug: "countries",
-      items: ["USA Admissions", "UK Admissions", "Canada Admissions", "Australia Admissions", "Europe Admissions"]
-    }
-  ];
+  const sideGroups = services.map((group) => ({
+    label: `${group.category} Services`,
+    slug: group.slug,
+    items: group.items.slice(0, 4).map((item) => item.name)
+  }));
 
   const [expandedGroup, setExpandedGroup] = useState<string | null>(null);
   const [selectedService, setSelectedService] = useState<string | null>(null);
@@ -83,18 +57,55 @@ export default function Services() {
   };
 
   return (
-    <section className="py-24 bg-gradient-to-b from-[#F8FAFC] to-white">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* HEADER */}
-        <div className="text-center mb-6" id="offer">
-          <h1 className="text-6xl font-bold text-[#054374] mb-4">Our Premium Services</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Comprehensive support at every step of your international education journey. From counselling to post-arrival support, we've got you covered.
-          </p>
+    <section className="bg-white">
+      <div className="max-w-7xl mx-auto px-6 py-20">
+        {/* HERO */}
+        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center mb-12">
+          <div className="space-y-6" id="offer">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#cd9429]/10 text-[#cd9429] text-sm font-semibold">
+              Premium Overseas Education Services
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-[#054374]">
+              Services designed for confident global outcomes
+            </h1>
+            <p className="text-lg text-slate-900 leading-relaxed max-w-2xl">
+              Clear guidance, verified processes, and end-to-end support that aligns with your academic profile and career goals.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                to="/contact"
+                className="px-7 py-3 rounded-lg bg-[#054374] text-white font-semibold hover:shadow-lg hover:-translate-y-0.5 transition"
+              >
+                Book Free Consultation
+              </Link>
+              <button
+                type="button"
+                onClick={() => scrollToTarget("why")}
+                className="px-7 py-3 rounded-lg border border-[#054374] text-[#054374] font-semibold hover:bg-[#054374] hover:text-white transition"
+              >
+                Why Premass
+              </button>
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="absolute -inset-3 rounded-3xl bg-gradient-to-br from-[#cd9429]/20 via-white to-[#054374]/15 blur-xl opacity-80" />
+            <div className="relative rounded-3xl overflow-hidden border border-[#054374]/10 shadow-2xl">
+              <img
+                src={IMAGES.home.hero}
+                alt="Premium overseas education guidance"
+                className="h-[340px] w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#054374]/70 via-transparent to-transparent" />
+              <div className="absolute bottom-5 left-5 bg-white/90 text-[#054374] px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+                Trusted by 10,000+ students
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* PROFESSIONAL BREADCRUMB HEADING */}
-        <div className="max-w-4xl mx-auto mb-12 flex flex-wrap justify-center items-center gap-2 text-sm font-semibold text-[#054374]">
+        <div className="max-w-5xl mx-auto mb-10 flex flex-wrap justify-center items-center gap-2 text-sm font-semibold text-[#054374]">
           {["Services", "Counselling Services", "Course Selection"].map((label, i, arr) => (
             <span key={label} className="flex items-center gap-2">
               <span className="relative">
@@ -107,12 +118,12 @@ export default function Services() {
         </div>
 
         {/* ON THIS PAGE */}
-        <div className="max-w-4xl mx-auto mb-14 flex flex-wrap justify-center gap-4">
+        <div className="max-w-5xl mx-auto mb-14 flex flex-wrap justify-center gap-4">
           {onPageLinks.map((link) => (
             <button
               key={link.target}
               onClick={() => scrollToTarget(link.target)}
-              className="group inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full text-[#054374] font-semibold shadow-sm hover:shadow-md transition"
+              className="group inline-flex items-center gap-2 px-4 py-2 bg-white border border-[#054374]/15 rounded-full text-[#054374] font-semibold shadow-sm hover:shadow-md transition"
             >
               <span className="relative">
                 {link.label}
@@ -127,7 +138,7 @@ export default function Services() {
         <div className="grid lg:grid-cols-12 gap-8">
           {/* SIDEBAR – collapsible menu */}
           <aside className="hidden lg:block lg:col-span-3">
-            <div className="sticky top-24 bg-white rounded-2xl shadow-md border border-gray-100 p-6">
+            <div className="sticky top-24 bg-white rounded-2xl shadow-lg border border-[#054374]/10 p-6">
               <div className="flex items-center gap-2 mb-4">
                 <span className="w-2 h-6 rounded-full bg-[#cd9429]" />
                 <h3 className="text-lg font-extrabold tracking-wide text-[#054374]">
@@ -153,12 +164,12 @@ export default function Services() {
 
                     {/* Collapsible sub-items */}
                     {expandedGroup === group.slug && (
-                      <ul className="mt-2 pl-6 space-y-2 animate-fade-in">
+                      <ul className="mt-3 pl-6 space-y-2 animate-fade-in">
                         {group.items.map((item) => (
                           <li key={item}>
                             <Link
                               to={`/services/${group.slug}`}
-                              className="group/item inline-flex items-center gap-2 text-sm text-gray-700 hover:text-[#054374] transition"
+                              className="group/item inline-flex items-center gap-2 text-sm text-slate-900 hover:text-[#054374] transition"
                             >
                               <span className="relative font-semibold">
                                 {item}
@@ -191,9 +202,17 @@ export default function Services() {
                     id={`cat-${category.slug}`}
                   >
                     <div
-                      className={`h-full bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 border-l-4 hover:-translate-y-2 ${idx % 2 === 0 ? "border-[#cd9429]" : "border-[#054374]"
+                      className={`h-full bg-white p-7 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 border hover:-translate-y-2 ${idx % 2 === 0 ? "border-[#cd9429]/30" : "border-[#054374]/20"
                         }`}
                     >
+                      {/* IMAGE */}
+                      <div className="h-32 w-full rounded-2xl overflow-hidden mb-5">
+                        <img
+                          src={IMAGES.home.services[category.slug] || IMAGES.home.services.countries}
+                          alt={category.category}
+                          className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
                       {/* ICON */}
                       <div className="text-5xl mb-6 transform group-hover:scale-110 transition-transform duration-300">
                         {renderIcon(category.slug)}
@@ -206,14 +225,14 @@ export default function Services() {
                       </h3>
 
                       {/* DESCRIPTION */}
-                      <p className="text-gray-600 mb-6 leading-relaxed">
+                      <p className="text-slate-900 mb-6 leading-relaxed">
                         {categoryDescriptions[category.slug]}
                       </p>
 
                       {/* SERVICES LIST */}
                       <div className="space-y-2 mb-6">
                         {category.items.slice(0, 3).map((item) => (
-                          <div key={item.slug} className="flex items-center gap-2 text-sm text-gray-500 group/item">
+                          <div key={item.slug} className="flex items-center gap-2 text-sm text-slate-900 group/item">
                             <span className="text-[#cd9429] group-hover/item:translate-x-1 transition-transform">→</span>
                             <span className="relative font-semibold">
                               {item.name}
@@ -229,7 +248,7 @@ export default function Services() {
                       </div>
 
                       {/* CTA */}
-                      <div className="flex items-center text-[#cd9429] font-bold group-hover:translate-x-2 transition-transform duration-300">
+                      <div className="inline-flex items-center gap-2 text-[#054374] font-bold group-hover:text-[#cd9429] group-hover:translate-x-1 transition-all duration-300">
                         Explore Services
                         <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { services } from "../data/services";
 import { COUNTRIES_MENU } from "../data/images";
+import logo from "../logo.svg";
 import { ICONS } from "../data/icons";
 import { useAuth } from "../context/AuthContext";
 import {
@@ -102,7 +103,9 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-20 text-white">
             {/* LOGO */}
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-[#cd9429] to-orange-500 text-[#054374] rounded-lg flex items-center justify-center font-bold text-xl shadow-lg group-hover:shadow-2xl group-hover:shadow-[#cd9429] transition-all duration-300">P</div>
+              <div className="w-12 h-12 rounded-xl bg-white/90 flex items-center justify-center shadow-lg group-hover:shadow-2xl group-hover:shadow-[#cd9429] transition-all duration-300 overflow-hidden">
+                <img src={logo} alt="Premass Overseas" className="w-9 h-9 object-contain" />
+              </div>
               <div className="hidden sm:block leading-tight">
                 <p className="text-lg font-bold">Premass</p>
                 <p className="text-xs text-blue-100 font-medium">Overseas Education</p>
@@ -459,7 +462,9 @@ export default function Navbar() {
               </button>
               {/* Logo */}
               <Link to="/" className="flex items-center gap-3 mb-8" onClick={() => setMobileOpen(false)}>
-                <div className="w-12 h-12 bg-gradient-to-br from-[#cd9429] to-orange-500 text-[#054374] rounded-lg flex items-center justify-center font-bold text-xl shadow-lg">P</div>
+                <div className="w-12 h-12 rounded-xl bg-white/90 flex items-center justify-center shadow-lg overflow-hidden">
+                  <img src={logo} alt="Premass Overseas" className="w-9 h-9 object-contain" />
+                </div>
                 <div className="leading-tight">
                   <p className="text-lg font-bold">Premass</p>
                   <p className="text-xs text-blue-100 font-medium">Overseas Education</p>
