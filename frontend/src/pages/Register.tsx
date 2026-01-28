@@ -59,12 +59,18 @@ export default function Register() {
 
     try {
       setIsLoading(true);
+      setError(""); // Clear any previous errors
+      
+      console.log("🔄 Starting registration...");
+      
       await register(
         formData.name,
         formData.email,
         formData.password,
         formData.role
       );
+      
+      console.log("✅ Registration successful, showing success message");
       setSuccess(true);
 
       // Redirect to OTP verification
@@ -74,9 +80,13 @@ export default function Register() {
         });
       }, 1500);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Registration failed");
+      console.error("❌ Registration error in component:", err);
+      setError(err instanceof Error ? err.message : "Registration failed. Please try again.");
+      setSuccess(false);
     } finally {
+      // Always clear loading state, even if something unexpected happens
       setIsLoading(false);
+      console.log("🔄 Loading state cleared");
     }
   };
 

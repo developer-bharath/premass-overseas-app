@@ -12,7 +12,8 @@ export default function VerifyOtp() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { verifyOtp } = useAuth();
+  const { verifyOtp, resendOtp } = useAuth();
+  const [isResending, setIsResending] = useState(false);
 
   // Get email from session or location state
   useEffect(() => {
@@ -135,10 +136,25 @@ export default function VerifyOtp() {
           <p className="text-gray-600 text-sm mb-2">Didn't receive the code?</p>
           <button
             type="button"
-            disabled={timeLeft > 300} // Can resend after 5 minutes
-            className="text-blue-600 hover:underline font-semibold disabled:text-gray-400"
+            onClick={async () => {
+              try {
+                setIsResending(true);
+                setError("");
+                await resendOtp(email);
+                setError(""); // Clear any previous errors
+                // Reset timer to 10 minutes
+                setTimeLeft(600);
+                alert("OTP resent successfully! Check your email.");
+              } catch (err) {
+                setError(err instanceof Error ? err.message : "Failed to resend OTP");
+              } finally {
+                setIsResending(false);
+              }
+            }}
+            disabled={isResending || isLoading}
+            className="text-blue-600 hover:underline font-semibold disabled:text-gray-400 disabled:cursor-not-allowed"
           >
-            Resend Code
+            {isResending ? "Sending..." : "Resend Code"}
           </button>
         </div>
 

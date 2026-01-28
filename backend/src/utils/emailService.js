@@ -21,7 +21,7 @@ const nodemailer = require('nodemailer');
 // For development, we'll use Gmail (easy to set up)
 // For production, you'd use services like SendGrid, AWS SES, etc.
 
-const createTransporter = () => {
+const createTransporter = async () => {
   // Check if email credentials are configured
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
     console.warn('⚠️ Email credentials not configured. Email sending will be disabled.');
@@ -29,15 +29,34 @@ const createTransporter = () => {
   }
 
   try {
-    return nodemailer.createTransport({
-      service: 'gmail', // Using Gmail's SMTP server
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+      port: parseInt(process.env.EMAIL_PORT || '587'),
+      secure: process.env.EMAIL_SECURE === 'true', // true for 465, false for other ports
       auth: {
-        user: process.env.EMAIL_USER,  // Your Gmail address
-        pass: process.env.EMAIL_PASS,  // App password (NOT your Gmail password!)
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
+      tls: {
+        rejectUnauthorized: false // Allow self-signed certificates
+      }
     });
+    
+    // Verify transporter configuration (only in production or when explicitly enabled)
+    if (process.env.NODE_ENV === 'production' || process.env.VERIFY_EMAIL === 'true') {
+      try {
+        await transporter.verify();
+        console.log('✅ Email transporter configured and verified');
+      } catch (verifyError) {
+        console.warn('⚠️ Email transporter verification failed:', verifyError.message);
+        // Still return transporter - verification might fail but sending could work
+      }
+    }
+    
+    return transporter;
   } catch (error) {
-    console.error('❌ Error creating email transporter:', error);
+    console.error('❌ Error creating email transporter:', error.message);
     return null;
   }
 };
@@ -55,7 +74,7 @@ const createTransporter = () => {
 
 const sendOtpEmail = async (email, otp, name) => {
   try {
-    const transporter = createTransporter();
+    const transporter = await createTransporter();
     
     // If transporter is null (credentials not configured), return failure gracefully
     if (!transporter) {
@@ -176,7 +195,7 @@ const sendOtpEmail = async (email, otp, name) => {
 
 const sendWelcomeEmail = async (email, name, role) => {
   try {
-    const transporter = createTransporter();
+    const transporter = await createTransporter();
     
     // If transporter is null (credentials not configured), return failure gracefully
     if (!transporter) {
@@ -184,9 +203,11 @@ const sendWelcomeEmail = async (email, name, role) => {
       return { success: false, error: 'Email service not configured' };
     }
 
+    // Use production frontend URL from environment or default
+    const frontendUrl = process.env.FRONTEND_URL || process.env.CORS_ORIGIN || 'https://www.premassoverseas.com';
     const dashboardLink = role === 'student' 
-      ? 'http://localhost:5173/student/dashboard' 
-      : 'http://localhost:5173/employee/dashboard';
+      ? `${frontendUrl}/dashboard/student` 
+      : `${frontendUrl}/dashboard/employee`;
 
     const mailOptions = {
       from: `"Premass Overseas" <${process.env.EMAIL_USER}>`,

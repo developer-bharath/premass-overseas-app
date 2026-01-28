@@ -62,31 +62,55 @@ exports.register = async (req, res) => {
     });
 
     // ==========================================
-    // SEND OTP EMAIL (with error handling)
+    // SEND OTP EMAIL (REQUIRED - with retry logic)
     // ==========================================
     let emailSent = false;
-    try {
-      const emailResult = await sendOtpEmail(email, otp, name);
-      emailSent = emailResult.success;
-      if (emailResult.success) {
-        console.log("✅ OTP email sent successfully");
-      } else {
-        console.warn("⚠️ Email failed, but registration succeeded. OTP:", otp);
+    let emailError = null;
+    
+    // Try sending email with retry
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        console.log(`📧 Attempting to send OTP email (attempt ${attempt}/2)...`);
+        const emailResult = await sendOtpEmail(email, otp, name);
+        emailSent = emailResult.success;
+        
+        if (emailResult.success) {
+          console.log("✅ OTP email sent successfully to", email);
+          break; // Success, exit retry loop
+        } else {
+          emailError = emailResult.error || "Unknown email error";
+          console.warn(`⚠️ Email attempt ${attempt} failed:`, emailError);
+          if (attempt === 2) {
+            console.error("❌ All email attempts failed. OTP:", otp);
+          }
+        }
+      } catch (emailErr) {
+        emailError = emailErr.message;
+        console.error(`⚠️ Email service error (attempt ${attempt}):`, emailErr.message);
+        if (attempt === 2) {
+          console.error("❌ Email sending failed after retries. OTP:", otp);
+        }
       }
-    } catch (emailError) {
-      console.error("⚠️ Email service error (non-fatal):", emailError.message);
-      // Don't fail registration if email fails
+      
+      // Wait 2 seconds before retry (if not last attempt)
+      if (attempt < 2 && !emailSent) {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      }
     }
+    
+    // Log OTP to Railway logs as backup (always available)
+    console.log("📧 OTP CODE FOR", email, ":", otp, "(Also check Railway logs if email not received)");
 
-    // Always log OTP to console for development/testing
-    console.log("📧 OTP for", email, ":", otp);
+    // Always log OTP to Railway logs (for debugging if email fails)
+    console.log("📧 OTP generated for", email, ":", otp);
     console.log("✅ User created successfully:", { id: user._id, email: user.email, role: user.role });
+    console.log("📬 Email sent status:", emailSent ? "✅ Sent" : "❌ Failed");
 
     res.status(201).json({
-      message: "Registered successfully. Check your email for OTP.",
+      message: emailSent 
+        ? "Registered successfully. Check your email for OTP." 
+        : "Registered successfully. OTP sent (check email or contact support if not received).",
       emailSent: emailSent,
-      // In production, still log OTP to Railway logs for testing
-      otp: process.env.NODE_ENV !== 'production' ? otp : undefined, // Only send OTP in non-production
     });
   } catch (error) {
     console.error("❌ REGISTER ERROR:", error);
@@ -233,16 +257,31 @@ exports.resendOtp = async (req, res) => {
       expiresAt: new Date(Date.now() + 10 * 60 * 1000),
     });
 
-    // Send OTP email
-    const emailResult = await sendOtpEmail(email, otpCode, user.name);
-
-    if (emailResult.success) {
-      console.log("✅ OTP resent successfully to", email);
-    } else {
-      console.warn("⚠️ Email failed, but OTP created. OTP:", otpCode);
+    // Send OTP email with retry
+    let emailSent = false;
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        console.log(`📧 Resending OTP email (attempt ${attempt}/2)...`);
+        const emailResult = await sendOtpEmail(email, otpCode, user.name);
+        emailSent = emailResult.success;
+        
+        if (emailResult.success) {
+          console.log("✅ OTP resent successfully to", email);
+          break;
+        } else {
+          console.warn(`⚠️ Resend attempt ${attempt} failed:`, emailResult.error);
+        }
+      } catch (emailErr) {
+        console.error(`⚠️ Resend email error (attempt ${attempt}):`, emailErr.message);
+      }
+      
+      if (attempt < 2 && !emailSent) {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      }
     }
-
-    console.log("OTP for", email, ":", otpCode);
+    
+    // Always log OTP to Railway logs
+    console.log("📧 RESEND OTP CODE FOR", email, ":", otpCode);
 
     res.json({
       message: "OTP resent successfully. Check your email.",
