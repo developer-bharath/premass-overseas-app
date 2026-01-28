@@ -18,7 +18,8 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
-  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  // Using any here because the react-google-recaptcha module does not ship TypeScript types
+  const recaptchaRef = useRef<any>(null);
 
   const navigate = useNavigate();
   const { register } = useAuth();
@@ -245,7 +246,7 @@ export default function Register() {
                 <ReCAPTCHA
                   ref={recaptchaRef}
                   sitekey={RECAPTCHA_SITE_KEY}
-                  onChange={(token) => setRecaptchaToken(token)}
+                  onChange={(token: string | null) => setRecaptchaToken(token)}
                   onExpired={() => setRecaptchaToken(null)}
                   onError={() => {
                     setRecaptchaToken(null);

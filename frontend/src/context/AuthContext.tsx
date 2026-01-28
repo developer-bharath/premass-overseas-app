@@ -83,7 +83,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     name: string,
     email: string,
     password: string,
-    role: "student" | "employee"
+    role: "student" | "employee",
+    recaptchaToken?: string
   ) => {
     try {
       setLoading(true);
