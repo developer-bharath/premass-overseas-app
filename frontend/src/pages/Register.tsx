@@ -1,7 +1,6 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import ReCAPTCHA from "react-google-recaptcha";
 import { Envelope, LockKey, User, CircleNotch, CheckCircle, Eye, EyeSlash } from "phosphor-react";
 
 export default function Register() {
@@ -17,14 +16,9 @@ export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
-  // Using any here because the react-google-recaptcha module does not ship TypeScript types
-  const recaptchaRef = useRef<any>(null);
 
   const navigate = useNavigate();
   const { register } = useAuth();
-
-  const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "";
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -56,11 +50,6 @@ export default function Register() {
       return;
     }
 
-    if (RECAPTCHA_SITE_KEY && !recaptchaToken) {
-      setError("Please complete the reCAPTCHA verification");
-      return;
-    }
-
     try {
       setIsLoading(true);
       setError(""); // Clear any previous errors
@@ -71,8 +60,7 @@ export default function Register() {
         formData.name,
         formData.email,
         formData.password,
-        formData.role,
-        recaptchaToken || undefined
+        formData.role
       );
       
       console.log("✅ Registration successful, showing success message");
@@ -96,126 +84,110 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#05345c] via-[#054374] to-[#0b2f4a] flex items-center justify-center px-6 py-12">
-      <div className="w-full max-w-5xl grid md:grid-cols-2 gap-8 items-stretch">
-        <div className="hidden md:flex flex-col justify-between rounded-3xl p-10 bg-white/10 border border-white/20 text-white">
-          <div>
-            <span className="inline-flex items-center gap-2 text-sm uppercase tracking-widest text-white/70">
-              Premass Overseas
-            </span>
-            <h2 className="text-4xl font-bold mt-4 leading-tight">
-              Start your overseas journey with a premium account.
-            </h2>
-            <p className="text-white/80 mt-4">
-              Get personalized guidance, document support, and verified services in one place.
-            </p>
-          </div>
-          <div className="space-y-3 text-sm text-white/80">
-            <p>✓ Expert counsellors and verified partners</p>
-            <p>✓ Secure onboarding with reCAPTCHA</p>
-            <p>✓ Student and staff access in one portal</p>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-10">
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center px-6 py-12">
+      <div className="w-full max-w-3xl">
+        <div className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-10 text-white shadow-2xl">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-[#054374] mb-2">Create Your Account</h1>
-            <p className="text-gray-600">Premium onboarding for real-world overseas services</p>
+            <p className="text-xs uppercase tracking-[0.35em] text-white/60">Premass Overseas</p>
+            <h1 className="text-3xl md:text-4xl font-bold mt-3">Create Your Account</h1>
+            <p className="text-white/70 mt-2">Join your global admissions journey in minutes.</p>
           </div>
 
           {success && (
-            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl flex items-center gap-3">
-              <CheckCircle size={20} weight="duotone" className="text-green-600" />
-              <p className="text-green-700 font-medium">Registration successful! Redirecting...</p>
+            <div className="mb-6 p-4 bg-emerald-500/10 border border-emerald-400/40 rounded-xl flex items-center gap-3 text-emerald-200">
+              <CheckCircle size={20} weight="duotone" />
+              <p className="font-medium">Registration successful! Redirecting...</p>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label className="block text-sm font-semibold text-[#054374] mb-2">Full Name *</label>
-              <div className="relative">
-                <User size={20} weight="duotone" className="absolute left-3 top-3.5 text-gray-400" />
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="John Doe"
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
-                  disabled={isLoading}
-                />
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-white/80 mb-2">Full Name *</label>
+                <div className="relative">
+                  <User size={20} weight="duotone" className="absolute left-3 top-3.5 text-white/40" />
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="John Doe"
+                    className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/10 rounded-xl focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/30 outline-none transition text-white placeholder-white/50"
+                    disabled={isLoading}
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-white/80 mb-2">Email Address *</label>
+                <div className="relative">
+                  <Envelope size={20} weight="duotone" className="absolute left-3 top-3.5 text-white/40" />
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="you@example.com"
+                    className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/10 rounded-xl focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/30 outline-none transition text-white placeholder-white/50"
+                    disabled={isLoading}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-white/80 mb-2">Password *</label>
+                <div className="relative">
+                  <LockKey size={20} weight="duotone" className="absolute left-3 top-3.5 text-white/40" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    className="w-full pl-10 pr-10 py-3 bg-white/10 border border-white/10 rounded-xl focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/30 outline-none transition text-white placeholder-white/50"
+                    disabled={isLoading}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-3.5 text-white/50 hover:text-white/70"
+                    disabled={isLoading}
+                  >
+                    {showPassword ? <EyeSlash size={20} weight="duotone" /> : <Eye size={20} weight="duotone" />}
+                  </button>
+                </div>
+                <p className="text-xs text-white/50 mt-1">Minimum 6 characters</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-white/80 mb-2">Confirm Password *</label>
+                <div className="relative">
+                  <LockKey size={20} weight="duotone" className="absolute left-3 top-3.5 text-white/40" />
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    className="w-full pl-10 pr-10 py-3 bg-white/10 border border-white/10 rounded-xl focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/30 outline-none transition text-white placeholder-white/50"
+                    disabled={isLoading}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-3.5 text-white/50 hover:text-white/70"
+                    disabled={isLoading}
+                  >
+                    {showConfirmPassword ? <EyeSlash size={20} weight="duotone" /> : <Eye size={20} weight="duotone" />}
+                  </button>
+                </div>
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-[#054374] mb-2">Email Address *</label>
-              <div className="relative">
-                <Envelope size={20} weight="duotone" className="absolute left-3 top-3.5 text-gray-400" />
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="john@example.com"
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
-                  disabled={isLoading}
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-[#054374] mb-2">Password *</label>
-              <div className="relative">
-                <LockKey size={20} weight="duotone" className="absolute left-3 top-3.5 text-gray-400" />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="••••••••"
-                  className="w-full pl-10 pr-10 py-3 border-2 border-gray-200 rounded-xl focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
-                  disabled={isLoading}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600"
-                  disabled={isLoading}
-                >
-                  {showPassword ? <EyeSlash size={20} weight="duotone" /> : <Eye size={20} weight="duotone" />}
-                </button>
-              </div>
-              <p className="text-xs text-gray-500 mt-1">Minimum 6 characters</p>
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-[#054374] mb-2">Confirm Password *</label>
-              <div className="relative">
-                <LockKey size={20} weight="duotone" className="absolute left-3 top-3.5 text-gray-400" />
-                <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  placeholder="••••••••"
-                  className="w-full pl-10 pr-10 py-3 border-2 border-gray-200 rounded-xl focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/20 outline-none transition"
-                  disabled={isLoading}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600"
-                  disabled={isLoading}
-                >
-                  {showConfirmPassword ? <EyeSlash size={20} weight="duotone" /> : <Eye size={20} weight="duotone" />}
-                </button>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-[#054374] mb-3">I am a *</label>
+              <label className="block text-sm font-medium text-white/80 mb-3">I am a *</label>
               <div className="grid grid-cols-2 gap-3">
-                <label className="flex items-center gap-2 p-3 border-2 rounded-xl cursor-pointer transition-all" style={{ borderColor: formData.role === "student" ? "#cd9429" : "#e5e7eb" }}>
+                <label className="flex items-center gap-2 p-3 border border-white/10 rounded-xl cursor-pointer transition-all hover:border-[#cd9429]/60" style={{ borderColor: formData.role === "student" ? "#cd9429" : "" }}>
                   <input
                     type="radio"
                     value="student"
@@ -226,7 +198,7 @@ export default function Register() {
                   />
                   <span className="font-medium text-sm">Student</span>
                 </label>
-                <label className="flex items-center gap-2 p-3 border-2 rounded-xl cursor-pointer transition-all" style={{ borderColor: formData.role === "employee" ? "#cd9429" : "#e5e7eb" }}>
+                <label className="flex items-center gap-2 p-3 border border-white/10 rounded-xl cursor-pointer transition-all hover:border-[#cd9429]/60" style={{ borderColor: formData.role === "employee" ? "#cd9429" : "" }}>
                   <input
                     type="radio"
                     value="employee"
@@ -240,27 +212,10 @@ export default function Register() {
               </div>
             </div>
 
-            {RECAPTCHA_SITE_KEY && (
-              <div className="flex justify-center py-2">
-                <ReCAPTCHA
-                  ref={recaptchaRef}
-                  sitekey={RECAPTCHA_SITE_KEY}
-                  onChange={(token: string | null) => {
-                    setRecaptchaToken(token);
-                  }}
-                  onExpired={() => setRecaptchaToken(null)}
-                  onError={() => {
-                    setRecaptchaToken(null);
-                    setError("reCAPTCHA error. Please try again.");
-                  }}
-                />
-              </div>
-            )}
-
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-[#054374] to-[#073a57] hover:shadow-lg disabled:opacity-60 text-white font-semibold py-3 px-4 rounded-xl transition flex items-center justify-center gap-2"
+              className="w-full bg-[#cd9429] hover:bg-[#e3a842] disabled:opacity-60 text-slate-950 font-semibold py-3 rounded-xl transition flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>
@@ -272,11 +227,11 @@ export default function Register() {
               )}
             </button>
             {error && (
-              <p className="text-red-600 text-sm text-center mt-2">{error}</p>
+              <p className="text-red-300 text-sm text-center mt-2">{error}</p>
             )}
           </form>
 
-          <div className="mt-6 text-center text-sm text-gray-600">
+          <div className="mt-6 text-center text-sm text-white/70">
             Already have an account?{" "}
             <a href="/login" className="text-[#cd9429] hover:underline font-semibold">
               Login here

@@ -32,8 +32,7 @@ export interface AuthContextType {
     name: string,
     email: string,
     password: string,
-    role: "student" | "employee",
-    recaptchaToken?: string
+    role: "student" | "employee"
   ) => Promise<void>;
   logout: () => void;
 }
@@ -81,8 +80,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     name: string,
     email: string,
     password: string,
-    role: "student" | "employee",
-    recaptchaToken?: string
+    role: "student" | "employee"
   ) => {
     try {
       setLoading(true);
@@ -101,7 +99,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           email,
           password,
           role,
-          recaptchaToken,
         }),
         signal: controller.signal, // Add timeout signal
       });
@@ -127,7 +124,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const response = await res.json();
       console.log("✅ Registration successful:", response);
 
-      // No OTP needed - user is auto-verified with reCAPTCHA
+      // No OTP needed - user is auto-verified on registration
       setLoading(false);
     } catch (error) {
       setLoading(false);
