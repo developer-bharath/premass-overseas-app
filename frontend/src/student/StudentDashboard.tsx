@@ -13,7 +13,11 @@ import {
   Calendar,
   FileText,
   Home,
+  ClipboardList,
+  Folder,
+  Upload,
 } from "lucide-react";
+import { documentManagementAPI } from "../utils/api";
 
 interface Ticket {
   _id: string;
@@ -33,12 +37,120 @@ interface Application {
   appliedDate: string;
 }
 
+interface StudentDocument {
+  id: string;
+  name: string;
+  type: string;
+  uploadedAt: string;
+  status: "pending" | "verified" | "rejected";
+}
+
 export default function StudentDashboard() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [activeTab, setActiveTab] = useState<"overview" | "tickets" | "applications" | "profile">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "tickets" | "applications" | "studentDetails" | "documents">("overview");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
+  const [documents, setDocuments] = useState<StudentDocument[]>([]);
+  const [documentsLoading, setDocumentsLoading] = useState(false);
+  const [documentsError, setDocumentsError] = useState("");
+  const [documentType, setDocumentType] = useState("passport");
+  const [documentFile, setDocumentFile] = useState<File | null>(null);
+  const [profileSaved, setProfileSaved] = useState(false);
+  const [profileData, setProfileData] = useState({
+    personalDetails: {
+      fullName: "",
+      gender: "",
+      dateOfBirth: "",
+      nationality: "",
+      maritalStatus: "",
+      passportNumber: "",
+      passportExpiryDate: "",
+    },
+    contactDetails: {
+      primaryMobile: "",
+      alternateMobile: "",
+      email: "",
+      currentAddress: "",
+      city: "",
+      state: "",
+      country: "",
+      postalCode: "",
+    },
+    studyLevel: {
+      applyingFor: "",
+    },
+    academicHistory: {
+      tenth: {
+        schoolName: "",
+        board: "",
+        yearOfCompletion: "",
+        percentage: "",
+      },
+      twelfth: {
+        collegeName: "",
+        board: "",
+        stream: "",
+        yearOfCompletion: "",
+        percentage: "",
+      },
+      bachelorDegree: {
+        degreeName: "",
+        specialization: "",
+        university: "",
+        yearOfCompletion: "",
+        percentage: "",
+      },
+    },
+    testScores: {
+      ielts: "",
+      toefl: "",
+      pte: "",
+      duolingo: "",
+      neet: "",
+      gre: "",
+      gmat: "",
+    },
+    workExperience: {
+      currentlyWorking: false,
+      companyName: "",
+      jobRole: "",
+      fromDate: "",
+      toDate: "",
+      totalExperience: "",
+    },
+    studyPreferences: {
+      preferredCountry: [] as string[],
+      preferredIntake: "",
+      preferredCourse: "",
+      budgetRange: "",
+      accommodationRequired: false,
+    },
+    visaHistory: {
+      previousRefusal: false,
+      country: "",
+      year: "",
+      reason: "",
+    },
+    referralDetails: {
+      referredBy: "",
+      referralName: "",
+      referralMobile: "",
+      referralEmail: "",
+      relationship: "",
+    },
+    documents: {
+      passport: false,
+      academicCertificates: false,
+      transcripts: false,
+      testScores: false,
+      resume: false,
+    },
+    declaration: {
+      confirmed: false,
+      submittedDate: "",
+    },
+  });
 
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -55,6 +167,17 @@ export default function StudentDashboard() {
       navigate("/login");
       return;
     }
+    setProfileData((prev) => ({
+      ...prev,
+      personalDetails: {
+        ...prev.personalDetails,
+        fullName: user.name || "",
+      },
+      contactDetails: {
+        ...prev.contactDetails,
+        email: user.email || "",
+      },
+    }));
 
     const fetchTickets = async () => {
       try {
@@ -89,6 +212,78 @@ export default function StudentDashboard() {
 
     fetchTickets();
   }, [user, navigate]);
+
+  useEffect(() => {
+    if (!user) return;
+    const fetchDocuments = async () => {
+      try {
+        setDocumentsLoading(true);
+        setDocumentsError("");
+        const response = await documentManagementAPI.getDocuments(1, 20);
+        const list = Array.isArray(response?.data) ? response.data : response;
+        if (Array.isArray(list)) {
+          const normalized = list.map((doc: any) => ({
+            id: doc._id || doc.id || String(Math.random()),
+            name: doc.name || doc.filename || "Document",
+            type: doc.type || doc.category || "General",
+            uploadedAt: doc.createdAt || new Date().toISOString(),
+            status: doc.status || "pending",
+          }));
+          setDocuments(normalized);
+        }
+      } catch (err) {
+        setDocumentsError("Unable to load documents. You can still upload new files.");
+      } finally {
+        setDocumentsLoading(false);
+      }
+    };
+    fetchDocuments();
+  }, [user]);
+
+  const updateProfileField = (path: string[], value: any) => {
+    setProfileData((prev) => {
+      const updated: any = { ...prev };
+      let current = updated;
+      for (let i = 0; i < path.length - 1; i += 1) {
+        const key = path[i];
+        current[key] = { ...current[key] };
+        current = current[key];
+      }
+      current[path[path.length - 1]] = value;
+      return updated;
+    });
+  };
+
+  const handleProfileSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setProfileSaved(true);
+  };
+
+  const handleDocumentUpload = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!documentFile) {
+      setDocumentsError("Please choose a file to upload.");
+      return;
+    }
+    try {
+      setDocumentsError("");
+      const formData = new FormData();
+      formData.append("file", documentFile);
+      formData.append("type", documentType);
+      const response = await documentManagementAPI.uploadDocument(formData);
+      const newDoc = {
+        id: response?._id || response?.id || String(Date.now()),
+        name: response?.name || documentFile.name,
+        type: response?.type || documentType,
+        uploadedAt: response?.createdAt || new Date().toISOString(),
+        status: response?.status || "pending",
+      };
+      setDocuments((prev) => [newDoc, ...prev]);
+      setDocumentFile(null);
+    } catch (err) {
+      setDocumentsError("Upload failed. Please try again.");
+    }
+  };
 
   const handleLogout = () => {
     logout();
@@ -162,7 +357,8 @@ export default function StudentDashboard() {
             { id: "overview", label: "Overview", icon: Home },
             { id: "tickets", label: "My Tickets", icon: FileText },
             { id: "applications", label: "Applications", icon: BookOpen },
-            { id: "profile", label: "Profile", icon: User },
+            { id: "studentDetails", label: "Student Details", icon: ClipboardList },
+            { id: "documents", label: "Documents", icon: Folder },
           ].map((item) => {
             const Icon = item.icon;
             return (
@@ -436,63 +632,566 @@ export default function StudentDashboard() {
           </div>
         )}
 
-        {/* PROFILE TAB */}
-        {activeTab === "profile" && (
+        {/* STUDENT DETAILS TAB */}
+        {activeTab === "studentDetails" && (
           <div>
-            <h2 className="text-2xl font-bold text-[#0A3A5E] mb-6">My Profile</h2>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-[#0A3A5E]">Student Details</h2>
+              {profileSaved && (
+                <span className="px-4 py-2 bg-green-100 text-green-700 rounded-lg text-sm font-semibold">
+                  Saved successfully
+                </span>
+              )}
+            </div>
 
-            <div className="max-w-2xl">
-              <div className="bg-white rounded-xl p-8 shadow-sm">
-                <div className="flex items-center gap-6 mb-8 pb-8 border-b border-gray-200">
-                  <div className="w-20 h-20 bg-gradient-to-br from-[#F5A623] to-orange-600 rounded-full flex items-center justify-center">
-                    <User className="text-white" size={40} />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-gray-800">{user.name || "Student Name"}</h3>
-                    <p className="text-gray-600">{user.email}</p>
-                    <p className="text-sm text-gray-500 capitalize mt-1">Role: {user.role}</p>
-                  </div>
+            <form onSubmit={handleProfileSubmit} className="space-y-8">
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-[#054374] mb-4">Personal Details</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="Full Name"
+                    value={profileData.personalDetails.fullName}
+                    onChange={(e) => updateProfileField(["personalDetails", "fullName"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Gender"
+                    value={profileData.personalDetails.gender}
+                    onChange={(e) => updateProfileField(["personalDetails", "gender"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="date"
+                    value={profileData.personalDetails.dateOfBirth}
+                    onChange={(e) => updateProfileField(["personalDetails", "dateOfBirth"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Nationality"
+                    value={profileData.personalDetails.nationality}
+                    onChange={(e) => updateProfileField(["personalDetails", "nationality"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Marital Status"
+                    value={profileData.personalDetails.maritalStatus}
+                    onChange={(e) => updateProfileField(["personalDetails", "maritalStatus"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Passport Number"
+                    value={profileData.personalDetails.passportNumber}
+                    onChange={(e) => updateProfileField(["personalDetails", "passportNumber"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="date"
+                    value={profileData.personalDetails.passportExpiryDate}
+                    onChange={(e) => updateProfileField(["personalDetails", "passportExpiryDate"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-[#054374] mb-4">Contact Details</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="Primary Mobile"
+                    value={profileData.contactDetails.primaryMobile}
+                    onChange={(e) => updateProfileField(["contactDetails", "primaryMobile"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Alternate Mobile"
+                    value={profileData.contactDetails.alternateMobile}
+                    onChange={(e) => updateProfileField(["contactDetails", "alternateMobile"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={profileData.contactDetails.email}
+                    onChange={(e) => updateProfileField(["contactDetails", "email"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Current Address"
+                    value={profileData.contactDetails.currentAddress}
+                    onChange={(e) => updateProfileField(["contactDetails", "currentAddress"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="City"
+                    value={profileData.contactDetails.city}
+                    onChange={(e) => updateProfileField(["contactDetails", "city"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="State"
+                    value={profileData.contactDetails.state}
+                    onChange={(e) => updateProfileField(["contactDetails", "state"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Country"
+                    value={profileData.contactDetails.country}
+                    onChange={(e) => updateProfileField(["contactDetails", "country"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Postal Code"
+                    value={profileData.contactDetails.postalCode}
+                    onChange={(e) => updateProfileField(["contactDetails", "postalCode"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-[#054374] mb-4">Study Level</h3>
+                <input
+                  type="text"
+                  placeholder="Applying For (Foundation | Diploma | UG | PG | MBBS | PhD)"
+                  value={profileData.studyLevel.applyingFor}
+                  onChange={(e) => updateProfileField(["studyLevel", "applyingFor"], e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                />
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm space-y-6">
+                <h3 className="text-lg font-bold text-[#054374]">Academic History</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="10th School Name"
+                    value={profileData.academicHistory.tenth.schoolName}
+                    onChange={(e) => updateProfileField(["academicHistory", "tenth", "schoolName"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="10th Board"
+                    value={profileData.academicHistory.tenth.board}
+                    onChange={(e) => updateProfileField(["academicHistory", "tenth", "board"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="10th Year of Completion"
+                    value={profileData.academicHistory.tenth.yearOfCompletion}
+                    onChange={(e) => updateProfileField(["academicHistory", "tenth", "yearOfCompletion"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="10th Percentage"
+                    value={profileData.academicHistory.tenth.percentage}
+                    onChange={(e) => updateProfileField(["academicHistory", "tenth", "percentage"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
                 </div>
 
-                {/* Profile Fields */}
-                <div className="space-y-6">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
-                    <input
-                      type="email"
-                      value={user.email}
-                      disabled
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-700"
-                    />
-                  </div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="12th College Name"
+                    value={profileData.academicHistory.twelfth.collegeName}
+                    onChange={(e) => updateProfileField(["academicHistory", "twelfth", "collegeName"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="12th Board"
+                    value={profileData.academicHistory.twelfth.board}
+                    onChange={(e) => updateProfileField(["academicHistory", "twelfth", "board"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="12th Stream"
+                    value={profileData.academicHistory.twelfth.stream}
+                    onChange={(e) => updateProfileField(["academicHistory", "twelfth", "stream"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="12th Year of Completion"
+                    value={profileData.academicHistory.twelfth.yearOfCompletion}
+                    onChange={(e) => updateProfileField(["academicHistory", "twelfth", "yearOfCompletion"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="12th Percentage"
+                    value={profileData.academicHistory.twelfth.percentage}
+                    onChange={(e) => updateProfileField(["academicHistory", "twelfth", "percentage"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Full Name</label>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="Bachelor Degree Name"
+                    value={profileData.academicHistory.bachelorDegree.degreeName}
+                    onChange={(e) => updateProfileField(["academicHistory", "bachelorDegree", "degreeName"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Specialization"
+                    value={profileData.academicHistory.bachelorDegree.specialization}
+                    onChange={(e) => updateProfileField(["academicHistory", "bachelorDegree", "specialization"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="University"
+                    value={profileData.academicHistory.bachelorDegree.university}
+                    onChange={(e) => updateProfileField(["academicHistory", "bachelorDegree", "university"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Bachelor Year of Completion"
+                    value={profileData.academicHistory.bachelorDegree.yearOfCompletion}
+                    onChange={(e) => updateProfileField(["academicHistory", "bachelorDegree", "yearOfCompletion"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Bachelor Percentage"
+                    value={profileData.academicHistory.bachelorDegree.percentage}
+                    onChange={(e) => updateProfileField(["academicHistory", "bachelorDegree", "percentage"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-[#054374] mb-4">Test Scores</h3>
+                <div className="grid md:grid-cols-3 gap-4">
+                  {["ielts", "toefl", "pte", "duolingo", "neet", "gre", "gmat"].map((score) => (
                     <input
+                      key={score}
                       type="text"
-                      value={user.name || ""}
-                      disabled
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-700"
+                      placeholder={score.toUpperCase()}
+                      value={(profileData.testScores as any)[score]}
+                      onChange={(e) => updateProfileField(["testScores", score], e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-200 rounded-lg"
                     />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Account Status</label>
-                    <div className="px-4 py-3 bg-green-50 border border-green-200 rounded-lg text-green-700 font-medium">
-                      ✓ Active
-                    </div>
-                  </div>
-
-                  <div className="pt-6 flex gap-3">
-                    <button className="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-semibold transition-all flex items-center justify-center gap-2">
-                      <Settings size={18} />
-                      Edit Profile
-                    </button>
-                    <button className="flex-1 px-4 py-3 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg font-semibold transition-all">
-                      Change Password
-                    </button>
-                  </div>
+                  ))}
                 </div>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-[#054374] mb-4">Work Experience</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={profileData.workExperience.currentlyWorking}
+                      onChange={(e) => updateProfileField(["workExperience", "currentlyWorking"], e.target.checked)}
+                    />
+                    <span>Currently Working</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Company Name"
+                    value={profileData.workExperience.companyName}
+                    onChange={(e) => updateProfileField(["workExperience", "companyName"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Job Role"
+                    value={profileData.workExperience.jobRole}
+                    onChange={(e) => updateProfileField(["workExperience", "jobRole"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="date"
+                    value={profileData.workExperience.fromDate}
+                    onChange={(e) => updateProfileField(["workExperience", "fromDate"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="date"
+                    value={profileData.workExperience.toDate}
+                    onChange={(e) => updateProfileField(["workExperience", "toDate"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Total Experience"
+                    value={profileData.workExperience.totalExperience}
+                    onChange={(e) => updateProfileField(["workExperience", "totalExperience"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-[#054374] mb-4">Study Preferences</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="Preferred Countries (comma separated)"
+                    value={profileData.studyPreferences.preferredCountry.join(", ")}
+                    onChange={(e) =>
+                      updateProfileField(
+                        ["studyPreferences", "preferredCountry"],
+                        e.target.value.split(",").map((c) => c.trim()).filter(Boolean)
+                      )
+                    }
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Preferred Intake"
+                    value={profileData.studyPreferences.preferredIntake}
+                    onChange={(e) => updateProfileField(["studyPreferences", "preferredIntake"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Preferred Course"
+                    value={profileData.studyPreferences.preferredCourse}
+                    onChange={(e) => updateProfileField(["studyPreferences", "preferredCourse"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Budget Range"
+                    value={profileData.studyPreferences.budgetRange}
+                    onChange={(e) => updateProfileField(["studyPreferences", "budgetRange"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={profileData.studyPreferences.accommodationRequired}
+                      onChange={(e) => updateProfileField(["studyPreferences", "accommodationRequired"], e.target.checked)}
+                    />
+                    <span>Accommodation Required</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-[#054374] mb-4">Visa History</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={profileData.visaHistory.previousRefusal}
+                      onChange={(e) => updateProfileField(["visaHistory", "previousRefusal"], e.target.checked)}
+                    />
+                    <span>Previous Refusal</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Country"
+                    value={profileData.visaHistory.country}
+                    onChange={(e) => updateProfileField(["visaHistory", "country"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Year"
+                    value={profileData.visaHistory.year}
+                    onChange={(e) => updateProfileField(["visaHistory", "year"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Reason"
+                    value={profileData.visaHistory.reason}
+                    onChange={(e) => updateProfileField(["visaHistory", "reason"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-[#054374] mb-4">Referral Details</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="Referred By (Friend | Relative | Agent | Social Media)"
+                    value={profileData.referralDetails.referredBy}
+                    onChange={(e) => updateProfileField(["referralDetails", "referredBy"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Referral Name"
+                    value={profileData.referralDetails.referralName}
+                    onChange={(e) => updateProfileField(["referralDetails", "referralName"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Referral Mobile"
+                    value={profileData.referralDetails.referralMobile}
+                    onChange={(e) => updateProfileField(["referralDetails", "referralMobile"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Referral Email"
+                    value={profileData.referralDetails.referralEmail}
+                    onChange={(e) => updateProfileField(["referralDetails", "referralEmail"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Relationship"
+                    value={profileData.referralDetails.relationship}
+                    onChange={(e) => updateProfileField(["referralDetails", "relationship"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-[#054374] mb-4">Document Checklist</h3>
+                <div className="grid md:grid-cols-2 gap-3">
+                  {Object.keys(profileData.documents).map((docKey) => (
+                    <label key={docKey} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={(profileData.documents as any)[docKey]}
+                        onChange={(e) => updateProfileField(["documents", docKey], e.target.checked)}
+                      />
+                      <span className="capitalize">{docKey.replace(/([A-Z])/g, " $1")}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-[#054374] mb-4">Declaration</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={profileData.declaration.confirmed}
+                      onChange={(e) => updateProfileField(["declaration", "confirmed"], e.target.checked)}
+                    />
+                    <span>I confirm the above details are correct.</span>
+                  </label>
+                  <input
+                    type="date"
+                    value={profileData.declaration.submittedDate}
+                    onChange={(e) => updateProfileField(["declaration", "submittedDate"], e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <button
+                  type="submit"
+                  className="px-6 py-3 bg-[#F5A623] text-white rounded-lg font-semibold hover:shadow-lg transition-all"
+                >
+                  Save Student Details
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setProfileSaved(false)}
+                  className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-semibold"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {/* DOCUMENTS TAB */}
+        {activeTab === "documents" && (
+          <div>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-[#0A3A5E]">Documents</h2>
+              <button
+                onClick={() => navigate("/student/create-ticket")}
+                className="flex items-center gap-2 text-[#F5A623] font-semibold"
+              >
+                <Upload size={18} />
+                Need help? Raise a ticket
+              </button>
+            </div>
+
+            <div className="grid lg:grid-cols-[1fr_320px] gap-6">
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-[#054374] mb-4">Uploaded Documents</h3>
+                {documentsLoading ? (
+                  <p className="text-gray-500">Loading documents...</p>
+                ) : documents.length === 0 ? (
+                  <p className="text-gray-500">No documents uploaded yet.</p>
+                ) : (
+                  <div className="space-y-3">
+                    {documents.map((doc) => (
+                      <div key={doc.id} className="flex items-center justify-between border border-gray-200 rounded-lg p-4">
+                        <div>
+                          <p className="font-semibold text-gray-800">{doc.name}</p>
+                          <p className="text-xs text-gray-500">{doc.type} • {new Date(doc.uploadedAt).toLocaleDateString()}</p>
+                        </div>
+                        <span className={`text-xs font-semibold px-3 py-1 rounded-full ${
+                          doc.status === "verified" ? "bg-green-100 text-green-700" :
+                          doc.status === "rejected" ? "bg-red-100 text-red-700" :
+                          "bg-yellow-100 text-yellow-700"
+                        }`}>
+                          {doc.status}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {documentsError && <p className="text-red-600 text-sm mt-3">{documentsError}</p>}
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-[#054374] mb-4">Upload New Document</h3>
+                <form onSubmit={handleDocumentUpload} className="space-y-4">
+                  <select
+                    value={documentType}
+                    onChange={(e) => setDocumentType(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+                  >
+                    <option value="passport">Passport</option>
+                    <option value="academicCertificates">Academic Certificates</option>
+                    <option value="transcripts">Transcripts</option>
+                    <option value="testScores">Test Scores</option>
+                    <option value="resume">Resume</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <input
+                    type="file"
+                    onChange={(e) => setDocumentFile(e.target.files?.[0] || null)}
+                    className="w-full text-sm"
+                  />
+                  <button
+                    type="submit"
+                    className="w-full bg-[#054374] text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all"
+                  >
+                    Upload Document
+                  </button>
+                </form>
               </div>
             </div>
           </div>
