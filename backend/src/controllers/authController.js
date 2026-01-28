@@ -72,10 +72,22 @@ exports.register = async (req, res) => {
     setImmediate(() => {
       sendOtpEmail(email, otp, name)
         .then((r) => {
-          if (r.success) console.log("✅ OTP email sent to", email);
-          else console.warn("⚠️ OTP email failed:", r.error, "| OTP:", otp);
+          if (r.success) {
+            console.log("✅ OTP email sent to", email);
+          } else {
+            console.error("❌ OTP EMAIL FAILED for", email);
+            console.error("   Error:", r.error);
+            if (r.details) {
+              console.error("   Details:", JSON.stringify(r.details, null, 2));
+            }
+            console.error("   OTP CODE (check Railway logs):", otp);
+          }
         })
-        .catch((err) => console.error("⚠️ OTP email error:", err.message, "| OTP:", otp));
+        .catch((err) => {
+          console.error("❌ OTP email exception:", err.message);
+          console.error("   Stack:", err.stack);
+          console.error("   OTP CODE (check Railway logs):", otp);
+        });
     });
 
     res.status(201).json({
@@ -226,10 +238,22 @@ exports.resendOtp = async (req, res) => {
     setImmediate(() => {
       sendOtpEmail(email, otpCode, user.name)
         .then((r) => {
-          if (r.success) console.log("✅ OTP resent to", email);
-          else console.warn("⚠️ Resend failed:", r.error, "| OTP:", otpCode);
+          if (r.success) {
+            console.log("✅ OTP resent to", email);
+          } else {
+            console.error("❌ RESEND OTP EMAIL FAILED for", email);
+            console.error("   Error:", r.error);
+            if (r.details) {
+              console.error("   Details:", JSON.stringify(r.details, null, 2));
+            }
+            console.error("   OTP CODE (check Railway logs):", otpCode);
+          }
         })
-        .catch((err) => console.error("⚠️ Resend error:", err.message, "| OTP:", otpCode));
+        .catch((err) => {
+          console.error("❌ Resend email exception:", err.message);
+          console.error("   Stack:", err.stack);
+          console.error("   OTP CODE (check Railway logs):", otpCode);
+        });
     });
 
     res.json({

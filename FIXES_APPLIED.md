@@ -47,8 +47,9 @@
 ## What you need to do
 
 ### 1. **Vercel environment**
-- **Option A:** Do **not** set `VITE_API_URL` → app uses Railway URL by default.
-- **Option B:** Set `VITE_API_URL` = `https://premass-overseas-app-production.up.railway.app` (no trailing slash).
+- `frontend/.env.production` is **gitignored** (`.env.*`), so it is **not** committed. Configure the API URL in Vercel instead:
+- **Option A:** Do **not** set `VITE_API_URL` in Vercel → app uses Railway URL by default.
+- **Option B:** Vercel → Project → Settings → Environment Variables → Add `VITE_API_URL` = `https://premass-overseas-app-production.up.railway.app` (Production + Preview if needed) → Save → Redeploy.
 - **Do not** set `VITE_API_URL` to any `*.vercel.app` URL.
 
 ### 2. **Commit and deploy**

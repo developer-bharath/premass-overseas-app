@@ -25,10 +25,12 @@ const nodemailer = require('nodemailer');
 const createTransporter = () => {
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
     console.warn('⚠️ Email credentials not configured. Email sending will be disabled.');
+    console.warn('   EMAIL_USER:', process.env.EMAIL_USER ? '✅ Set' : '❌ Missing');
+    console.warn('   EMAIL_PASS:', process.env.EMAIL_PASS ? '✅ Set' : '❌ Missing');
     return null;
   }
   try {
-    return nodemailer.createTransport({
+    const config = {
       service: 'gmail',
       host: process.env.EMAIL_HOST || 'smtp.gmail.com',
       port: parseInt(process.env.EMAIL_PORT || '587'),
@@ -38,11 +40,21 @@ const createTransporter = () => {
         pass: process.env.EMAIL_PASS,
       },
       tls: { rejectUnauthorized: false },
-      connectionTimeout: 10000,  // 10s max to connect
+      connectionTimeout: 10000,
       greetingTimeout: 10000,
+      socketTimeout: 15000,
+    };
+    console.log('📧 Creating email transporter:', {
+      host: config.host,
+      port: config.port,
+      secure: config.secure,
+      user: config.auth.user,
+      pass: config.auth.pass ? '***' : 'MISSING'
     });
+    return nodemailer.createTransport(config);
   } catch (error) {
     console.error('❌ Error creating email transporter:', error.message);
+    console.error('   Stack:', error.stack);
     return null;
   }
 };
@@ -167,15 +179,36 @@ const sendOtpEmail = async (email, otp, name) => {
     try {
       info = await Promise.race([sendPromise, timeoutPromise]);
       clearTimeout(timeoutId);
+      console.log('✅ OTP email sent successfully to', email, '| MessageID:', info.messageId);
+      return { success: true, messageId: info.messageId };
     } catch (e) {
       clearTimeout(timeoutId);
       throw e;
     }
-    console.log('✅ Email sent successfully:', info.messageId);
-    return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error('❌ Error sending email:', error.message || error);
-    return { success: false, error: error.message || String(error) };
+    // Detailed error logging for debugging
+    const errorDetails = {
+      message: error.message,
+      code: error.code,
+      command: error.command,
+      response: error.response,
+      responseCode: error.responseCode,
+      stack: error.stack
+    };
+    console.error('❌ OTP EMAIL SEND FAILED for', email);
+    console.error('   Error message:', error.message);
+    console.error('   Error code:', error.code);
+    console.error('   SMTP response:', error.response);
+    console.error('   SMTP code:', error.responseCode);
+    if (error.code === 'EAUTH') {
+      console.error('   ⚠️ AUTHENTICATION FAILED - Check EMAIL_USER and EMAIL_PASS in Railway env vars');
+      console.error('   ⚠️ Make sure you\'re using a Gmail App Password, not your regular password');
+    } else if (error.code === 'ECONNECTION' || error.code === 'ETIMEDOUT') {
+      console.error('   ⚠️ CONNECTION FAILED - Gmail SMTP might be blocking Railway IP');
+    } else if (error.code === 'EENVELOPE') {
+      console.error('   ⚠️ INVALID EMAIL ADDRESS');
+    }
+    return { success: false, error: error.message || String(error), details: errorDetails };
   }
 };
 
