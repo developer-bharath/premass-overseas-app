@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { services } from "../data/services";
@@ -146,6 +147,40 @@ const signatureAdvantages = [
 ];
 
 export default function Home() {
+  useEffect(() => {
+    // #region agent log
+    fetch("http://127.0.0.1:7242/ingest/075d072a-d9b5-44f7-b442-81a05f18b0ef", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sessionId: "debug-session",
+        runId: "post-fix",
+        hypothesisId: "A",
+        location: "Home.tsx:process",
+        message: "Process timeline layout",
+        data: { stepCount: processSteps.length, layoutClass: "process-timeline", widgetStyle: "brand-blue" },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion
+
+    // #region agent log
+    fetch("http://127.0.0.1:7242/ingest/075d072a-d9b5-44f7-b442-81a05f18b0ef", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sessionId: "debug-session",
+        runId: "post-fix",
+        hypothesisId: "B",
+        location: "Home.tsx:process",
+        message: "Process layout class",
+        data: { layoutClass: "process-steps" },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion
+  }, []);
+
   return (
     <main className="bg-white text-black">
       {/* HERO */}
@@ -379,17 +414,20 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.05 }}
-            className="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="mt-12 process-timeline"
           >
-            {processSteps.map((step, index) => (
-              <motion.div key={step} whileHover={{ y: -3 }} className="card p-6">
-                <div className="card-icon">
-                  <ListChecks weight="duotone" />
-                </div>
-                <div className="text-sm font-semibold text-[#cd9429]">Step {index + 1}</div>
-                <h3 className="mt-3 text-lg font-semibold text-[#054374]">{step}</h3>
-              </motion.div>
-            ))}
+            <div className="process-line" />
+            <div className="process-steps">
+              {processSteps.map((step, index) => (
+                <motion.div key={step} whileHover={{ y: -2 }} className="process-step">
+                  <div className="process-node">
+                    <span>{index + 1}</span>
+                  </div>
+                  <p className="process-step-title">Step {index + 1}</p>
+                  <p className="process-step-text">{step}</p>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
         </div>
       </section>

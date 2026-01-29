@@ -124,7 +124,7 @@ export default function Services() {
                       event.currentTarget.src = "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1200&auto=format&fit=crop&q=80";
                     }}
                   />
-                  <div className="p-6 flex flex-col gap-4 flex-1">
+                  <div className="p-6 flex flex-col gap-4 flex-1 services-card-body">
                     <div>
                       <div className="card-icon">
                         {meta?.icon ?? <PenNib weight="duotone" />}
@@ -134,7 +134,7 @@ export default function Services() {
                         {meta?.description ?? "Comprehensive support tailored to your profile and destination."}
                       </p>
                     </div>
-                    <ul className="space-y-2 text-sm text-[#5b6472]">
+                    <ul className="space-y-2 text-sm text-[#5b6472] services-card-highlights">
                       {(meta?.highlights ?? category.items.slice(0, 3).map((item) => item.name)).map((detail) => (
                         <li key={detail} className="flex gap-2">
                           <span className="text-[#cd9429]">•</span>
