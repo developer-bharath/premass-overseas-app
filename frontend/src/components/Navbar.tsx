@@ -149,7 +149,7 @@ export default function Navbar() {
             </div>
 
             <button
-              className="lg:hidden flex items-center justify-center p-2 rounded-md text-[#054374] focus:outline-none"
+              className="lg:hidden flex items-center justify-center p-2 rounded-md text-white focus:outline-none"
               onClick={() => setMobileOpen(true)}
               aria-label="Open menu"
             >
