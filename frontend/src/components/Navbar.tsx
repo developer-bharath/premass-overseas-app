@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { STUDY_COUNTRIES } from "../data/studyAbroad";
-import logo from "../logo.svg";
+import logo from "../assets/logo.png";
 import { ICONS } from "../data/icons";
 import { useAuth } from "../context/AuthContext";
 import { Phone, LinkedinLogo, InstagramLogo, FacebookLogo, YoutubeLogo } from "phosphor-react";
