@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { services } from "../data/services";
@@ -106,6 +107,27 @@ const partners = [
 ];
 
 export default function Home() {
+  useEffect(() => {
+    // #region agent log
+    fetch("http://127.0.0.1:7242/ingest/075d072a-d9b5-44f7-b442-81a05f18b0ef", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sessionId: "debug-session",
+        runId: "pre-fix",
+        hypothesisId: "H2",
+        location: "Home.tsx:110",
+        message: "home-render",
+        data: {
+          heroImage: IMAGES.home.hero,
+          destinationsCount: destinations.length,
+          partnersCount: partners.length,
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion agent log
+  }, []);
   return (
     <main className="bg-white text-black">
       {/* HERO */}

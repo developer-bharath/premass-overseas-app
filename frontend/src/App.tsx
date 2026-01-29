@@ -2,6 +2,7 @@
 // ROUTING SETUP – FULL APP
 // ================================
 
+import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 
@@ -36,7 +37,32 @@ import StudentDashboard from "./student/StudentDashboard";
 import EmployeeDashboard from "./employee/EmployeeDashboard";
 import CreateTicket from "./student/CreateTicket";
 
+const BUILD_MARKER = "premass-ui-deploy-2025-03-08-a";
+
 export default function App() {
+  useEffect(() => {
+    // #region agent log
+    fetch("http://127.0.0.1:7242/ingest/075d072a-d9b5-44f7-b442-81a05f18b0ef", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sessionId: "debug-session",
+        runId: "pre-fix",
+        hypothesisId: "H1",
+        location: "App.tsx:42",
+        message: "app-mount",
+        data: {
+          buildMarker: BUILD_MARKER,
+          pathname: window.location.pathname,
+          origin: window.location.origin,
+          mode: import.meta.env.MODE,
+          baseUrl: import.meta.env.BASE_URL,
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion agent log
+  }, []);
   return (
     <AuthProvider>
       <ErrorBoundary>
