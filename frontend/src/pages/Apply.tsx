@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IMAGES } from "../data/images";
+import applyHero from "../assets/apply-premium-consultation.png";
 
 const steps = ["Personal", "Education", "Destination", "Review"];
 
@@ -28,39 +29,36 @@ export default function Apply() {
   return (
     <main className="bg-white text-black">
       <section className="section-pad">
-        <div className="max-w-5xl mx-auto px-6 grid lg:grid-cols-[1.05fr_0.95fr] gap-10 items-start">
-          <div>
-            <span className="tag">Apply Now</span>
-            <h1 className="mt-5 text-4xl font-semibold text-[#054374]">
-              Student registration
-            </h1>
-            <p className="mt-4 text-[#5b6472]">
-              Complete the short form to begin your application journey.
-            </p>
-            <div className="mt-8 card overflow-hidden">
-              <img
-                src={IMAGES.home.services.applications}
-                alt="Application guidance"
-                className="h-56 w-full object-cover"
-              />
-              <div className="p-6 text-sm text-[#5b6472]">
-                Share your profile and we will guide you with a tailored study plan.
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-[1.05fr_0.95fr] gap-12 items-start">
+          <div className="card p-8 md:p-10">
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="tag">Apply Now</span>
+                <h1 className="mt-4 text-3xl md:text-4xl font-semibold text-[#054374]">
+                  Student registration
+                </h1>
+                <p className="mt-3 text-[#5b6472]">
+                  Complete the short form to begin your application journey.
+                </p>
               </div>
             </div>
-          </div>
 
-          <div className="card p-8">
-            <div className="flex items-center justify-between text-xs text-[#5b6472]">
+            <div className="mt-6 flex flex-wrap gap-3 text-xs">
               {steps.map((label, index) => (
-                <div key={label} className="flex items-center gap-2">
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
+                <div
+                  key={label}
+                  className={`flex items-center gap-2 rounded-full px-3 py-2 border ${
+                    index <= step ? "border-[#054374] text-[#054374]" : "border-[#e6e8ec] text-[#9aa1ab]"
+                  }`}
+                >
+                  <span
+                    className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold ${
                       index <= step ? "bg-[#054374] text-white" : "bg-[#e6e8ec] text-[#5b6472]"
                     }`}
                   >
                     {index + 1}
-                  </div>
-                  <span className={`${index === step ? "text-[#054374] font-semibold" : ""}`}>{label}</span>
+                  </span>
+                  <span className={`${index === step ? "font-semibold" : ""}`}>{label}</span>
                 </div>
               ))}
             </div>
@@ -166,6 +164,34 @@ export default function Apply() {
                   Submit Application
                 </button>
               )}
+            </div>
+          </div>
+
+          <div className="card overflow-hidden">
+            <img
+              src={applyHero}
+              alt="Premium counselling session"
+              className="h-72 w-full object-cover"
+            />
+            <div className="p-6">
+              <h3 className="text-lg font-semibold text-[#054374]">Premium guidance, end-to-end</h3>
+              <p className="mt-2 text-sm text-[#5b6472]">
+                Share your profile and we will build a personalized shortlist, application roadmap,
+                and visa readiness plan.
+              </p>
+              <div className="mt-4 grid grid-cols-2 gap-3 text-xs text-[#5b6472]">
+                {[
+                  { label: "Response time", value: "Within 24 hrs" },
+                  { label: "Support", value: "Dedicated counsellor" },
+                  { label: "Process", value: "4-step review" },
+                  { label: "Success", value: "98% visa rate" },
+                ].map((item) => (
+                  <div key={item.label} className="rounded-lg border border-[#e6e8ec] px-3 py-2">
+                    <p className="text-[10px] uppercase tracking-wide text-[#9aa1ab]">{item.label}</p>
+                    <p className="font-semibold text-[#054374]">{item.value}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

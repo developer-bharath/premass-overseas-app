@@ -48,8 +48,67 @@ export default function ServiceDetail() {
     IMAGES.home.hero;
 
   return (
-    <section className="bg-white py-16">
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-[280px_1fr] gap-10">
+    <section className="bg-white">
+      <div className="bg-gradient-to-br from-[#054374] via-[#054374] to-[#0a3f5c] text-white">
+        <div className="max-w-7xl mx-auto px-6 py-14 md:py-16">
+          <nav className="text-sm text-white/70 mb-6">
+            <ol className="flex space-x-2 flex-wrap">
+              <li><Link to="/services" className="hover:text-white">Services</Link></li>
+              <li>/</li>
+              <li><Link to={`/services/${activeCategory.slug}`} className="hover:text-white">{activeCategory.category}</Link></li>
+              <li>/</li>
+              <li aria-current="page" className="text-white">{activeService.name}</li>
+            </ol>
+          </nav>
+
+          <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white text-sm font-semibold">
+                Premium service
+              </div>
+              <h1 className="mt-4 text-4xl md:text-5xl font-semibold">{activeService.name}</h1>
+              <p className="text-sm uppercase tracking-wide text-white/70 mt-2 font-semibold">
+                {activeCategory.category}
+              </p>
+              <p className="mt-5 text-white/80 max-w-2xl">
+                {content?.hero?.summary}
+              </p>
+              <div className="mt-6 flex flex-wrap gap-4">
+                <Link to={content?.cta?.primaryTo ?? "/contact"} className="btn-accent">
+                  {content?.cta?.primaryText ?? "Book Free Consultation"}
+                </Link>
+                <Link to={content?.cta?.secondaryTo ?? "/services"} className="btn-secondary">
+                  {content?.cta?.secondaryText ?? "Explore All Services"}
+                </Link>
+              </div>
+              <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs text-white/70">
+                {["Expert-led", "Compliance-first", "Transparent", "End-to-end"].map((tag) => (
+                  <div key={tag} className="rounded-lg bg-white/10 px-3 py-2 text-center">
+                    {tag}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative">
+              <div className="absolute -inset-4 rounded-[32px] bg-white/10 blur-xl" />
+              <div className="relative rounded-[32px] overflow-hidden border border-white/10 shadow-2xl">
+                <img
+                  src={heroImage}
+                  alt={activeService.name}
+                  className="h-[320px] w-full object-cover"
+                  loading="lazy"
+                  onError={(event) => {
+                    event.currentTarget.src = "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1600&auto=format&fit=crop&q=80";
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 py-12 grid lg:grid-cols-[280px_1fr] gap-10">
         {/* LEFT SIDEBAR */}
         <aside className="sticky top-28 h-fit bg-white rounded-2xl p-6 shadow-lg border border-[#054374]/10">
           <h3 className="text-lg font-semibold text-[#054374] mb-4">Services</h3>
@@ -87,52 +146,24 @@ export default function ServiceDetail() {
 
         {/* MAIN CONTENT */}
         <main ref={mainRef} tabIndex={-1} className="bg-white rounded-2xl p-10 shadow-lg border border-[#054374]/10">
-          {/* BREADCRUMB */}
-          <nav className="text-sm text-slate-600 mb-6">
-            <ol className="flex space-x-2 flex-wrap">
-              <li><Link to="/services" className="hover:text-[#054374]">Services</Link></li>
-              <li>/</li>
-              <li><Link to={`/services/${activeCategory.slug}`} className="hover:text-[#054374]">{activeCategory.category}</Link></li>
-              <li>/</li>
-              <li aria-current="page" className="text-[#054374]">{activeService.name}</li>
-            </ol>
-          </nav>
-
-          {/* HERO SECTION */}
+          {/* HERO COPY */}
           <div className="mb-12">
             <div className="flex items-start gap-4 mb-4">
               {content?.hero?.icon && (
-                <span className="text-6xl block transform hover:scale-110 transition-transform">
+                <span className="text-5xl block">
                   {content.hero.icon}
                 </span>
               )}
               <div>
-                <h1 className="text-4xl font-bold text-[#054374]">{activeService.name}</h1>
-                <p className="text-sm uppercase tracking-wide text-[#cd9429] mt-2 font-semibold">
+                <h2 className="text-3xl font-semibold text-[#054374]">{activeService.name}</h2>
+                <p className="text-xs uppercase tracking-wide text-[#cd9429] mt-2 font-semibold">
                   {activeCategory.category}
                 </p>
               </div>
             </div>
-            <p className="text-lg text-slate-900 leading-relaxed max-w-3xl mb-6 font-medium">
-              {content?.hero?.summary}
-            </p>
             <p className="text-slate-900 leading-relaxed max-w-3xl">
               {content?.hero?.description}
             </p>
-          </div>
-
-          {/* HERO IMAGE */}
-          <div className="relative bg-gradient-to-br from-[#054374]/20 via-[#cd9429]/10 to-transparent rounded-2xl h-80 flex items-center justify-center mb-12 overflow-hidden shadow-lg">
-            <img
-              src={heroImage}
-              alt={activeService.name}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-              loading="lazy"
-              onError={(event) => {
-                event.currentTarget.src = "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1600&auto=format&fit=crop&q=80";
-              }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
           </div>
 
           {/* OVERVIEW SECTION */}
@@ -253,13 +284,13 @@ export default function ServiceDetail() {
           <div className="flex flex-wrap gap-4 mt-12 pt-8 border-t-2 border-gray-200">
             <Link
               to={content?.cta?.primaryTo ?? "/contact"}
-              className="px-8 py-3 bg-gradient-to-r from-[#054374] to-[#cd9429] text-white rounded-lg font-semibold hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+              className="btn-primary"
             >
               {content?.cta?.primaryText ?? "Book Free Consultation"}
             </Link>
             <Link
               to={content?.cta?.secondaryTo ?? "/services"}
-              className="px-8 py-3 border-2 border-[#054374] text-[#054374] rounded-lg font-semibold hover:bg-[#054374] hover:text-white transition-all duration-300"
+              className="btn-secondary"
             >
               {content?.cta?.secondaryText ?? "Explore All Services"}
             </Link>

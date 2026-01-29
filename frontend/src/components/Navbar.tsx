@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { STUDY_COUNTRIES } from "../data/studyAbroad";
-import logo from "../logo.svg";
+import logo from "../assets/logo.png";
 import { ICONS } from "../data/icons";
 import { useAuth } from "../context/AuthContext";
-import { Phone } from "phosphor-react";
+import { Phone, LinkedinLogo, InstagramLogo, FacebookLogo, YoutubeLogo } from "phosphor-react";
 import { List as MenuIcon, X as CloseIcon } from "phosphor-react";
 
 export default function Navbar() {
@@ -34,7 +34,11 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`sticky top-0 z-50 bg-white border-b border-[#e6e8ec] ${isScrolled ? "shadow-sm" : ""}`}>
+      <nav
+        className={`sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-[#e6e8ec] ${
+          isScrolled ? "shadow-md" : "shadow-sm"
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-20 text-[#054374]">
             <Link to="/" className="flex items-center gap-3">
@@ -87,6 +91,37 @@ export default function Navbar() {
                 <Phone size={18} weight="regular" />
                 <span className="text-sm font-semibold">Contact</span>
               </a>
+
+              <div className="hidden xl:flex items-center gap-3 text-[#054374]">
+                <a
+                  href="https://linkedin.com"
+                  className="p-2 rounded-full border border-[#e6e8ec] hover:text-[#cd9429] hover:border-[#cd9429] transition"
+                  aria-label="LinkedIn"
+                >
+                  <LinkedinLogo size={18} weight="duotone" />
+                </a>
+                <a
+                  href="https://instagram.com"
+                  className="p-2 rounded-full border border-[#e6e8ec] hover:text-[#cd9429] hover:border-[#cd9429] transition"
+                  aria-label="Instagram"
+                >
+                  <InstagramLogo size={18} weight="duotone" />
+                </a>
+                <a
+                  href="https://facebook.com"
+                  className="p-2 rounded-full border border-[#e6e8ec] hover:text-[#cd9429] hover:border-[#cd9429] transition"
+                  aria-label="Facebook"
+                >
+                  <FacebookLogo size={18} weight="duotone" />
+                </a>
+                <a
+                  href="https://youtube.com"
+                  className="p-2 rounded-full border border-[#e6e8ec] hover:text-[#cd9429] hover:border-[#cd9429] transition"
+                  aria-label="YouTube"
+                >
+                  <YoutubeLogo size={18} weight="duotone" />
+                </a>
+              </div>
 
               <div className="flex items-center gap-3">
                 {isAuthenticated && user ? (

@@ -29,12 +29,16 @@ import Register from "./pages/Register";
 import Countries from "./pages/Countries";
 import CountryDetail from "./pages/CountryDetail";
 import Profile from "./pages/Profile";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import CookiePolicy from "./pages/CookiePolicy";
 
 // Protected Pages
 import ProtectedRoute from "./auth/ProtectedRoute";
 import StudentDashboard from "./student/StudentDashboard";
 import EmployeeDashboard from "./employee/EmployeeDashboard";
 import CreateTicket from "./student/CreateTicket";
+import CookieConsent from "./components/CookieConsent";
 
 export default function App() {
   return (
@@ -61,6 +65,9 @@ export default function App() {
               <Route path="/countries/:country" element={<CountryDetail />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms-of-service" element={<TermsOfService />} />
+              <Route path="/cookie-policy" element={<CookiePolicy />} />
               
               {/* Protected Routes - Student */}
               <Route
@@ -117,6 +124,7 @@ export default function App() {
             </Routes>
           </main>
           <Footer />
+          <CookieConsent />
           <Chatbot />
         </Router>
       </ErrorBoundary>

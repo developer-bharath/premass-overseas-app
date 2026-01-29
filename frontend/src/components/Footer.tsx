@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { LinkedinLogo, InstagramLogo, FacebookLogo, YoutubeLogo, Phone, Envelope, MapPin } from "phosphor-react";
 import { STUDY_COUNTRIES } from "../data/studyAbroad";
-import logo from "../logo.svg";
+import logo from "../assets/logo.png";
 
 export default function Footer() {
   return (
@@ -73,21 +73,27 @@ export default function Footer() {
                 <Phone size={20} weight="duotone" className="text-[#cd9429] mt-1 flex-shrink-0" />
                 <div>
                   <p className="font-semibold">Phone</p>
-                  <p className="text-gray-300">+91 89777 08366</p>
+                  <a href="tel:+918977708366" className="text-gray-300 hover:text-white transition">
+                    +91 89777 08366
+                  </a>
                 </div>
               </li>
               <li className="flex gap-3">
                 <Envelope size={20} weight="duotone" className="text-[#cd9429] mt-1 flex-shrink-0" />
                 <div>
                   <p className="font-semibold">Email</p>
-                  <p className="text-gray-300">premass.overseas@gmail.com</p>
+                  <a href="mailto:premass.overseas@gmail.com" className="text-gray-300 hover:text-white transition">
+                    premass.overseas@gmail.com
+                  </a>
                 </div>
               </li>
               <li className="flex gap-3">
                 <MapPin size={20} weight="duotone" className="text-[#cd9429] mt-1 flex-shrink-0" />
                 <div>
                   <p className="font-semibold">Address</p>
-                  <p className="text-gray-300">Hyderabad, Telangana, India</p>
+                  <p className="text-gray-300">
+                    2nd floor, Green Square Plaza, Mukarampura, Karimnagar, Telangana 505001, India
+                  </p>
                 </div>
               </li>
             </ul>
@@ -100,9 +106,9 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-2 text-sm text-gray-300">
           <p className="font-medium">© 2026 Premass Overseas. All rights reserved.</p>
           <div className="flex gap-6 mt-4 md:mt-0">
-            <FooterLink to="#" label="Privacy Policy" />
-            <FooterLink to="#" label="Terms of Service" />
-            <FooterLink to="#" label="Cookie Policy" />
+            <FooterLink to="/privacy-policy" label="Privacy Policy" />
+            <FooterLink to="/terms-of-service" label="Terms of Service" />
+            <FooterLink to="/cookie-policy" label="Cookie Policy" />
           </div>
         </div>
       </div>

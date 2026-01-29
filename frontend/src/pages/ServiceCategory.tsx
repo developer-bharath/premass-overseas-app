@@ -29,64 +29,80 @@ export default function ServiceCategory() {
 
   return (
     <section className="bg-white">
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <nav className="text-sm text-slate-600 mb-8 flex items-center gap-2">
-          <Link to="/services" className="hover:text-[#054374] font-semibold">Services</Link>
-          <span>/</span>
-          <span className="text-[#054374] font-bold">{activeCategory.category}</span>
-        </nav>
-
-        <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 items-center mb-12">
-          <div>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#cd9429]/10 text-[#cd9429] text-sm font-semibold">
-              {activeCategory.category}
+      <div className="bg-gradient-to-br from-[#054374] via-[#054374] to-[#0a3f5c] text-white">
+        <div className="max-w-7xl mx-auto px-6 py-14 md:py-16">
+          <nav className="text-sm text-white/70 mb-6 flex items-center gap-2">
+            <Link to="/services" className="hover:text-white font-semibold">Services</Link>
+            <span>/</span>
+            <span className="text-white font-semibold">{activeCategory.category}</span>
+          </nav>
+          <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white text-sm font-semibold">
+                Premium service category
+              </div>
+              <h1 className="text-4xl md:text-5xl font-semibold mt-4">
+                {activeCategory.category}
+              </h1>
+              <p className="mt-4 text-white/80 max-w-2xl">
+                Structured, outcome-focused services designed to guide students from shortlisting to visa success.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-4">
+                <Link to="/contact" className="btn-accent">
+                  Book Free Consultation →
+                </Link>
+                <Link to="/apply" className="btn-secondary">
+                  Start Application
+                </Link>
+              </div>
+              <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs text-white/70">
+                {["Compliance-led", "Expert-led", "Transparent", "End-to-end"].map((tag) => (
+                  <div key={tag} className="rounded-lg bg-white/10 px-3 py-2 text-center">
+                    {tag}
+                  </div>
+                ))}
+              </div>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-[#054374] mt-4 mb-4">
-              Premium {activeCategory.category} services
-            </h1>
-            <p className="text-lg text-slate-900 mb-6 max-w-2xl">
-              Explore reliable, structured, and outcome-focused support built around your overseas education goals.
-            </p>
-            <Link to="/contact" className="btn-primary">
-              Book Free Consultation →
-            </Link>
-          </div>
 
-          <div className="relative">
-            <div className="absolute -inset-3 rounded-3xl bg-gradient-to-br from-[#cd9429]/20 via-white to-[#054374]/15 blur-xl opacity-80" />
-            <div className="relative rounded-3xl overflow-hidden border border-[#054374]/10 shadow-2xl">
-              <img
-                src={heroImage}
-                alt={activeCategory.category}
-                className="h-[320px] w-full object-cover"
-                onError={(event) => {
-                  event.currentTarget.src = "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1600&auto=format&fit=crop&q=80";
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#054374]/70 via-transparent to-transparent" />
+            <div className="relative">
+              <div className="absolute -inset-4 rounded-[32px] bg-white/10 blur-xl" />
+              <div className="relative rounded-[32px] overflow-hidden border border-white/10 shadow-2xl">
+                <img
+                  src={heroImage}
+                  alt={activeCategory.category}
+                  className="h-[320px] w-full object-cover"
+                  onError={(event) => {
+                    event.currentTarget.src = "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1600&auto=format&fit=crop&q=80";
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+              </div>
             </div>
           </div>
         </div>
+      </div>
 
+      <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {activeCategory.items.map((item) => (
             <Link
               key={item.slug}
               to={`/services/${activeCategory.slug}/${item.slug}`}
-              className="group bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-[#054374]/10"
+              className="group card p-6 hover:shadow-xl hover:-translate-y-1 transition"
             >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-[#054374] group-hover:text-[#cd9429] transition">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-[#054374] group-hover:text-[#cd9429] transition">
                   {item.name}
                 </h3>
-                <span className="text-[#cd9429] text-sm font-semibold">Premium</span>
+                <span className="text-xs px-2.5 py-1 rounded-full bg-[#cd9429]/10 text-[#cd9429] font-semibold">
+                  Premium
+                </span>
               </div>
-              <p className="text-slate-900 text-sm mb-4 font-medium">
-                Learn more about our {item.name.toLowerCase()} service and tailored guidance.
+              <p className="mt-3 text-sm text-[#5b6472]">
+                Custom guidance and deliverables for {item.name.toLowerCase()}.
               </p>
-              <div className="inline-flex items-center text-[#054374] font-bold group-hover:text-[#cd9429] transition">
-                Explore Service
-                <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
+              <div className="mt-5 inline-flex items-center gap-2 text-[#054374] font-semibold group-hover:text-[#cd9429] transition">
+                View details <span className="group-hover:translate-x-1 transition-transform">→</span>
               </div>
             </Link>
           ))}

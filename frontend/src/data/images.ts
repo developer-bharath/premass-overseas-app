@@ -1,6 +1,8 @@
+import brandLogo from "../assets/logo.png";
+
 export const IMAGES = {
   brand: {
-    logo: "/logo.svg" // replace with hosted PNG/JPG if preferred
+    logo: brandLogo
   },
 
   // HOME PAGE IMAGES

@@ -128,24 +128,6 @@ const signatureAdvantages = [
   },
 ];
 
-const instagramUpdates = [
-  {
-    title: "Student success stories & visa wins",
-    date: "Weekly updates",
-    image: IMAGES.home.whyChoose.counselling,
-  },
-  {
-    title: "University events and campus visits",
-    date: "Live coverage",
-    image: IMAGES.home.whyChoose.documentation,
-  },
-  {
-    title: "Scholarships and intake announcements",
-    date: "Timely alerts",
-    image: IMAGES.home.whyChoose.reach,
-  },
-];
-
 export default function Home() {
   return (
     <main className="bg-white text-black">
@@ -212,7 +194,13 @@ export default function Home() {
       {/* DESTINATIONS */}
       <section className="section-pad bg-[#f6f7f9]">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-end justify-between gap-6 flex-wrap">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="flex items-end justify-between gap-6 flex-wrap"
+          >
             <div>
               <h2 className="section-title">Study destinations</h2>
               <p className="section-subtitle">
@@ -222,56 +210,75 @@ export default function Home() {
             <Link to="/countries" className="btn-secondary">
               Compare Destinations
             </Link>
-          </div>
-          <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.05 }}
+            className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             {destinations.map((dest) => (
-              <Link key={dest.slug} to={`/study/${dest.slug}`} className="card overflow-hidden hover:shadow-lg transition">
-                <img src={dest.image} alt={dest.name} className="h-40 w-full object-cover" />
-                <div className="p-5">
-                  <h3 className="text-lg font-semibold text-[#054374]">{dest.name}</h3>
-                  <p className="mt-2 text-sm text-[#5b6472]">{dest.note}</p>
-                  <span className="mt-4 inline-flex items-center gap-2 text-[#cd9429] font-semibold">
-                    View destination guide <ArrowRight size={16} weight="bold" />
-                  </span>
-                </div>
-              </Link>
+              <motion.div key={dest.slug} whileHover={{ y: -4 }} transition={{ type: "spring", stiffness: 240, damping: 18 }}>
+                <Link to={`/study/${dest.slug}`} className="card overflow-hidden hover:shadow-lg transition">
+                  <img src={dest.image} alt={dest.name} className="h-40 w-full object-cover" />
+                  <div className="p-5">
+                    <h3 className="text-lg font-semibold text-[#054374]">{dest.name}</h3>
+                    <p className="mt-2 text-sm text-[#5b6472]">{dest.note}</p>
+                    <span className="mt-4 inline-flex items-center gap-2 text-[#cd9429] font-semibold">
+                      View destination guide <ArrowRight size={16} weight="bold" />
+                    </span>
+                  </div>
+                </Link>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* WHY PREMASS OVERSEAS */}
       <section className="section-pad">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-[1.05fr_0.95fr] gap-10 items-start">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
             <h2 className="section-title">Why Premass Overseas</h2>
             <p className="section-subtitle">
               Premium, outcome-focused guidance backed by experienced counsellors and verified partners.
             </p>
             <div className="mt-8 grid sm:grid-cols-2 gap-4">
               {whyChoose.map((item) => (
-                <div key={item.title} className="card p-5 hover:shadow-md transition">
+                <motion.div key={item.title} whileHover={{ y: -3 }} className="card p-5 hover:shadow-md transition">
                   <div className="w-10 h-10 rounded-xl bg-[#054374]/10 text-[#054374] flex items-center justify-center">
                     {item.icon}
                   </div>
                   <h3 className="mt-4 text-base font-semibold text-[#054374]">{item.title}</h3>
                   <p className="mt-2 text-sm text-[#5b6472]">{item.description}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
-          </div>
-          <div className="card p-6 bg-[#f6f7f9]">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.05 }}
+            className="card p-6 bg-[#f6f7f9]"
+          >
             <h3 className="text-lg font-semibold text-[#054374]">Signature advantages</h3>
             <p className="mt-2 text-sm text-[#5b6472]">
               A professional delivery model designed for consistency, transparency, and results.
             </p>
             <div className="mt-6 space-y-4">
               {signatureAdvantages.map((item) => (
-                <div key={item.title} className="rounded-xl bg-white border border-[#e6e8ec] p-4">
+                <motion.div key={item.title} whileHover={{ y: -2 }} className="rounded-xl bg-white border border-[#e6e8ec] p-4">
                   <p className="text-sm font-semibold text-[#054374]">{item.title}</p>
                   <p className="text-xs text-[#cd9429] mt-1">{item.metric}</p>
                   <p className="text-xs text-[#5b6472] mt-2">{item.description}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
@@ -282,20 +289,33 @@ export default function Home() {
                 Book Free Consultation
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* SERVICES OVERVIEW */}
       <section className="section-pad bg-[#f6f7f9]">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="section-title text-center">Services overview</h2>
-          <p className="section-subtitle text-center mx-auto">
-            End-to-end support from counselling to visa success.
-          </p>
-          <div className="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="section-title text-center">Services overview</h2>
+            <p className="section-subtitle text-center mx-auto">
+              End-to-end support from counselling to visa success.
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.05 }}
+            className="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             {services.map((category) => (
-              <div key={category.slug} className="card p-6">
+              <motion.div key={category.slug} whileHover={{ y: -3 }} className="card p-6">
                 <div className="flex items-center gap-3 text-[#054374]">
                   <BookOpen size={22} weight="regular" />
                   <h3 className="text-lg font-semibold">{category.category}</h3>
@@ -311,108 +331,104 @@ export default function Home() {
                 <Link to={`/services/${category.slug}`} className="mt-5 inline-flex items-center gap-2 text-[#054374] font-semibold">
                   View service category <ArrowRight size={16} weight="bold" />
                 </Link>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* PROCESS */}
       <section className="section-pad">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="section-title text-center">Process timeline</h2>
-          <p className="section-subtitle text-center mx-auto">
-            A clear six-step journey to keep your application on track.
-          </p>
-          <div className="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="section-title text-center">Process timeline</h2>
+            <p className="section-subtitle text-center mx-auto">
+              A clear six-step journey to keep your application on track.
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.05 }}
+            className="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             {processSteps.map((step, index) => (
-              <div key={step} className="card p-6">
+              <motion.div key={step} whileHover={{ y: -3 }} className="card p-6">
                 <div className="text-sm font-semibold text-[#cd9429]">Step {index + 1}</div>
                 <h3 className="mt-3 text-lg font-semibold text-[#054374]">{step}</h3>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* TESTIMONIALS */}
       <section className="section-pad bg-[#f6f7f9]">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="section-title text-center">Student testimonials</h2>
-          <p className="section-subtitle text-center mx-auto">
-            Trusted by students for structured guidance and transparency.
-          </p>
-          <div className="mt-10 grid md:grid-cols-3 gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="section-title text-center">Student testimonials</h2>
+            <p className="section-subtitle text-center mx-auto">
+              Trusted by students for structured guidance and transparency.
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.05 }}
+            className="mt-10 grid md:grid-cols-3 gap-6"
+          >
             {testimonials.map((testimonial) => (
-              <div key={testimonial.name} className="card p-6">
+              <motion.div key={testimonial.name} whileHover={{ y: -3 }} className="card p-6">
                 <p className="text-sm text-[#5b6472]">"{testimonial.quote}"</p>
                 <div className="mt-4">
                   <p className="font-semibold text-[#054374]">{testimonial.name}</p>
                   <p className="text-xs text-[#5b6472]">{testimonial.program}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* PARTNERS */}
       <section className="section-pad">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="section-title text-center">University partners</h2>
-          <p className="section-subtitle text-center mx-auto">
-            Collaborations with trusted institutions and partner networks worldwide.
-          </p>
-          <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="section-title text-center">University partners</h2>
+            <p className="section-subtitle text-center mx-auto">
+              Collaborations with trusted institutions and partner networks worldwide.
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.05 }}
+            className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4"
+          >
             {partners.map((partner) => (
-              <div key={partner} className="card p-4 text-center text-xs text-[#5b6472]">
+              <motion.div key={partner} whileHover={{ y: -2 }} className="card p-4 text-center text-xs text-[#5b6472]">
                 {partner}
-              </div>
+              </motion.div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* INSTAGRAM UPDATES */}
-      <section className="section-pad bg-[#f6f7f9]">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-end justify-between gap-6 flex-wrap">
-            <div>
-              <h2 className="section-title">Instagram updates</h2>
-              <p className="section-subtitle">
-                Follow our latest counselling updates, success stories, and scholarship alerts.
-              </p>
-            </div>
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noreferrer"
-              className="btn-secondary"
-            >
-              Visit Instagram
-            </a>
-          </div>
-          <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {instagramUpdates.map((post) => (
-              <div key={post.title} className="card overflow-hidden">
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="h-44 w-full object-cover"
-                  onError={(event) => {
-                    event.currentTarget.src = "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1200&auto=format&fit=crop&q=80";
-                  }}
-                />
-                <div className="p-5">
-                  <p className="text-xs uppercase tracking-wide text-[#9aa1ab]">{post.date}</p>
-                  <h3 className="mt-2 text-base font-semibold text-[#054374]">{post.title}</h3>
-                  <p className="mt-2 text-sm text-[#5b6472]">
-                    Follow Premass Overseas for real-time admissions and visa updates.
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 

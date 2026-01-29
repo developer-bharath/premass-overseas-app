@@ -60,28 +60,30 @@ export default function Contact() {
               </div>
 
               <div className="mt-10 grid gap-4">
-                <div className="card p-5 flex items-start gap-3">
+                <div className="card p-5 flex flex-col gap-2">
                   <Phone size={20} weight="regular" className="text-[#cd9429]" />
                   <div>
                     <p className="font-semibold text-[#054374]">Phone</p>
                     <p className="text-sm text-[#5b6472]">+91 89777 08366</p>
                   </div>
                 </div>
-                <div className="card p-5 flex items-start gap-3">
+                <div className="card p-5 flex flex-col gap-2">
                   <Envelope size={20} weight="regular" className="text-[#cd9429]" />
                   <div>
                     <p className="font-semibold text-[#054374]">Email</p>
                     <p className="text-sm text-[#5b6472]">premass.overseas@gmail.com</p>
                   </div>
                 </div>
-                <div className="card p-5 flex items-start gap-3">
+                <div className="card p-5 flex flex-col gap-2">
                   <MapPin size={20} weight="regular" className="text-[#cd9429]" />
                   <div>
                     <p className="font-semibold text-[#054374]">Office</p>
-                    <p className="text-sm text-[#5b6472]">Jubilee Hills, Hyderabad</p>
+                    <p className="text-sm text-[#5b6472]">
+                      2nd floor, Green Square Plaza, Mukarampura, Karimnagar, Telangana 505001, India
+                    </p>
                   </div>
                 </div>
-                <div className="card p-5 flex items-start gap-3">
+                <div className="card p-5 flex flex-col gap-2">
                   <Clock size={20} weight="regular" className="text-[#cd9429]" />
                   <div>
                     <p className="font-semibold text-[#054374]">Office timings</p>
@@ -147,18 +149,6 @@ export default function Contact() {
             </div>
           </div>
 
-          <div className="mt-16 card overflow-hidden">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.3858418896547!2d78.40933931487585!3d17.433098488048103!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb90dd0745d397%3A0x69fe3c16b4c2f111!2sJubilee%20Hills%2C%20Hyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1642424242424!5m2!1sen!2sin"
-              width="100%"
-              height="380"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Premass Overseas Office Location"
-            />
-          </div>
         </div>
       </section>
     </main>
