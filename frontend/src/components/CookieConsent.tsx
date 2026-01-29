@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Cookie } from "phosphor-react";
 
 const STORAGE_KEY = "premass_cookie_consent";
 
@@ -24,6 +25,9 @@ export default function CookieConsent() {
     <div className="fixed bottom-4 left-0 right-0 z-50 px-6">
       <div className="max-w-5xl mx-auto card p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
+          <div className="card-icon">
+            <Cookie weight="duotone" />
+          </div>
           <p className="text-sm font-semibold text-[#054374]">We use cookies</p>
           <p className="text-xs text-[#5b6472] mt-1 max-w-2xl">
             We use cookies to improve website performance, personalize content, and analyze traffic.

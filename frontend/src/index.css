@@ -241,54 +241,31 @@ section {
 ================================================= */
 .card {
   @apply bg-white rounded-xl p-6 border
+         flex flex-col h-full
          transition duration-300
          hover:shadow-xl hover:-translate-y-1;
   position: relative;
 }
 
-.card::before {
-  content: "";
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 45%),
-    linear-gradient(135deg, #0b5aa0, #2b8fd6);
-  box-shadow: 0 8px 18px rgba(11, 90, 160, 0.25), inset 0 0 10px rgba(255, 255, 255, 0.35);
-  opacity: 0.9;
-  pointer-events: none;
-  animation: glossyPulse 4.5s ease-in-out infinite;
+/* Card icon (top-center, medium, hover glow) */
+.card-icon {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0b5aa0;
+  margin-bottom: auto;
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-.card::after {
-  content: "";
-  position: absolute;
-  top: 23px;
-  right: 23px;
-  width: 28px;
-  height: 28px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2l2.4 5.6 6.1.5-4.6 3.9 1.4 6-5.3-3.2-5.3 3.2 1.4-6-4.6-3.9 6.1-.5L12 2z'/%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.9;
-  pointer-events: none;
+.card-icon svg {
+  width: 42px;
+  height: 42px;
 }
 
-@keyframes glossyPulse {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 8px 18px rgba(11, 90, 160, 0.25), inset 0 0 10px rgba(255, 255, 255, 0.35);
-  }
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 12px 26px rgba(11, 90, 160, 0.35), inset 0 0 14px rgba(255, 255, 255, 0.45);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 8px 18px rgba(11, 90, 160, 0.25), inset 0 0 10px rgba(255, 255, 255, 0.35);
-  }
+.card:hover .card-icon {
+  transform: translateY(-2px) scale(1.05);
+  filter: drop-shadow(0 10px 18px rgba(11, 90, 160, 0.35));
 }
 
 /* =================================================

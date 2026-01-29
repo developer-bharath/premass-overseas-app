@@ -562,12 +562,12 @@ export default function StudentDashboard() {
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-bold text-[#0A3A5E]">Assigned Counselor</h3>
                   <span className="text-xs px-3 py-1 bg-blue-100 text-blue-700 rounded-full">Active</span>
-                </div>
+                      </div>
                 <div>
                   <p className="font-semibold text-gray-800">Ms. Priya Sharma</p>
                   <p className="text-sm text-gray-500">+91 98765 43210</p>
                   <p className="text-sm text-gray-500">counselor@premassoverseas.com</p>
-                </div>
+                    </div>
                 <div className="border-t pt-4">
                   <h4 className="text-sm font-semibold text-gray-700 mb-2">AI Suggestions</h4>
                   <ul className="text-sm text-gray-600 list-disc list-inside space-y-1">
@@ -795,7 +795,7 @@ export default function StudentDashboard() {
                     onChange={(e) => updateProfileField(["personalDetails", "passportExpiryDate"], e.target.value)}
                     className="w-full px-4 py-3 border border-gray-200 rounded-lg"
                   />
-                </div>
+                  </div>
               </div>
 
               <div className="bg-white rounded-xl p-6 shadow-sm">
@@ -857,8 +857,8 @@ export default function StudentDashboard() {
                     onChange={(e) => updateProfileField(["contactDetails", "postalCode"], e.target.value)}
                     className="w-full px-4 py-3 border border-gray-200 rounded-lg"
                   />
+                  </div>
                 </div>
-              </div>
 
               <div className="bg-white rounded-xl p-6 shadow-sm">
                 <h3 className="text-lg font-bold text-[#054374] mb-4">Study Level</h3>
@@ -1150,8 +1150,8 @@ export default function StudentDashboard() {
                     onChange={(e) => updateProfileField(["referralDetails", "referralMobile"], e.target.value)}
                     className="w-full px-4 py-3 border border-gray-200 rounded-lg"
                   />
-                  <input
-                    type="email"
+                    <input
+                      type="email"
                     placeholder="Referral Email"
                     value={profileData.referralDetails.referralEmail}
                     onChange={(e) => updateProfileField(["referralDetails", "referralEmail"], e.target.value)}
@@ -1165,7 +1165,7 @@ export default function StudentDashboard() {
                     className="w-full px-4 py-3 border border-gray-200 rounded-lg"
                   />
                 </div>
-              </div>
+                  </div>
 
               <div className="bg-white rounded-xl p-6 shadow-sm">
                 <h3 className="text-lg font-bold text-[#054374] mb-4">Document Checklist</h3>
@@ -1224,7 +1224,7 @@ export default function StudentDashboard() {
 
         {/* DOCUMENTS TAB */}
         {activeTab === "documents" && (
-          <div>
+                  <div>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-[#0A3A5E]">Documents</h2>
               <button
@@ -1287,7 +1287,7 @@ export default function StudentDashboard() {
                     <option value="birth_certificate">Birth Certificate</option>
                     <option value="other">Other</option>
                   </select>
-                  <input
+                    <input
                     type="file"
                     onChange={(e) => setDocumentFile(e.target.files?.[0] || null)}
                     className="w-full text-sm"
@@ -1299,13 +1299,13 @@ export default function StudentDashboard() {
                     Upload Document
                   </button>
                 </form>
-              </div>
+                  </div>
             </div>
           </div>
         )}
 
         {activeTab === "visa" && (
-          <div>
+                  <div>
             <h2 className="text-2xl font-bold text-[#0A3A5E] mb-6">Visa Tracking</h2>
             <div className="grid lg:grid-cols-2 gap-6">
               <div className="bg-white rounded-xl p-6 shadow-sm">
@@ -1323,7 +1323,7 @@ export default function StudentDashboard() {
                       <span>{step}</span>
                     </div>
                   ))}
-                </div>
+                  </div>
               </div>
               <div className="bg-white rounded-xl p-6 shadow-sm">
                 <h3 className="text-lg font-bold text-[#054374] mb-4">Visa Checklist</h3>
@@ -1363,7 +1363,7 @@ export default function StudentDashboard() {
                   </div>
                   <button className="mt-4 w-full py-2 bg-[#054374] text-white rounded-lg font-semibold">
                     Pay Now
-                  </button>
+                    </button>
                 </div>
               </div>
               <div className="bg-white rounded-xl p-6 shadow-sm">
@@ -1409,10 +1409,10 @@ export default function StudentDashboard() {
                 />
                 <button className="px-6 py-3 bg-[#F5A623] text-white rounded-lg font-semibold">
                   Send
-                </button>
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
         )}
 
         {activeTab === "settings" && (

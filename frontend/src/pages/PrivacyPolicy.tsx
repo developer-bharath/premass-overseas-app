@@ -1,3 +1,5 @@
+import { ShieldCheck, Users, Lock, Envelope } from "phosphor-react";
+
 export default function PrivacyPolicy() {
   return (
     <main className="bg-white text-black">
@@ -12,6 +14,9 @@ export default function PrivacyPolicy() {
 
           <div className="mt-8 space-y-6 text-sm text-[#5b6472] leading-relaxed">
             <section className="card p-6">
+              <div className="card-icon">
+                <Users weight="duotone" />
+              </div>
               <h2 className="text-lg font-semibold text-[#054374]">Information we collect</h2>
               <p className="mt-2">
                 We collect information you provide when you submit forms, request consultations,
@@ -21,6 +26,9 @@ export default function PrivacyPolicy() {
             </section>
 
             <section className="card p-6">
+              <div className="card-icon">
+                <ShieldCheck weight="duotone" />
+              </div>
               <h2 className="text-lg font-semibold text-[#054374]">How we use your information</h2>
               <ul className="mt-3 space-y-2">
                 <li>• Respond to enquiries and provide counselling.</li>
@@ -30,6 +38,9 @@ export default function PrivacyPolicy() {
             </section>
 
             <section className="card p-6">
+              <div className="card-icon">
+                <Lock weight="duotone" />
+              </div>
               <h2 className="text-lg font-semibold text-[#054374]">Data protection</h2>
               <p className="mt-2">
                 We implement reasonable safeguards to protect your data. Access is limited to
@@ -38,6 +49,9 @@ export default function PrivacyPolicy() {
             </section>
 
             <section className="card p-6">
+              <div className="card-icon">
+                <Envelope weight="duotone" />
+              </div>
               <h2 className="text-lg font-semibold text-[#054374]">Contact</h2>
               <p className="mt-2">
                 For privacy-related questions, email{" "}

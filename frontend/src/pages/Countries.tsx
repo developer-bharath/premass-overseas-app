@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Globe } from "phosphor-react";
 import { STUDY_COUNTRIES } from "../data/studyAbroad";
 
 export default function Countries() {
@@ -38,6 +39,9 @@ export default function Countries() {
                 </div>
               </div>
               <div className="p-5">
+                <div className="card-icon">
+                  <Globe weight="duotone" />
+                </div>
                 <h3 className="text-lg font-semibold text-[#054374]">
                   {country.name.replace(/^Study in\s+/, "")}
                 </h3>

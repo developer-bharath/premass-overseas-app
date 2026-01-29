@@ -1,3 +1,5 @@
+import { FileText, Users, ShieldCheck, Envelope } from "phosphor-react";
+
 export default function TermsOfService() {
   return (
     <main className="bg-white text-black">
@@ -11,6 +13,9 @@ export default function TermsOfService() {
 
           <div className="mt-8 space-y-6 text-sm text-[#5b6472] leading-relaxed">
             <section className="card p-6">
+              <div className="card-icon">
+                <FileText weight="duotone" />
+              </div>
               <h2 className="text-lg font-semibold text-[#054374]">Services</h2>
               <p className="mt-2">
                 We provide counselling and guidance services. Admissions outcomes depend on
@@ -19,6 +24,9 @@ export default function TermsOfService() {
             </section>
 
             <section className="card p-6">
+              <div className="card-icon">
+                <Users weight="duotone" />
+              </div>
               <h2 className="text-lg font-semibold text-[#054374]">User responsibilities</h2>
               <ul className="mt-3 space-y-2">
                 <li>• Provide accurate and complete information.</li>
@@ -28,6 +36,9 @@ export default function TermsOfService() {
             </section>
 
             <section className="card p-6">
+              <div className="card-icon">
+                <ShieldCheck weight="duotone" />
+              </div>
               <h2 className="text-lg font-semibold text-[#054374]">Limitation of liability</h2>
               <p className="mt-2">
                 Premass Overseas is not responsible for decisions made by universities, embassies,
@@ -36,6 +47,9 @@ export default function TermsOfService() {
             </section>
 
             <section className="card p-6">
+              <div className="card-icon">
+                <Envelope weight="duotone" />
+              </div>
               <h2 className="text-lg font-semibold text-[#054374]">Contact</h2>
               <p className="mt-2">
                 Questions about these terms can be sent to{" "}

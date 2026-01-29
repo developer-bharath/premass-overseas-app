@@ -5,6 +5,7 @@
 // =====================================================
 
 import { useParams, Link } from "react-router-dom";
+import { Briefcase } from "phosphor-react";
 import { services } from "../data/services";
 import { IMAGES } from "../data/images";
 
@@ -90,6 +91,9 @@ export default function ServiceCategory() {
               to={`/services/${activeCategory.slug}/${item.slug}`}
               className="group card p-6 hover:shadow-xl hover:-translate-y-1 transition"
             >
+              <div className="card-icon">
+                <Briefcase weight="duotone" />
+              </div>
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-[#054374] group-hover:text-[#cd9429] transition">
                   {item.name}

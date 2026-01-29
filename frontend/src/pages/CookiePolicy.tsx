@@ -1,3 +1,5 @@
+import { Cookie, ChartLine, Sliders } from "phosphor-react";
+
 export default function CookiePolicy() {
   return (
     <main className="bg-white text-black">
@@ -11,6 +13,9 @@ export default function CookiePolicy() {
 
           <div className="mt-8 space-y-6 text-sm text-[#5b6472] leading-relaxed">
             <section className="card p-6">
+              <div className="card-icon">
+                <Cookie weight="duotone" />
+              </div>
               <h2 className="text-lg font-semibold text-[#054374]">What are cookies?</h2>
               <p className="mt-2">
                 Cookies are small files stored on your device that help us improve your browsing
@@ -19,6 +24,9 @@ export default function CookiePolicy() {
             </section>
 
             <section className="card p-6">
+              <div className="card-icon">
+                <ChartLine weight="duotone" />
+              </div>
               <h2 className="text-lg font-semibold text-[#054374]">How we use cookies</h2>
               <ul className="mt-3 space-y-2">
                 <li>• Remember your preferences and settings.</li>
@@ -28,6 +36,9 @@ export default function CookiePolicy() {
             </section>
 
             <section className="card p-6">
+              <div className="card-icon">
+                <Sliders weight="duotone" />
+              </div>
               <h2 className="text-lg font-semibold text-[#054374]">Managing cookies</h2>
               <p className="mt-2">
                 You can manage cookie preferences from your browser settings. Disabling cookies may

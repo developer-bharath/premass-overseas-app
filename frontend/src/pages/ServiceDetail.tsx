@@ -4,6 +4,7 @@
 // =====================================================
 
 import { useParams, Link } from "react-router-dom";
+import { ShieldCheck, Sparkle } from "phosphor-react";
 import { useEffect, useMemo, useRef } from "react";
 import { services } from "../data/services";
 import { serviceContent } from "../data/serviceContent";
@@ -169,6 +170,9 @@ export default function ServiceDetail() {
           {/* OVERVIEW SECTION */}
           {content?.overview && (
             <div className="mb-12 p-10 bg-gradient-to-br from-[#054374]/5 via-[#cd9429]/5 to-white rounded-2xl border border-[#054374]/10">
+              <div className="card-icon">
+                <ShieldCheck weight="duotone" />
+              </div>
               <h2 className="text-3xl font-bold text-[#054374] mb-4">
                 {content.overview.title}
               </h2>
@@ -200,6 +204,9 @@ export default function ServiceDetail() {
                     key={i}
                     className="p-8 bg-gradient-to-br from-white to-[#F8FAFC] border-2 border-[#054374]/10 rounded-2xl hover:border-[#cd9429] hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group"
                   >
+                    <div className="card-icon">
+                      <Sparkle weight="duotone" />
+                    </div>
                     {item.icon && (
                       <span className="text-4xl block mb-4 transform group-hover:scale-125 transition-transform duration-300">
                         {item.icon}

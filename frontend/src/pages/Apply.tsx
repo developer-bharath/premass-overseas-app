@@ -1,20 +1,30 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ClipboardText } from "phosphor-react";
 import { IMAGES } from "../data/images";
 import applyHero from "../assets/apply-premium-consultation.png";
+import { useAuth } from "../context/AuthContext";
 
-const steps = ["Personal", "Education", "Destination", "Review"];
+const steps = ["Personal *", "Education *", "Destination *", "Review"];
 
 export default function Apply() {
+  const navigate = useNavigate();
+  const { register, login } = useAuth();
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
+    phoneCountryCode: "+91",
     phone: "",
     highestQualification: "",
     intake: "",
     country: "",
     course: "",
+    password: "",
+    confirmPassword: "",
   });
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -23,8 +33,102 @@ export default function Apply() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleNext = () => setStep((prev) => Math.min(prev + 1, steps.length - 1));
+  const handleNext = () => {
+    // #region agent log
+    fetch("http://127.0.0.1:7242/ingest/075d072a-d9b5-44f7-b442-81a05f18b0ef", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sessionId: "debug-session",
+        runId: "pre-fix",
+        hypothesisId: "B",
+        location: "Apply.tsx:handleNext",
+        message: "Apply step validation",
+        data: {
+          step,
+          hasPhone: !!formData.phone,
+          hasQualification: !!formData.highestQualification,
+          hasIntake: !!formData.intake,
+          hasCountry: !!formData.country,
+          hasCourse: !!formData.course,
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion
+
+    if (step === 0 && (!formData.phone || !formData.password || !formData.confirmPassword)) {
+      setError("Phone number and password are required.");
+      return;
+    }
+    if (step === 0 && formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+    if (step === 1 && (!formData.highestQualification || !formData.intake)) {
+      setError("Please complete all required education details.");
+      return;
+    }
+    if (step === 2 && (!formData.country || !formData.course)) {
+      setError("Please complete your destination preferences.");
+      return;
+    }
+
+    setError("");
+    setStep((prev) => Math.min(prev + 1, steps.length - 1));
+  };
   const handleBack = () => setStep((prev) => Math.max(prev - 1, 0));
+
+  const handleSubmit = async () => {
+    // #region agent log
+    fetch("http://127.0.0.1:7242/ingest/075d072a-d9b5-44f7-b442-81a05f18b0ef", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sessionId: "debug-session",
+        runId: "pre-fix",
+        hypothesisId: "A",
+        location: "Apply.tsx:submit",
+        message: "Apply submit clicked",
+        data: {
+          step,
+          hasName: !!formData.fullName,
+          hasEmail: !!formData.email,
+          hasPhone: !!formData.phone,
+          hasPassword: !!formData.password,
+          hasConfirmPassword: !!formData.confirmPassword,
+          hasCountry: !!formData.country,
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion
+
+    setError("");
+    if (!formData.fullName || !formData.email || !formData.password) {
+      setError("Please complete all required fields.");
+      return;
+    }
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      await register(formData.fullName, formData.email, formData.password, "student");
+      await login(formData.email, formData.password);
+      navigate("/dashboard/student");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Registration failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <main className="bg-white text-black">
@@ -33,6 +137,9 @@ export default function Apply() {
           <div className="card p-8 md:p-10">
             <div className="flex items-center justify-between">
               <div>
+                <div className="card-icon">
+                  <ClipboardText weight="duotone" />
+                </div>
                 <span className="tag">Apply Now</span>
                 <h1 className="mt-4 text-3xl md:text-4xl font-semibold text-[#054374]">
                   Student registration
@@ -66,6 +173,7 @@ export default function Apply() {
             <div className="mt-8 space-y-4">
               {step === 0 && (
                 <>
+                  <div className="text-sm font-semibold text-[#054374]">Personal details</div>
                   <input
                     name="fullName"
                     value={formData.fullName}
@@ -80,11 +188,49 @@ export default function Apply() {
                     placeholder="Email address"
                     className="w-full rounded-lg border border-[#e6e8ec] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#054374]/20"
                   />
+                  <div>
+                    <label className="block text-xs font-semibold text-[#054374] mb-2">Phone number *</label>
+                    <div className="flex gap-3">
+                      <select
+                        name="phoneCountryCode"
+                        value={formData.phoneCountryCode}
+                        onChange={handleChange}
+                        className="w-32 rounded-lg border border-[#e6e8ec] px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#054374]/20"
+                      >
+                        <option value="+91">India (+91)</option>
+                        <option value="+1">USA (+1)</option>
+                        <option value="+44">UK (+44)</option>
+                        <option value="+61">Australia (+61)</option>
+                        <option value="+1-CA">Canada (+1)</option>
+                        <option value="+65">Singapore (+65)</option>
+                        <option value="+971">UAE (+971)</option>
+                        <option value="+49">Germany (+49)</option>
+                        <option value="+33">France (+33)</option>
+                        <option value="+39">Italy (+39)</option>
+                      </select>
+                      <input
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="e.g. 9876543210 (India)"
+                        className="flex-1 rounded-lg border border-[#e6e8ec] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#054374]/20"
+                      />
+                    </div>
+                  </div>
                   <input
-                    name="phone"
-                    value={formData.phone}
+                    name="password"
+                    type="password"
+                    value={formData.password}
                     onChange={handleChange}
-                    placeholder="Phone number"
+                    placeholder="Create password"
+                    className="w-full rounded-lg border border-[#e6e8ec] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#054374]/20"
+                  />
+                  <input
+                    name="confirmPassword"
+                    type="password"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="Confirm password"
                     className="w-full rounded-lg border border-[#e6e8ec] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#054374]/20"
                   />
                 </>
@@ -92,11 +238,12 @@ export default function Apply() {
 
               {step === 1 && (
                 <>
+                  <div className="text-sm font-semibold text-[#054374]">Education details *</div>
                   <input
                     name="highestQualification"
                     value={formData.highestQualification}
                     onChange={handleChange}
-                    placeholder="Highest qualification"
+                    placeholder="Highest qualification *"
                     className="w-full rounded-lg border border-[#e6e8ec] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#054374]/20"
                   />
                   <select
@@ -105,7 +252,7 @@ export default function Apply() {
                     onChange={handleChange}
                     className="w-full rounded-lg border border-[#e6e8ec] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#054374]/20"
                   >
-                    <option value="">Preferred intake</option>
+                    <option value="">Preferred intake *</option>
                     <option>January</option>
                     <option>May</option>
                     <option>September</option>
@@ -115,13 +262,14 @@ export default function Apply() {
 
               {step === 2 && (
                 <>
+                  <div className="text-sm font-semibold text-[#054374]">Destination preferences *</div>
                   <select
                     name="country"
                     value={formData.country}
                     onChange={handleChange}
                     className="w-full rounded-lg border border-[#e6e8ec] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#054374]/20"
                   >
-                    <option value="">Preferred destination</option>
+                    <option value="">Preferred destination *</option>
                     <option>United Kingdom</option>
                     <option>United States</option>
                     <option>Canada</option>
@@ -132,7 +280,7 @@ export default function Apply() {
                     name="course"
                     value={formData.course}
                     onChange={handleChange}
-                    placeholder="Preferred course"
+                    placeholder="Preferred course *"
                     className="w-full rounded-lg border border-[#e6e8ec] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#054374]/20"
                   />
                 </>
@@ -151,6 +299,8 @@ export default function Apply() {
               )}
             </div>
 
+            {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
+
             <div className="mt-8 flex items-center justify-between">
               <button type="button" onClick={handleBack} className="btn-secondary" disabled={step === 0}>
                 Back
@@ -160,8 +310,8 @@ export default function Apply() {
                   Continue
                 </button>
               ) : (
-                <button type="button" className="btn-primary">
-                  Submit Application
+                <button type="button" className="btn-primary" onClick={handleSubmit} disabled={isLoading}>
+                  {isLoading ? "Submitting..." : "Submit Application"}
                 </button>
               )}
             </div>

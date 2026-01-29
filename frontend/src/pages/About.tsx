@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { IMAGES } from "../data/images";
-import { ArrowRight, CheckCircle, Users, Trophy, Briefcase, Globe } from "phosphor-react";
+import { ArrowRight, CheckCircle, Users, Trophy, Briefcase, Globe, Eye, Target } from "phosphor-react";
 
 export default function About() {
   return (
@@ -79,6 +79,9 @@ export default function About() {
       <section className="section-pad">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-8">
           <div className="card p-6">
+            <div className="card-icon">
+              <Eye weight="duotone" />
+            </div>
             <h3 className="text-lg font-semibold text-[#054374]">Vision</h3>
             <p className="mt-3 text-sm text-[#5b6472]">
               To become the most trusted overseas education partner for families seeking global
@@ -86,6 +89,9 @@ export default function About() {
             </p>
           </div>
           <div className="card p-6">
+            <div className="card-icon">
+              <Target weight="duotone" />
+            </div>
             <h3 className="text-lg font-semibold text-[#054374]">Mission</h3>
             <p className="mt-3 text-sm text-[#5b6472]">
               To deliver transparent, compliant, and personalized guidance that enables students to
@@ -104,16 +110,16 @@ export default function About() {
           </p>
           <div className="mt-10 grid md:grid-cols-3 gap-6">
             {[
-              { icon: <Users size={22} weight="regular" />, title: "Counselling", text: "Profile-first assessment and shortlisting." },
-              { icon: <Globe size={22} weight="regular" />, title: "Destination expertise", text: "UK, USA, Canada, Australia, Europe." },
-              { icon: <Briefcase size={22} weight="regular" />, title: "Career outcomes", text: "Course planning aligned to employability." },
+              { icon: <Users weight="duotone" />, title: "Counselling", text: "Profile-first assessment and shortlisting." },
+              { icon: <Globe weight="duotone" />, title: "Destination expertise", text: "UK, USA, Canada, Australia, Europe." },
+              { icon: <Briefcase weight="duotone" />, title: "Career outcomes", text: "Course planning aligned to employability." },
             ].map((item) => (
-              <div key={item.title} className="card p-6">
-                <div className="w-12 h-12 rounded-xl bg-[#054374]/10 text-[#054374] flex items-center justify-center">
-                  {item.icon}
+              <div key={item.title} className="card p-6 flex flex-row items-start gap-4 text-left">
+                <div className="card-icon mt-1">{item.icon}</div>
+                <div>
+                  <h3 className="text-lg font-semibold text-[#054374]">{item.title}</h3>
+                  <p className="mt-2 text-sm text-[#5b6472]">{item.text}</p>
                 </div>
-                <h3 className="mt-4 text-lg font-semibold text-[#054374]">{item.title}</h3>
-                <p className="mt-2 text-sm text-[#5b6472]">{item.text}</p>
               </div>
             ))}
           </div>
@@ -132,6 +138,9 @@ export default function About() {
               { label: "Partner institutions", value: "120+" },
             ].map((stat) => (
               <div key={stat.label} className="card p-6 text-center">
+                <div className="card-icon mx-auto">
+                  <Trophy weight="duotone" />
+                </div>
                 <p className="text-2xl font-semibold text-[#054374]">{stat.value}</p>
                 <p className="mt-2 text-xs text-[#5b6472] uppercase tracking-wide">{stat.label}</p>
               </div>

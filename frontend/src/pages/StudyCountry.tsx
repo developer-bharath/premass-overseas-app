@@ -1,4 +1,20 @@
 import { Link, useParams } from "react-router-dom";
+import {
+  Globe,
+  GraduationCap,
+  Buildings,
+  BookOpen,
+  Calendar,
+  CurrencyDollar,
+  House,
+  Briefcase,
+  CheckCircle,
+  FileText,
+  Gift,
+  Suitcase,
+  ListChecks,
+  Handshake,
+} from "phosphor-react";
 import { STUDY_COUNTRIES } from "../data/studyAbroad";
 
 export default function StudyCountry() {
@@ -64,6 +80,9 @@ export default function StudyCountry() {
           <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {data.keyFacts.map((fact) => (
               <div key={fact.label} className="card p-5">
+                <div className="card-icon">
+                  <Globe weight="duotone" />
+                </div>
                 <p className="text-xs uppercase tracking-wide text-[#9aa1ab]">{fact.label}</p>
                 <p className="mt-2 text-lg font-semibold text-[#054374]">{fact.value}</p>
               </div>
@@ -71,6 +90,9 @@ export default function StudyCountry() {
           </div>
           <div className="mt-8 grid lg:grid-cols-2 gap-8">
             <div className="card p-6">
+              <div className="card-icon">
+                <GraduationCap weight="duotone" />
+              </div>
               <h2 className="text-xl font-semibold text-[#054374]">Why study here</h2>
               <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
                 {data.whyStudy.map((item) => (
@@ -82,6 +104,9 @@ export default function StudyCountry() {
               </ul>
             </div>
             <div className="card p-6">
+              <div className="card-icon">
+                <BookOpen weight="duotone" />
+              </div>
               <h2 className="text-xl font-semibold text-[#054374]">Education system</h2>
               <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
                 {data.educationSystem.map((item) => (
@@ -99,6 +124,9 @@ export default function StudyCountry() {
       <section className="section-pad">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-3 gap-6">
           <div className="card p-6">
+            <div className="card-icon">
+              <Buildings weight="duotone" />
+            </div>
             <h3 className="text-lg font-semibold text-[#054374]">Top universities</h3>
             <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
               {data.topUniversities.map((uni) => (
@@ -107,6 +135,9 @@ export default function StudyCountry() {
             </ul>
           </div>
           <div className="card p-6">
+            <div className="card-icon">
+              <BookOpen weight="duotone" />
+            </div>
             <h3 className="text-lg font-semibold text-[#054374]">Popular courses</h3>
             <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
               {data.popularCourses.map((course) => (
@@ -115,6 +146,9 @@ export default function StudyCountry() {
             </ul>
           </div>
           <div className="card p-6">
+            <div className="card-icon">
+              <Calendar weight="duotone" />
+            </div>
             <h3 className="text-lg font-semibold text-[#054374]">Intakes</h3>
             <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
               {data.intakes.map((intake) => (
@@ -128,6 +162,9 @@ export default function StudyCountry() {
       <section className="section-pad bg-[#f6f7f9]">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-3 gap-6">
           <div className="card p-6">
+            <div className="card-icon">
+              <CurrencyDollar weight="duotone" />
+            </div>
             <h3 className="text-lg font-semibold text-[#054374]">Cost of study</h3>
             <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
               {data.cost.map((line) => (
@@ -136,6 +173,9 @@ export default function StudyCountry() {
             </ul>
           </div>
           <div className="card p-6">
+            <div className="card-icon">
+              <House weight="duotone" />
+            </div>
             <h3 className="text-lg font-semibold text-[#054374]">Living expenses</h3>
             <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
               {data.living.map((line) => (
@@ -144,6 +184,9 @@ export default function StudyCountry() {
             </ul>
           </div>
           <div className="card p-6">
+            <div className="card-icon">
+              <Briefcase weight="duotone" />
+            </div>
             <h3 className="text-lg font-semibold text-[#054374]">Career opportunities</h3>
             <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
               {data.careers.map((line) => (
@@ -157,6 +200,9 @@ export default function StudyCountry() {
       <section className="section-pad">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-8">
           <div className="card p-6">
+            <div className="card-icon">
+              <CheckCircle weight="duotone" />
+            </div>
             <h3 className="text-lg font-semibold text-[#054374]">Eligibility checklist</h3>
             <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
               {data.eligibility.map((line) => (
@@ -165,6 +211,9 @@ export default function StudyCountry() {
             </ul>
           </div>
           <div className="card p-6">
+            <div className="card-icon">
+              <FileText weight="duotone" />
+            </div>
             <h3 className="text-lg font-semibold text-[#054374]">Documents required</h3>
             <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
               {data.documents.map((line) => (
@@ -178,6 +227,9 @@ export default function StudyCountry() {
       <section className="section-pad bg-[#f6f7f9]">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-3 gap-6">
           <div className="card p-6">
+            <div className="card-icon">
+              <Gift weight="duotone" />
+            </div>
             <h3 className="text-lg font-semibold text-[#054374]">Scholarships & funding</h3>
             <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
               {data.scholarships.map((line) => (
@@ -186,6 +238,9 @@ export default function StudyCountry() {
             </ul>
           </div>
           <div className="card p-6">
+            <div className="card-icon">
+              <Suitcase weight="duotone" />
+            </div>
             <h3 className="text-lg font-semibold text-[#054374]">Work rights</h3>
             <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
               {data.workRights.map((line) => (
@@ -194,6 +249,9 @@ export default function StudyCountry() {
             </ul>
           </div>
           <div className="card p-6">
+            <div className="card-icon">
+              <ListChecks weight="duotone" />
+            </div>
             <h3 className="text-lg font-semibold text-[#054374]">Application timeline</h3>
             <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
               {data.timeline.map((line) => (
@@ -207,6 +265,9 @@ export default function StudyCountry() {
       <section className="section-pad">
         <div className="max-w-7xl mx-auto px-6">
           <div className="card p-8">
+            <div className="card-icon">
+              <Handshake weight="duotone" />
+            </div>
             <h3 className="text-xl font-semibold text-[#054374]">How Premass Overseas supports you</h3>
             <p className="mt-2 text-sm text-[#5b6472]">
               A full-service advisory model to keep your study abroad plan structured and compliant.

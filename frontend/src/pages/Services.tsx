@@ -1,38 +1,57 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, CheckCircle } from "phosphor-react";
+import {
+  ArrowRight,
+  CheckCircle,
+  Users,
+  FileText,
+  ClipboardText,
+  PenNib,
+  ShieldCheck,
+  Airplane,
+  Globe,
+} from "phosphor-react";
 import { IMAGES } from "../data/images";
 import { services } from "../data/services";
 
-const serviceMeta: Record<string, { description: string; highlights: string[]; image: string }> = {
+const serviceMeta: Record<
+  string,
+  { description: string; highlights: string[]; image: string; icon: JSX.Element }
+> = {
   counselling: {
     description: "Profile-first guidance with outcome-driven counselling and academic planning.",
     highlights: ["Profile diagnostics", "Course fit analysis", "Destination mapping"],
     image: IMAGES.home.services.counselling,
+    icon: <Users weight="duotone" />,
   },
   applications: {
     description: "End-to-end application support with clear documentation checkpoints.",
     highlights: ["University shortlisting", "Document verification", "Submission tracking"],
     image: IMAGES.home.services.applications,
+    icon: <FileText weight="duotone" />,
   },
   "test-prep": {
     description: "Structured coaching plans with mock tests and performance review.",
     highlights: ["IELTS/TOEFL/PTE", "GRE/GMAT prep", "Target score planning"],
     image: IMAGES.home.services["test-prep"],
+    icon: <ClipboardText weight="duotone" />,
   },
   visa: {
     description: "Compliance-first visa documentation and interview preparation.",
     highlights: ["Visa SOP review", "Financial checklist", "Mock interviews"],
     image: IMAGES.home.services.visa,
+    icon: <ShieldCheck weight="duotone" />,
   },
   "post-arrival": {
     description: "Settle with confidence through arrival and onboarding support.",
     highlights: ["Accommodation help", "Airport pickup", "Local onboarding"],
     image: IMAGES.home.services["post-arrival"],
+    icon: <Airplane weight="duotone" />,
   },
   countries: {
     description: "Country-specific guidance and admissions strategies.",
     highlights: ["University strategy", "Program selection", "Localized support"],
     image: IMAGES.home.services.countries,
+    icon: <Globe weight="duotone" />,
   },
 };
 
@@ -65,6 +84,9 @@ export default function Services() {
               className="h-48 w-full object-cover"
             />
             <div className="p-6">
+              <div className="card-icon">
+                <ShieldCheck weight="duotone" />
+              </div>
               <h3 className="text-lg font-semibold text-[#054374]">What you get</h3>
               <ul className="mt-4 space-y-3 text-sm text-[#5b6472]">
                 {[
@@ -104,6 +126,9 @@ export default function Services() {
                   />
                   <div className="p-6 flex flex-col gap-4 flex-1">
                     <div>
+                      <div className="card-icon">
+                        {meta?.icon ?? <PenNib weight="duotone" />}
+                      </div>
                       <h3 className="text-lg font-semibold text-[#054374]">{category.category}</h3>
                       <p className="mt-2 text-sm text-[#5b6472]">
                         {meta?.description ?? "Comprehensive support tailored to your profile and destination."}

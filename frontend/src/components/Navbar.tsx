@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { STUDY_COUNTRIES } from "../data/studyAbroad";
-import logo from "../assets/logo.png";
+import logo from "../logo.svg";
 import { ICONS } from "../data/icons";
 import { useAuth } from "../context/AuthContext";
 import { Phone, LinkedinLogo, InstagramLogo, FacebookLogo, YoutubeLogo } from "phosphor-react";
@@ -35,19 +35,18 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-[#e6e8ec] ${
-          isScrolled ? "shadow-md" : "shadow-sm"
+        className={`sticky top-0 z-50 bg-[#054374] border-b border-white/20 transition-all duration-300 ${
+          isScrolled ? "shadow-lg" : "shadow-sm"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-center justify-between h-20 text-[#054374]">
+          <div className="flex items-center justify-between h-[72px] text-white">
             <Link to="/" className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center border border-[#e6e8ec] shadow-sm overflow-hidden">
-                <img src={logo} alt="Premass Overseas" className="w-9 h-9 object-contain" />
+              <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center border border-white/40 shadow-sm overflow-hidden">
+                <img src={logo} alt="Premass Overseas" className="w-7 h-7 object-contain" />
               </div>
               <div className="hidden sm:block leading-tight">
                 <p className="text-lg font-semibold">Premass</p>
-                <p className="text-xs text-[#5b6472] font-medium">Overseas Education</p>
               </div>
             </Link>
 
@@ -86,37 +85,37 @@ export default function Navbar() {
             <div className="hidden md:flex items-center gap-4">
               <a
                 href="tel:+918977708366"
-                className="flex items-center gap-2 px-3 py-2 rounded-lg border border-[#e6e8ec] text-[#054374] hover:text-[#cd9429] transition"
+                className="p-2 rounded-full border border-white/40 text-white hover:text-[#cd9429] hover:border-[#cd9429] transition"
+                aria-label="Call Premass Overseas"
               >
                 <Phone size={18} weight="regular" />
-                <span className="text-sm font-semibold">Contact</span>
               </a>
 
-              <div className="hidden xl:flex items-center gap-3 text-[#054374]">
+              <div className="hidden lg:flex items-center gap-3 text-white">
                 <a
                   href="https://linkedin.com"
-                  className="p-2 rounded-full border border-[#e6e8ec] hover:text-[#cd9429] hover:border-[#cd9429] transition"
+                  className="p-2 rounded-full border border-white/40 hover:text-[#cd9429] hover:border-[#cd9429] transition"
                   aria-label="LinkedIn"
                 >
                   <LinkedinLogo size={18} weight="duotone" />
                 </a>
                 <a
                   href="https://instagram.com"
-                  className="p-2 rounded-full border border-[#e6e8ec] hover:text-[#cd9429] hover:border-[#cd9429] transition"
+                  className="p-2 rounded-full border border-white/40 hover:text-[#cd9429] hover:border-[#cd9429] transition"
                   aria-label="Instagram"
                 >
                   <InstagramLogo size={18} weight="duotone" />
                 </a>
                 <a
                   href="https://facebook.com"
-                  className="p-2 rounded-full border border-[#e6e8ec] hover:text-[#cd9429] hover:border-[#cd9429] transition"
+                  className="p-2 rounded-full border border-white/40 hover:text-[#cd9429] hover:border-[#cd9429] transition"
                   aria-label="Facebook"
                 >
                   <FacebookLogo size={18} weight="duotone" />
                 </a>
                 <a
                   href="https://youtube.com"
-                  className="p-2 rounded-full border border-[#e6e8ec] hover:text-[#cd9429] hover:border-[#cd9429] transition"
+                  className="p-2 rounded-full border border-white/40 hover:text-[#cd9429] hover:border-[#cd9429] transition"
                   aria-label="YouTube"
                 >
                   <YoutubeLogo size={18} weight="duotone" />
@@ -126,19 +125,19 @@ export default function Navbar() {
               <div className="flex items-center gap-3">
                 {isAuthenticated && user ? (
                   <>
-                    <Link to={user.role === "student" ? "/dashboard/student" : "/dashboard/employee"} className="px-3 py-2 font-semibold text-[#054374] hover:text-[#cd9429]">
+                    <Link to={user.role === "student" ? "/dashboard/student" : "/dashboard/employee"} className="px-3 py-2 font-semibold text-white hover:text-[#cd9429]">
                       Dashboard
                     </Link>
-                    <Link to="/profile" className="px-3 py-2 font-semibold text-[#054374] hover:text-[#cd9429]">
+                    <Link to="/profile" className="px-3 py-2 font-semibold text-white hover:text-[#cd9429]">
                       Profile
                     </Link>
-                    <button onClick={logout} className="px-3 py-2 font-semibold text-[#054374] hover:text-red-500">
+                    <button onClick={logout} className="px-3 py-2 font-semibold text-white hover:text-red-100">
                       Logout
                     </button>
                   </>
                 ) : (
                   <>
-                    <Link to="/login" className="px-3 py-2 font-semibold text-[#054374] hover:text-[#cd9429]">
+                    <Link to="/login" className="px-3 py-2 font-semibold text-white hover:text-[#cd9429]">
                       Login
                     </Link>
                     <Link to="/apply" className="btn-primary">

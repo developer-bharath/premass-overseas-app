@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { LinkedinLogo, InstagramLogo, FacebookLogo, YoutubeLogo, Phone, Envelope, MapPin } from "phosphor-react";
 import { STUDY_COUNTRIES } from "../data/studyAbroad";
-import logo from "../assets/logo.png";
+import logo from "../logo.svg";
 
 export default function Footer() {
   return (

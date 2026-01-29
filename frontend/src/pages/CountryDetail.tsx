@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import { GraduationCap, BookOpen, Buildings, Calendar, CurrencyDollar, ShieldCheck, Briefcase } from "phosphor-react";
 import countries from "../data/countries.json";
 import { STUDY_COUNTRIES } from "../data/studyAbroad";
 
@@ -60,10 +61,16 @@ export default function CountryDetail() {
       <section className="section-pad bg-[#f6f7f9]">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-8">
           <div className="card p-6">
+            <div className="card-icon">
+              <GraduationCap weight="duotone" />
+            </div>
             <h2 className="text-xl font-semibold text-[#054374]">Why study here</h2>
             <p className="mt-4 text-sm text-[#5b6472] leading-relaxed">{data.whyStudy}</p>
           </div>
           <div className="card p-6">
+            <div className="card-icon">
+              <BookOpen weight="duotone" />
+            </div>
             <h2 className="text-xl font-semibold text-[#054374]">Education system</h2>
             <div className="mt-4 space-y-2 text-sm text-[#5b6472]">
               <p><strong>Undergraduate:</strong> {data.degreeTypes?.bachelor?.duration || "3-4 years"}</p>
@@ -77,6 +84,9 @@ export default function CountryDetail() {
       <section className="section-pad">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-3 gap-6">
           <div className="card p-6">
+            <div className="card-icon">
+              <Buildings weight="duotone" />
+            </div>
             <h3 className="text-lg font-semibold text-[#054374]">Top universities</h3>
             <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
               {data.universities?.slice(0, 6).map((uni: string) => (
@@ -85,6 +95,9 @@ export default function CountryDetail() {
             </ul>
           </div>
           <div className="card p-6">
+            <div className="card-icon">
+              <Calendar weight="duotone" />
+            </div>
             <h3 className="text-lg font-semibold text-[#054374]">Intakes</h3>
             <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
               {data.intakes?.map((intake: string) => (
@@ -93,6 +106,9 @@ export default function CountryDetail() {
             </ul>
           </div>
           <div className="card p-6">
+            <div className="card-icon">
+              <CurrencyDollar weight="duotone" />
+            </div>
             <h3 className="text-lg font-semibold text-[#054374]">Cost of study</h3>
             <div className="mt-4 text-sm text-[#5b6472] space-y-2">
               <p><strong>Tuition:</strong> {data.tuitionFees?.international || "Varies by university"}</p>
@@ -105,6 +121,9 @@ export default function CountryDetail() {
       <section className="section-pad bg-[#f6f7f9]">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-8">
           <div className="card p-6">
+            <div className="card-icon">
+              <ShieldCheck weight="duotone" />
+            </div>
             <h3 className="text-lg font-semibold text-[#054374]">Visa overview</h3>
             <p className="mt-3 text-sm text-[#5b6472]">{data.visa?.description}</p>
             <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
@@ -114,6 +133,9 @@ export default function CountryDetail() {
             </ul>
           </div>
           <div className="card p-6">
+            <div className="card-icon">
+              <Briefcase weight="duotone" />
+            </div>
             <h3 className="text-lg font-semibold text-[#054374]">Career opportunities</h3>
             <p className="mt-3 text-sm text-[#5b6472]">
               Employment rate: {data.jobMarket?.employmentRate || "Strong graduate outcomes"}

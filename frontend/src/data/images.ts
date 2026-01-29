@@ -1,4 +1,4 @@
-import brandLogo from "../assets/logo.png";
+import brandLogo from "../logo.svg";
 
 export const IMAGES = {
   brand: {

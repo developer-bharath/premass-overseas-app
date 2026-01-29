@@ -1,26 +1,26 @@
 import { Link } from "react-router-dom";
-import { GraduationCap, BookOpen, ShieldCheck, Briefcase, CheckCircle } from "phosphor-react";
+import { GraduationCap, BookOpen, ShieldCheck, Briefcase, CheckCircle, ClipboardText, ListChecks } from "phosphor-react";
 import { IMAGES } from "../data/images";
 
 const courseSections = [
   {
     title: "UG Programs",
-    icon: <GraduationCap size={22} weight="regular" />,
+    icon: <GraduationCap weight="duotone" />,
     items: ["Business & Management", "Engineering & Technology", "Arts & Humanities", "Science & Computing"],
   },
   {
     title: "PG Programs",
-    icon: <BookOpen size={22} weight="regular" />,
+    icon: <BookOpen weight="duotone" />,
     items: ["MBA & Management", "Data Science & AI", "Engineering & Architecture", "Public Health"],
   },
   {
     title: "MBBS",
-    icon: <ShieldCheck size={22} weight="regular" />,
+    icon: <ShieldCheck weight="duotone" />,
     items: ["EU Medical Programs", "UK Medical Pathways", "Australia Graduate Medicine", "Global Pre-Med Routes"],
   },
   {
     title: "Diploma / Pathway",
-    icon: <Briefcase size={22} weight="regular" />,
+    icon: <Briefcase weight="duotone" />,
     items: ["Foundation programs", "Credit transfer options", "One-year diplomas", "Language pathways"],
   },
 ];
@@ -74,10 +74,8 @@ export default function Courses() {
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-6">
           {courseSections.map((section) => (
             <div key={section.title} className="card p-6">
-              <div className="flex items-center gap-3 text-[#054374]">
-                {section.icon}
-                <h3 className="text-lg font-semibold">{section.title}</h3>
-              </div>
+              <div className="card-icon">{section.icon}</div>
+              <h3 className="text-lg font-semibold text-[#054374]">{section.title}</h3>
               <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
                 {section.items.map((item) => (
                   <li key={item} className="flex gap-2">
@@ -94,6 +92,9 @@ export default function Courses() {
       <section className="section-pad">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-[1fr_1fr] gap-8">
           <div className="card p-6">
+            <div className="card-icon">
+              <BookOpen weight="duotone" />
+            </div>
             <h2 className="text-2xl font-semibold text-[#054374]">Popular specializations</h2>
             <p className="mt-3 text-sm text-[#5b6472]">
               Industry-aligned domains with strong international demand.
@@ -117,6 +118,9 @@ export default function Courses() {
             </div>
           </div>
           <div className="card p-6">
+            <div className="card-icon">
+              <ClipboardText weight="duotone" />
+            </div>
             <h2 className="text-2xl font-semibold text-[#054374]">Admission requirements</h2>
             <p className="mt-3 text-sm text-[#5b6472]">
               Core documentation and eligibility standards for most programs.
@@ -136,6 +140,9 @@ export default function Courses() {
       <section className="section-pad bg-[#f6f7f9]">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-[1fr_1fr] gap-8">
           <div className="card p-6">
+            <div className="card-icon">
+              <ShieldCheck weight="duotone" />
+            </div>
             <h2 className="text-2xl font-semibold text-[#054374]">How we help with courses</h2>
             <ul className="mt-4 space-y-3 text-sm text-[#5b6472]">
               {courseHighlights.map((item) => (
@@ -147,6 +154,9 @@ export default function Courses() {
             </ul>
           </div>
           <div className="card p-6">
+            <div className="card-icon">
+              <ListChecks weight="duotone" />
+            </div>
             <h2 className="text-2xl font-semibold text-[#054374]">Application timeline</h2>
             <p className="mt-3 text-sm text-[#5b6472]">
               A structured plan to move from shortlisting to visa submission.

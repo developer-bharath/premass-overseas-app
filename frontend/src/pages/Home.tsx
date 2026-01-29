@@ -2,15 +2,18 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { services } from "../data/services";
 import { IMAGES } from "../data/images";
+import { STUDY_COUNTRIES } from "../data/studyAbroad";
 import {
   ArrowRight,
-  GraduationCap,
   Users,
-  Globe,
+  GraduationCap,
+  Briefcase,
+  Buildings,
   CheckCircle,
   ShieldCheck,
   BookOpen,
-  Briefcase,
+  ListChecks,
+  ChatText,
 } from "phosphor-react";
 
 const destinations = [
@@ -50,22 +53,32 @@ const whyChoose = [
   {
     title: "Profile-first counselling",
     description: "Personalized pathways built on academic profile, budget, and outcomes.",
-    icon: <Users size={22} weight="regular" />,
+    icon: <Users weight="duotone" />,
   },
   {
     title: "Documentation accuracy",
     description: "SOP, LOR, and visa documentation with compliance-first checks.",
-    icon: <ShieldCheck size={22} weight="regular" />,
+    icon: <ShieldCheck weight="duotone" />,
+  },
+  {
+    title: "Sponsorships guaranteed",
+    description: "Guided pathways to secure eligible sponsorship and funding support.",
+    icon: <ShieldCheck weight="duotone" />,
   },
   {
     title: "University partnerships",
     description: "Access to verified institutions and scholarship guidance.",
-    icon: <GraduationCap size={22} weight="regular" />,
+    icon: <GraduationCap weight="duotone" />,
+  },
+  {
+    title: "Education loan guarantee with us",
+    description: "Assistance in arranging education loans through trusted financial partners.",
+    icon: <Briefcase weight="duotone" />,
   },
   {
     title: "Career-ready planning",
     description: "Course selection aligned to employability and post-study work.",
-    icon: <Briefcase size={22} weight="regular" />,
+    icon: <Briefcase weight="duotone" />,
   },
 ];
 
@@ -110,21 +123,25 @@ const signatureAdvantages = [
     title: "Outcome-driven counselling",
     metric: "98% visa success",
     description: "Structured guidance aligned with eligibility, budget, and long-term outcomes.",
+    icon: <CheckCircle weight="duotone" />,
   },
   {
     title: "Documentation excellence",
     metric: "4-step verification",
     description: "SOP/LOR drafting and compliance checks to minimize rework and delays.",
+    icon: <ShieldCheck weight="duotone" />,
   },
   {
     title: "University partnerships",
     metric: "120+ partner institutions",
     description: "Verified institutions and program mapping across top destinations.",
+    icon: <Buildings weight="duotone" />,
   },
   {
     title: "End-to-end support",
     metric: "6-stage roadmap",
     description: "From shortlisting to visa and pre-departure, handled by one team.",
+    icon: <ListChecks weight="duotone" />,
   },
 ];
 
@@ -223,6 +240,13 @@ export default function Home() {
                 <Link to={`/study/${dest.slug}`} className="card overflow-hidden hover:shadow-lg transition">
                   <img src={dest.image} alt={dest.name} className="h-40 w-full object-cover" />
                   <div className="p-5">
+                    <div className="card-icon">
+                      <img
+                        src={STUDY_COUNTRIES.find((item) => item.slug === dest.slug)?.flag}
+                        alt={`${dest.name} flag`}
+                        className="h-9 w-9 rounded-full object-cover"
+                      />
+                    </div>
                     <h3 className="text-lg font-semibold text-[#054374]">{dest.name}</h3>
                     <p className="mt-2 text-sm text-[#5b6472]">{dest.note}</p>
                     <span className="mt-4 inline-flex items-center gap-2 text-[#cd9429] font-semibold">
@@ -252,9 +276,7 @@ export default function Home() {
             <div className="mt-8 grid sm:grid-cols-2 gap-4">
               {whyChoose.map((item) => (
                 <motion.div key={item.title} whileHover={{ y: -3 }} className="card p-5 hover:shadow-md transition">
-                  <div className="w-10 h-10 rounded-xl bg-[#054374]/10 text-[#054374] flex items-center justify-center">
-                    {item.icon}
-                  </div>
+                  <div className="card-icon">{item.icon}</div>
                   <h3 className="mt-4 text-base font-semibold text-[#054374]">{item.title}</h3>
                   <p className="mt-2 text-sm text-[#5b6472]">{item.description}</p>
                 </motion.div>
@@ -275,6 +297,7 @@ export default function Home() {
             <div className="mt-6 space-y-4">
               {signatureAdvantages.map((item) => (
                 <motion.div key={item.title} whileHover={{ y: -2 }} className="rounded-xl bg-white border border-[#e6e8ec] p-4">
+                  <div className="card-icon">{item.icon}</div>
                   <p className="text-sm font-semibold text-[#054374]">{item.title}</p>
                   <p className="text-xs text-[#cd9429] mt-1">{item.metric}</p>
                   <p className="text-xs text-[#5b6472] mt-2">{item.description}</p>
@@ -316,10 +339,10 @@ export default function Home() {
           >
             {services.map((category) => (
               <motion.div key={category.slug} whileHover={{ y: -3 }} className="card p-6">
-                <div className="flex items-center gap-3 text-[#054374]">
-                  <BookOpen size={22} weight="regular" />
-                  <h3 className="text-lg font-semibold">{category.category}</h3>
+                <div className="card-icon">
+                  <BookOpen weight="duotone" />
                 </div>
+                <h3 className="text-lg font-semibold text-[#054374]">{category.category}</h3>
                 <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
                   {category.items.slice(0, 3).map((item) => (
                     <li key={item.slug} className="flex items-center gap-2">
@@ -360,6 +383,9 @@ export default function Home() {
           >
             {processSteps.map((step, index) => (
               <motion.div key={step} whileHover={{ y: -3 }} className="card p-6">
+                <div className="card-icon">
+                  <ListChecks weight="duotone" />
+                </div>
                 <div className="text-sm font-semibold text-[#cd9429]">Step {index + 1}</div>
                 <h3 className="mt-3 text-lg font-semibold text-[#054374]">{step}</h3>
               </motion.div>
@@ -391,6 +417,9 @@ export default function Home() {
           >
             {testimonials.map((testimonial) => (
               <motion.div key={testimonial.name} whileHover={{ y: -3 }} className="card p-6">
+                <div className="card-icon">
+                  <ChatText weight="duotone" />
+                </div>
                 <p className="text-sm text-[#5b6472]">"{testimonial.quote}"</p>
                 <div className="mt-4">
                   <p className="font-semibold text-[#054374]">{testimonial.name}</p>
