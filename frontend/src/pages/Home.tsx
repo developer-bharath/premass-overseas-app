@@ -127,10 +127,10 @@ export default function Home() {
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link to="/apply" className="btn-primary">
-                Apply Now <ArrowRight size={18} weight="bold" />
+                Start Application <ArrowRight size={18} weight="bold" />
               </Link>
               <Link to="/contact" className="btn-secondary">
-                Free Counselling
+                Book Free Consultation
               </Link>
             </div>
             <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm text-[#5b6472]">
@@ -179,7 +179,7 @@ export default function Home() {
               </p>
             </div>
             <Link to="/countries" className="btn-secondary">
-              View All Destinations
+              Compare Destinations
             </Link>
           </div>
           <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -190,7 +190,7 @@ export default function Home() {
                   <h3 className="text-lg font-semibold text-[#054374]">{dest.name}</h3>
                   <p className="mt-2 text-sm text-[#5b6472]">{dest.note}</p>
                   <span className="mt-4 inline-flex items-center gap-2 text-[#cd9429] font-semibold">
-                    Explore <ArrowRight size={16} weight="bold" />
+                    View destination guide <ArrowRight size={16} weight="bold" />
                   </span>
                 </div>
               </Link>
@@ -243,7 +243,7 @@ export default function Home() {
                   ))}
                 </ul>
                 <Link to={`/services/${category.slug}`} className="mt-5 inline-flex items-center gap-2 text-[#054374] font-semibold">
-                  View details <ArrowRight size={16} weight="bold" />
+                  View service category <ArrowRight size={16} weight="bold" />
                 </Link>
               </div>
             ))}
@@ -318,10 +318,10 @@ export default function Home() {
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link to="/apply" className="btn-accent">
-              Apply Now
+              Start Application
             </Link>
             <Link to="/contact" className="btn-secondary">
-              Free Counselling
+              Book Free Consultation
             </Link>
           </div>
         </div>

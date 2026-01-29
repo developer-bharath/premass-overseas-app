@@ -47,11 +47,8 @@ export default function ServiceCategory() {
             <p className="text-lg text-slate-900 mb-6 max-w-2xl">
               Explore reliable, structured, and outcome-focused support built around your overseas education goals.
             </p>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#054374] text-white font-semibold hover:shadow-lg hover:-translate-y-0.5 transition"
-            >
-              Speak to an expert →
+            <Link to="/contact" className="btn-primary">
+              Book Free Consultation →
             </Link>
           </div>
 
@@ -62,6 +59,9 @@ export default function ServiceCategory() {
                 src={heroImage}
                 alt={activeCategory.category}
                 className="h-[320px] w-full object-cover"
+                onError={(event) => {
+                  event.currentTarget.src = "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1600&auto=format&fit=crop&q=80";
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#054374]/70 via-transparent to-transparent" />
             </div>

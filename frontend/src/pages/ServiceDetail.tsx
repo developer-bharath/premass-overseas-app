@@ -128,6 +128,9 @@ export default function ServiceDetail() {
               alt={activeService.name}
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
               loading="lazy"
+              onError={(event) => {
+                event.currentTarget.src = "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1600&auto=format&fit=crop&q=80";
+              }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
           </div>
@@ -252,13 +255,13 @@ export default function ServiceDetail() {
               to={content?.cta?.primaryTo ?? "/contact"}
               className="px-8 py-3 bg-gradient-to-r from-[#054374] to-[#cd9429] text-white rounded-lg font-semibold hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
             >
-              {content?.cta?.primaryText ?? "Enquire About This Service"}
+              {content?.cta?.primaryText ?? "Book Free Consultation"}
             </Link>
             <Link
               to={content?.cta?.secondaryTo ?? "/services"}
               className="px-8 py-3 border-2 border-[#054374] text-[#054374] rounded-lg font-semibold hover:bg-[#054374] hover:text-white transition-all duration-300"
             >
-              {content?.cta?.secondaryText ?? "View All Services"}
+              {content?.cta?.secondaryText ?? "Explore All Services"}
             </Link>
           </div>
         </main>

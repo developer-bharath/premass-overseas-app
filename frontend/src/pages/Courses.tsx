@@ -1,4 +1,5 @@
-import { GraduationCap, BookOpen, ShieldCheck, Briefcase } from "phosphor-react";
+import { Link } from "react-router-dom";
+import { GraduationCap, BookOpen, ShieldCheck, Briefcase, CheckCircle } from "phosphor-react";
 import { IMAGES } from "../data/images";
 
 const courseSections = [
@@ -22,6 +23,27 @@ const courseSections = [
     icon: <Briefcase size={22} weight="regular" />,
     items: ["Foundation programs", "Credit transfer options", "One-year diplomas", "Language pathways"],
   },
+];
+
+const courseHighlights = [
+  "Course mapping aligned to career outcomes",
+  "Shortlisting based on rankings, budget, and intake",
+  "Eligibility checks and documentation review",
+  "Scholarship and fee waiver screening",
+];
+
+const admissionRequirements = [
+  "Academic transcripts with required GPA",
+  "English test scores (IELTS/TOEFL/PTE)",
+  "SOP, CV, and academic references",
+  "Work experience for select programs",
+];
+
+const timelineSteps = [
+  "Shortlist programs and destinations",
+  "Prepare SOP/LORs and finalize documents",
+  "Submit applications and track offers",
+  "Confirm offer and prepare visa file",
 ];
 
 export default function Courses() {
@@ -66,6 +88,97 @@ export default function Courses() {
               </ul>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="section-pad">
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-[1fr_1fr] gap-8">
+          <div className="card p-6">
+            <h2 className="text-2xl font-semibold text-[#054374]">Popular specializations</h2>
+            <p className="mt-3 text-sm text-[#5b6472]">
+              Industry-aligned domains with strong international demand.
+            </p>
+            <div className="mt-4 grid sm:grid-cols-2 gap-3 text-sm text-[#5b6472]">
+              {[
+                "Data Science & AI",
+                "Business Analytics",
+                "Cybersecurity",
+                "Finance & Accounting",
+                "Healthcare Management",
+                "Supply Chain & Logistics",
+                "Engineering Management",
+                "Public Health",
+              ].map((item) => (
+                <div key={item} className="flex items-center gap-2">
+                  <span className="text-[#cd9429]">•</span>
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="card p-6">
+            <h2 className="text-2xl font-semibold text-[#054374]">Admission requirements</h2>
+            <p className="mt-3 text-sm text-[#5b6472]">
+              Core documentation and eligibility standards for most programs.
+            </p>
+            <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
+              {admissionRequirements.map((item) => (
+                <li key={item} className="flex gap-2">
+                  <span className="text-[#cd9429]">•</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-pad bg-[#f6f7f9]">
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-[1fr_1fr] gap-8">
+          <div className="card p-6">
+            <h2 className="text-2xl font-semibold text-[#054374]">How we help with courses</h2>
+            <ul className="mt-4 space-y-3 text-sm text-[#5b6472]">
+              {courseHighlights.map((item) => (
+                <li key={item} className="flex gap-2">
+                  <CheckCircle size={18} weight="regular" className="text-[#cd9429]" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="card p-6">
+            <h2 className="text-2xl font-semibold text-[#054374]">Application timeline</h2>
+            <p className="mt-3 text-sm text-[#5b6472]">
+              A structured plan to move from shortlisting to visa submission.
+            </p>
+            <ol className="mt-4 space-y-3 text-sm text-[#5b6472]">
+              {timelineSteps.map((step, index) => (
+                <li key={step} className="flex gap-3">
+                  <span className="w-6 h-6 rounded-full bg-[#054374]/10 text-[#054374] flex items-center justify-center text-xs font-semibold">
+                    {index + 1}
+                  </span>
+                  <span>{step}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-pad">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <h2 className="text-3xl font-semibold text-[#054374]">Need help shortlisting courses?</h2>
+          <p className="mt-4 text-[#5b6472]">
+            Share your profile and we will recommend the right programs and universities.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <Link to="/contact" className="btn-primary">
+              Book Free Consultation
+            </Link>
+            <Link to="/apply" className="btn-secondary">
+              Start Application
+            </Link>
+          </div>
         </div>
       </section>
     </main>

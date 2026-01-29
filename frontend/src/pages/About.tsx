@@ -19,7 +19,7 @@ export default function About() {
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link to="/contact" className="btn-primary">
-                Speak to an Expert <ArrowRight size={18} weight="bold" />
+                Book Free Consultation <ArrowRight size={18} weight="bold" />
               </Link>
               <Link to="/services" className="btn-secondary">
                 Explore Services
@@ -29,7 +29,14 @@ export default function About() {
           <div className="relative">
             <div className="absolute -inset-4 rounded-[32px] bg-gradient-to-br from-[#054374]/10 via-white to-[#cd9429]/10 blur-xl" />
             <div className="relative rounded-[32px] overflow-hidden border border-[#e6e8ec] shadow-lg">
-              <img src={IMAGES.about.hero} alt="Premass Overseas" className="h-[360px] w-full object-cover" />
+              <img
+                src={IMAGES.about.hero}
+                alt="Premass Overseas"
+                className="h-[360px] w-full object-cover"
+                onError={(event) => {
+                  event.currentTarget.src = "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1600&auto=format&fit=crop&q=80";
+                }}
+              />
             </div>
           </div>
         </div>
@@ -140,10 +147,10 @@ export default function About() {
           <p className="mt-4 text-white/80">Get a professional roadmap tailored to your profile.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link to="/apply" className="btn-accent">
-              Apply Now
+              Start Application
             </Link>
             <Link to="/contact" className="btn-secondary">
-              Free Counselling
+              Book Free Consultation
             </Link>
           </div>
         </div>

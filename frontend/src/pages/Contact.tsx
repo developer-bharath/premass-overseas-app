@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Envelope, Phone, MapPin, Clock } from "phosphor-react";
+import { IMAGES } from "../data/images";
 
 export default function Contact() {
   const [formState, setFormState] = useState({
@@ -34,6 +35,29 @@ export default function Contact() {
               <p className="mt-5 text-lg text-[#5b6472] max-w-2xl">
                 We respond within business hours with a clear consultation plan and next steps.
               </p>
+
+              <div className="mt-8 card overflow-hidden">
+                <img
+                  src={IMAGES.home.services.counselling}
+                  alt="Consultation session"
+                  className="h-44 w-full object-cover"
+                  onError={(event) => {
+                    event.currentTarget.src = "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1200&auto=format&fit=crop&q=80";
+                  }}
+                />
+                <div className="p-5 grid sm:grid-cols-3 gap-4 text-sm text-[#5b6472]">
+                  {[
+                    { label: "Response time", value: "Within 24 hrs" },
+                    { label: "Consultation", value: "Free & guided" },
+                    { label: "Support", value: "End-to-end" },
+                  ].map((item) => (
+                    <div key={item.label} className="rounded-lg border border-[#e6e8ec] px-3 py-3">
+                      <p className="text-[10px] uppercase tracking-wide text-[#9aa1ab]">{item.label}</p>
+                      <p className="font-semibold text-[#054374]">{item.value}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
               <div className="mt-10 grid gap-4">
                 <div className="card p-5 flex items-start gap-3">
@@ -117,7 +141,7 @@ export default function Contact() {
                   className="w-full rounded-lg border border-[#e6e8ec] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#054374]/20"
                 />
                 <button type="submit" className="btn-primary w-full">
-                  Submit Request
+                  Send Consultation Request
                 </button>
               </form>
             </div>

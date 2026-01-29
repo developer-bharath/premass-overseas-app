@@ -34,10 +34,10 @@ export default function CountryDetail() {
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link to="/contact" className="btn-primary">
-                Talk to Counsellor
+                Book Free Consultation
               </Link>
               <Link to="/apply" className="btn-secondary">
-                Apply Now
+                Start Application
               </Link>
             </div>
           </div>
@@ -48,6 +48,9 @@ export default function CountryDetail() {
                 src={heroImage || "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&auto=format&fit=crop&q=80"}
                 alt={data.name}
                 className="h-[360px] w-full object-cover"
+                onError={(event) => {
+                  event.currentTarget.src = "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1600&auto=format&fit=crop&q=80";
+                }}
               />
             </div>
           </div>
@@ -134,7 +137,7 @@ export default function CountryDetail() {
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link to="/contact" className="btn-accent">
-              Talk to Counsellor
+              Book Free Consultation
             </Link>
             <Link to="/countries" className="btn-secondary">
               Back to Destinations
