@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Envelope, LockKey, User, CircleNotch, CheckCircle, Eye, EyeSlash } from "phosphor-react";
+import { IMAGES } from "../data/images";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -84,17 +85,27 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center px-6 py-12">
-      <div className="w-full max-w-3xl">
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-10 text-white shadow-2xl">
+    <div className="min-h-screen bg-white flex items-center justify-center px-6 py-12">
+      <div className="w-full max-w-6xl grid lg:grid-cols-[1fr_1.1fr] gap-8 items-stretch">
+        <div className="card overflow-hidden">
+          <img
+            src={IMAGES.home.services.counselling}
+            alt="Student registration support"
+            className="h-56 sm:h-64 lg:h-full w-full object-cover"
+          />
+          <div className="p-6 text-sm text-[#5b6472]">
+            Create your account to receive tailored admissions guidance.
+          </div>
+        </div>
+        <div className="card p-8 md:p-10">
           <div className="text-center mb-8">
-            <p className="text-xs uppercase tracking-[0.35em] text-white/60">Premass Overseas</p>
-            <h1 className="text-3xl md:text-4xl font-bold mt-3">Create Your Account</h1>
-            <p className="text-white/70 mt-2">Join your global admissions journey in minutes.</p>
+            <p className="text-xs uppercase tracking-[0.35em] text-[#5b6472]">Premass Overseas</p>
+            <h1 className="text-3xl md:text-4xl font-semibold text-[#054374] mt-3">Create Your Account</h1>
+            <p className="text-[#5b6472] mt-2">Join your global admissions journey in minutes.</p>
           </div>
 
           {success && (
-            <div className="mb-6 p-4 bg-emerald-500/10 border border-emerald-400/40 rounded-xl flex items-center gap-3 text-emerald-200">
+            <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-3 text-emerald-700">
               <CheckCircle size={20} weight="duotone" />
               <p className="font-medium">Registration successful! Redirecting...</p>
             </div>
@@ -103,31 +114,31 @@ export default function Register() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">Full Name *</label>
+                <label className="block text-sm font-medium text-[#5b6472] mb-2">Full Name *</label>
                 <div className="relative">
-                  <User size={20} weight="duotone" className="absolute left-3 top-3.5 text-white/40" />
+                  <User size={20} weight="duotone" className="absolute left-3 top-3.5 text-[#5b6472]" />
                   <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="John Doe"
-                    className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/10 rounded-xl focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/30 outline-none transition text-white placeholder-white/50"
+                    className="w-full pl-10 pr-4 py-3 border border-[#e6e8ec] rounded-xl focus:border-[#054374] focus:outline-none transition text-[#0b0b0b] placeholder-[#9aa1ab]"
                     disabled={isLoading}
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">Email Address *</label>
+                <label className="block text-sm font-medium text-[#5b6472] mb-2">Email Address *</label>
                 <div className="relative">
-                  <Envelope size={20} weight="duotone" className="absolute left-3 top-3.5 text-white/40" />
+                  <Envelope size={20} weight="duotone" className="absolute left-3 top-3.5 text-[#5b6472]" />
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="you@example.com"
-                    className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/10 rounded-xl focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/30 outline-none transition text-white placeholder-white/50"
+                    className="w-full pl-10 pr-4 py-3 border border-[#e6e8ec] rounded-xl focus:border-[#054374] focus:outline-none transition text-[#0b0b0b] placeholder-[#9aa1ab]"
                     disabled={isLoading}
                   />
                 </div>
@@ -136,46 +147,46 @@ export default function Register() {
 
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">Password *</label>
+                <label className="block text-sm font-medium text-[#5b6472] mb-2">Password *</label>
                 <div className="relative">
-                  <LockKey size={20} weight="duotone" className="absolute left-3 top-3.5 text-white/40" />
+                  <LockKey size={20} weight="duotone" className="absolute left-3 top-3.5 text-[#5b6472]" />
                   <input
                     type={showPassword ? "text" : "password"}
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
                     placeholder="••••••••"
-                    className="w-full pl-10 pr-10 py-3 bg-white/10 border border-white/10 rounded-xl focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/30 outline-none transition text-white placeholder-white/50"
+                    className="w-full pl-10 pr-10 py-3 border border-[#e6e8ec] rounded-xl focus:border-[#054374] focus:outline-none transition text-[#0b0b0b] placeholder-[#9aa1ab]"
                     disabled={isLoading}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-3.5 text-white/50 hover:text-white/70"
+                    className="absolute right-3 top-3.5 text-[#5b6472] hover:text-[#054374]"
                     disabled={isLoading}
                   >
                     {showPassword ? <EyeSlash size={20} weight="duotone" /> : <Eye size={20} weight="duotone" />}
                   </button>
                 </div>
-                <p className="text-xs text-white/50 mt-1">Minimum 6 characters</p>
+                <p className="text-xs text-[#9aa1ab] mt-1">Minimum 6 characters</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">Confirm Password *</label>
+                <label className="block text-sm font-medium text-[#5b6472] mb-2">Confirm Password *</label>
                 <div className="relative">
-                  <LockKey size={20} weight="duotone" className="absolute left-3 top-3.5 text-white/40" />
+                  <LockKey size={20} weight="duotone" className="absolute left-3 top-3.5 text-[#5b6472]" />
                   <input
                     type={showConfirmPassword ? "text" : "password"}
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     placeholder="••••••••"
-                    className="w-full pl-10 pr-10 py-3 bg-white/10 border border-white/10 rounded-xl focus:border-[#cd9429] focus:ring-2 focus:ring-[#cd9429]/30 outline-none transition text-white placeholder-white/50"
+                    className="w-full pl-10 pr-10 py-3 border border-[#e6e8ec] rounded-xl focus:border-[#054374] focus:outline-none transition text-[#0b0b0b] placeholder-[#9aa1ab]"
                     disabled={isLoading}
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-3.5 text-white/50 hover:text-white/70"
+                    className="absolute right-3 top-3.5 text-[#5b6472] hover:text-[#054374]"
                     disabled={isLoading}
                   >
                     {showConfirmPassword ? <EyeSlash size={20} weight="duotone" /> : <Eye size={20} weight="duotone" />}
@@ -185,9 +196,9 @@ export default function Register() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white/80 mb-3">I am a *</label>
+              <label className="block text-sm font-medium text-[#5b6472] mb-3">I am a *</label>
               <div className="grid grid-cols-2 gap-3">
-                <label className="flex items-center gap-2 p-3 border border-white/10 rounded-xl cursor-pointer transition-all hover:border-[#cd9429]/60" style={{ borderColor: formData.role === "student" ? "#cd9429" : "" }}>
+                <label className="flex items-center gap-2 p-3 border border-[#e6e8ec] rounded-xl cursor-pointer transition-all hover:border-[#cd9429]/60" style={{ borderColor: formData.role === "student" ? "#cd9429" : "" }}>
                   <input
                     type="radio"
                     value="student"
@@ -196,9 +207,9 @@ export default function Register() {
                     name="role"
                     className="w-4 h-4"
                   />
-                  <span className="font-medium text-sm">Student</span>
+                  <span className="font-medium text-sm text-[#054374]">Student</span>
                 </label>
-                <label className="flex items-center gap-2 p-3 border border-white/10 rounded-xl cursor-pointer transition-all hover:border-[#cd9429]/60" style={{ borderColor: formData.role === "employee" ? "#cd9429" : "" }}>
+                <label className="flex items-center gap-2 p-3 border border-[#e6e8ec] rounded-xl cursor-pointer transition-all hover:border-[#cd9429]/60" style={{ borderColor: formData.role === "employee" ? "#cd9429" : "" }}>
                   <input
                     type="radio"
                     value="employee"
@@ -207,16 +218,12 @@ export default function Register() {
                     name="role"
                     className="w-4 h-4"
                   />
-                  <span className="font-medium text-sm">Staff</span>
+                  <span className="font-medium text-sm text-[#054374]">Staff</span>
                 </label>
               </div>
             </div>
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-[#cd9429] hover:bg-[#e3a842] disabled:opacity-60 text-slate-950 font-semibold py-3 rounded-xl transition flex items-center justify-center gap-2"
-            >
+            <button type="submit" disabled={isLoading} className="w-full btn-primary disabled:opacity-70">
               {isLoading ? (
                 <>
                   <CircleNotch size={20} weight="bold" className="animate-spin" />
@@ -227,15 +234,15 @@ export default function Register() {
               )}
             </button>
             {error && (
-              <p className="text-red-300 text-sm text-center mt-2">{error}</p>
+              <p className="text-red-600 text-sm text-center mt-2">{error}</p>
             )}
           </form>
 
-          <div className="mt-6 text-center text-sm text-white/70">
+          <div className="mt-6 text-center text-sm text-[#5b6472]">
             Already have an account?{" "}
-            <a href="/login" className="text-[#cd9429] hover:underline font-semibold">
+            <Link to="/login" className="text-[#cd9429] hover:underline font-semibold">
               Login here
-            </a>
+            </Link>
           </div>
         </div>
       </div>

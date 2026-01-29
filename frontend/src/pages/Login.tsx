@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Eye, EyeSlash, Envelope, LockKey, CircleNotch } from "phosphor-react";
 import { useAuth } from "../context/AuthContext";
+import { IMAGES } from "../data/images";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -67,18 +68,28 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center px-6 py-12">
-      <div className="w-full max-w-2xl">
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-10 text-white shadow-2xl">
+    <div className="min-h-screen bg-white flex items-center justify-center px-6 py-12">
+      <div className="w-full max-w-5xl grid lg:grid-cols-[0.95fr_1.05fr] gap-8 items-stretch">
+        <div className="card overflow-hidden order-2 lg:order-1">
+          <img
+            src={IMAGES.home.hero}
+            alt="Students preparing for global admissions"
+            className="h-56 sm:h-64 lg:h-full w-full object-cover"
+          />
+          <div className="p-6 text-sm text-[#5b6472]">
+            Secure access to your personalized admission journey.
+          </div>
+        </div>
+        <div className="card p-8 md:p-10 order-1 lg:order-2">
           <div className="text-center mb-8">
-            <p className="text-xs uppercase tracking-[0.35em] text-white/60">Premass Overseas</p>
-            <h1 className="text-3xl md:text-4xl font-bold mt-3">Welcome Back</h1>
-            <p className="text-white/70 mt-2">Access your account and continue your journey.</p>
+            <p className="text-xs uppercase tracking-[0.35em] text-[#5b6472]">Premass Overseas</p>
+            <h1 className="text-3xl md:text-4xl font-semibold text-[#054374] mt-3">Welcome Back</h1>
+            <p className="text-[#5b6472] mt-2">Access your account and continue your journey.</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-5">
             <div className="grid grid-cols-2 gap-3">
-              <label className="flex items-center gap-2 p-3 border border-white/10 rounded-xl cursor-pointer transition-all hover:border-[#cd9429]/60" style={{ borderColor: role === "student" ? "#cd9429" : "" }}>
+              <label className="flex items-center gap-2 p-3 border border-[#e6e8ec] rounded-xl cursor-pointer transition-all hover:border-[#cd9429]/60" style={{ borderColor: role === "student" ? "#cd9429" : "" }}>
                 <input
                   type="radio"
                   value="student"
@@ -86,9 +97,9 @@ export default function Login() {
                   onChange={(e) => setRole(e.target.value as "student")}
                   className="w-4 h-4"
                 />
-                <span className="font-medium text-sm">Student</span>
+                <span className="font-medium text-sm text-[#054374]">Student</span>
               </label>
-              <label className="flex items-center gap-2 p-3 border border-white/10 rounded-xl cursor-pointer transition-all hover:border-[#cd9429]/60" style={{ borderColor: role === "employee" ? "#cd9429" : "" }}>
+              <label className="flex items-center gap-2 p-3 border border-[#e6e8ec] rounded-xl cursor-pointer transition-all hover:border-[#cd9429]/60" style={{ borderColor: role === "employee" ? "#cd9429" : "" }}>
                 <input
                   type="radio"
                   value="employee"
@@ -96,14 +107,14 @@ export default function Login() {
                   onChange={(e) => setRole(e.target.value as "employee")}
                   className="w-4 h-4"
                 />
-                <span className="font-medium text-sm">Staff</span>
+                <span className="font-medium text-sm text-[#054374]">Staff</span>
               </label>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white/80 mb-2">Email Address</label>
+              <label className="block text-sm font-medium text-[#5b6472] mb-2">Email Address</label>
               <div className="relative">
-                <Envelope className="absolute left-3 top-3.5 text-white/40" size={20} weight="duotone" />
+                <Envelope className="absolute left-3 top-3.5 text-[#5b6472]" size={20} weight="duotone" />
                 <input
                   type="email"
                   value={email}
@@ -112,16 +123,16 @@ export default function Login() {
                     setError("");
                   }}
                   placeholder="you@example.com"
-                  className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/10 rounded-xl focus:border-[#cd9429] focus:outline-none transition text-white placeholder-white/50"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-[#e6e8ec] focus:border-[#054374] focus:outline-none transition text-[#0b0b0b] placeholder-[#9aa1ab]"
                   disabled={isLoading}
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white/80 mb-2">Password</label>
+              <label className="block text-sm font-medium text-[#5b6472] mb-2">Password</label>
               <div className="relative">
-                <LockKey className="absolute left-3 top-3.5 text-white/40" size={20} weight="duotone" />
+                <LockKey className="absolute left-3 top-3.5 text-[#5b6472]" size={20} weight="duotone" />
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
@@ -130,13 +141,13 @@ export default function Login() {
                     setError("");
                   }}
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-12 py-3 bg-white/10 border border-white/10 rounded-xl focus:border-[#cd9429] focus:outline-none transition text-white placeholder-white/50"
+                  className="w-full pl-10 pr-12 py-3 rounded-xl border border-[#e6e8ec] focus:border-[#054374] focus:outline-none transition text-[#0b0b0b] placeholder-[#9aa1ab]"
                   disabled={isLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3.5 text-white/50 hover:text-white/70"
+                  className="absolute right-3 top-3.5 text-[#5b6472] hover:text-[#054374]"
                   tabIndex={-1}
                 >
                   {showPassword ? <EyeSlash size={20} weight="duotone" /> : <Eye size={20} weight="duotone" />}
@@ -144,11 +155,11 @@ export default function Login() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-sm text-white/60">
+            <div className="flex items-center justify-between text-sm text-[#5b6472]">
               <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
-                  className="w-4 h-4 rounded border-white/20"
+                  className="w-4 h-4 rounded border-[#e6e8ec]"
                   disabled={isLoading}
                 />
                 <span>Remember me</span>
@@ -161,7 +172,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-[#cd9429] hover:bg-[#e3a842] text-slate-950 font-semibold py-3 rounded-xl transition flex items-center justify-center gap-2 disabled:opacity-70"
+              className="w-full btn-primary disabled:opacity-70"
             >
               {isLoading ? (
                 <>
@@ -173,11 +184,11 @@ export default function Login() {
               )}
             </button>
             {error && (
-              <p className="text-red-300 text-sm text-center mt-2">{error}</p>
+              <p className="text-red-600 text-sm text-center mt-2">{error}</p>
             )}
           </form>
 
-          <div className="mt-6 text-center text-sm text-white/70">
+          <div className="mt-6 text-center text-sm text-[#5b6472]">
             Don't have an account?{" "}
             <Link to="/register" className="font-semibold text-[#cd9429] hover:underline">
               Create one
@@ -185,7 +196,7 @@ export default function Login() {
           </div>
 
           <div className="text-center mt-6">
-            <Link to="/" className="text-sm text-white/50 hover:text-[#cd9429] transition-colors font-medium">
+            <Link to="/" className="text-sm text-[#5b6472] hover:text-[#cd9429] transition-colors font-medium">
               ← Back to Home
             </Link>
           </div>

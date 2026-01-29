@@ -19,6 +19,9 @@ import Contact from "./pages/Contact";
 import Services from "./pages/Services";
 import ServiceCategory from "./pages/ServiceCategory";
 import ServiceDetail from "./pages/ServiceDetail";
+import StudyCountry from "./pages/StudyCountry";
+import Courses from "./pages/Courses";
+import Apply from "./pages/Apply";
 import Blog from "./pages/Blog";
 import BlogDetail from "./pages/BlogDetail";
 import Login from "./pages/Login";
@@ -49,6 +52,9 @@ export default function App() {
               <Route path="/services" element={<Services />} />
               <Route path="/services/:category" element={<ServiceCategory />} />
               <Route path="/services/:category/:service" element={<ServiceDetail />} />
+              <Route path="/study/:country" element={<StudyCountry />} />
+              <Route path="/courses" element={<Courses />} />
+              <Route path="/apply" element={<Apply />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogDetail />} />
               <Route path="/countries" element={<Countries />} />

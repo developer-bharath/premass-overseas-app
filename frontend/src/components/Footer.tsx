@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { LinkedinLogo, InstagramLogo, FacebookLogo, YoutubeLogo, Phone, Envelope, MapPin } from "phosphor-react";
-import { services } from "../data/services";
+import { STUDY_COUNTRIES } from "../data/studyAbroad";
 import logo from "../logo.svg";
 
 export default function Footer() {
@@ -13,7 +13,7 @@ export default function Footer() {
           {/* COMPANY INFO */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-white/90 flex items-center justify-center shadow-md overflow-hidden">
+              <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center shadow-md overflow-hidden">
                 <img src={logo} alt="Premass Overseas" className="w-7 h-7 object-contain" />
               </div>
               <div>
@@ -22,7 +22,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-sm text-gray-300 mb-6">
-              Your trusted partner for global education. Expert counselling, visa guidance, and career-driven planning for international success.
+              Professional guidance for global education, built on clarity, compliance, and results.
             </p>
             <div className="flex gap-4">
               <a href="https://linkedin.com" className="text-white/90 hover:text-[#cd9429] transition-all duration-300 hover:scale-125 hover:drop-shadow-[0_0_12px_rgba(205,148,41,0.8)]">
@@ -46,20 +46,20 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li><FooterLink to="/" label="Home" /></li>
               <li><FooterLink to="/about" label="About Us" /></li>
-              <li><FooterLink to="/services" label="Our Services" /></li>
+              <li><FooterLink to="/courses" label="Courses" /></li>
+              <li><FooterLink to="/services" label="Services" /></li>
               <li><FooterLink to="/contact" label="Contact Us" /></li>
-              <li><FooterLink to="/login" label="Student Login" /></li>
-              <li><FooterLink to="/register" label="Register" /></li>
+              <li><FooterLink to="/apply" label="Apply Now" /></li>
             </ul>
           </div>
 
-          {/* OUR SERVICES */}
+          {/* STUDY DESTINATIONS */}
           <div>
-            <h3 className="text-lg font-bold mb-4 text-[#cd9429]">Our Services</h3>
+            <h3 className="text-lg font-bold mb-4 text-[#cd9429]">Study Destinations</h3>
             <ul className="space-y-3 text-sm">
-              {services.slice(0, 6).map((cat) => (
-                <li key={cat.slug}>
-                  <FooterLink to={`/services/${cat.slug}`} label={cat.category} />
+              {STUDY_COUNTRIES.map((country) => (
+                <li key={country.slug}>
+                  <FooterLink to={`/study/${country.slug}`} label={country.name.replace("Study in ", "")} />
                 </li>
               ))}
             </ul>

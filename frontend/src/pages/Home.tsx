@@ -1,197 +1,249 @@
 import { Link } from "react-router-dom";
-import StatsSection from "../components/StatsSection";
+import { motion } from "framer-motion";
 import { services } from "../data/services";
 import { IMAGES } from "../data/images";
 import {
-  Book,
-  Clipboard,
-  Globe,
-  Shield,
-  Users,
-  TrendUp,
   ArrowRight,
+  GraduationCap,
+  Users,
+  Globe,
   CheckCircle,
-  Target,
+  ShieldCheck,
+  BookOpen,
+  Briefcase,
 } from "phosphor-react";
 
-const serviceIcons: Record<string, JSX.Element> = {
-  counselling: <Book size={28} weight="duotone" />,
-  applications: <Clipboard size={28} weight="duotone" />,
-  "test-prep": <Shield size={28} weight="duotone" />,
-  visa: <Globe size={28} weight="duotone" />,
-  "post-arrival": <Users size={28} weight="duotone" />,
-  countries: <Globe size={28} weight="duotone" />,
-};
+const destinations = [
+  {
+    name: "United Kingdom",
+    slug: "uk",
+    image: "https://images.unsplash.com/photo-1473959383414-b1c1e9b60441?w=1200&auto=format&fit=crop&q=80",
+    note: "Top-ranked universities & post-study work",
+  },
+  {
+    name: "United States",
+    slug: "usa",
+    image: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1200&auto=format&fit=crop&q=80",
+    note: "Diverse programs and world-class research",
+  },
+  {
+    name: "Canada",
+    slug: "canada",
+    image: "https://images.unsplash.com/photo-1501769214405-5e86fb2f86b4?w=1200&auto=format&fit=crop&q=80",
+    note: "Affordable education with PR pathways",
+  },
+  {
+    name: "Australia",
+    slug: "australia",
+    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200&auto=format&fit=crop&q=80",
+    note: "High employability and global campuses",
+  },
+  {
+    name: "Europe",
+    slug: "europe",
+    image: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&auto=format&fit=crop&q=80",
+    note: "English-taught programs and low tuition",
+  },
+];
 
-const serviceImages: Record<string, string> = IMAGES.home.services;
+const whyChoose = [
+  {
+    title: "Profile-first counselling",
+    description: "Personalized pathways built on academic profile, budget, and outcomes.",
+    icon: <Users size={22} weight="regular" />,
+  },
+  {
+    title: "Documentation accuracy",
+    description: "SOP, LOR, and visa documentation with compliance-first checks.",
+    icon: <ShieldCheck size={22} weight="regular" />,
+  },
+  {
+    title: "University partnerships",
+    description: "Access to verified institutions and scholarship guidance.",
+    icon: <GraduationCap size={22} weight="regular" />,
+  },
+  {
+    title: "Career-ready planning",
+    description: "Course selection aligned to employability and post-study work.",
+    icon: <Briefcase size={22} weight="regular" />,
+  },
+];
+
+const processSteps = [
+  "Profile evaluation and counselling",
+  "Course and university shortlisting",
+  "Documentation and application filing",
+  "Offer management and financial planning",
+  "Visa guidance and compliance checks",
+  "Pre-departure briefing and arrival support",
+];
+
+const testimonials = [
+  {
+    name: "Aarav S.",
+    program: "UK Business Analytics",
+    quote: "Premass delivered clear guidance and a very professional process from start to visa.",
+  },
+  {
+    name: "Meera K.",
+    program: "Canada Computer Science",
+    quote: "A dependable team with strong documentation support and transparent timelines.",
+  },
+  {
+    name: "Ritvik P.",
+    program: "Australia Engineering",
+    quote: "Clean communication, structured planning, and steady updates throughout.",
+  },
+];
+
+const partners = [
+  "Global University Network",
+  "International Admissions Council",
+  "Study Abroad Alliance",
+  "Campus Connect Partners",
+  "Worldwide Education Trust",
+  "Scholarship Link",
+];
 
 export default function Home() {
   return (
-    <main className="bg-white text-slate-900">
+    <main className="bg-white text-black">
       {/* HERO */}
-      <section className="bg-[#054374] text-white">
-        <div className="max-w-7xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6">
-              Your Trusted Partner for <br />
-              <span className="text-[#cd9429]">
-                Global Education
-              </span>
+      <section className="bg-white">
+        <div className="max-w-7xl mx-auto px-6 pt-12 pb-16 md:pt-16 md:pb-20 grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="tag">Premass Overseas</span>
+            <h1 className="mt-5 text-3xl md:text-5xl font-semibold text-[#054374] leading-tight">
+              Overseas education consulting built for confident outcomes.
             </h1>
-
-            <p className="text-lg text-white/90 max-w-xl leading-relaxed mb-8">
-              Expert counselling, visa guidance, and career-driven education planning for your international success.
+            <p className="mt-5 text-base md:text-lg text-[#5b6472] max-w-2xl">
+              Premium guidance for course selection, applications, and visa success with a
+              transparent, professional process at every step.
             </p>
-
-            <div className="flex flex-wrap gap-4">
-              <Link to="/contact" className="px-8 py-3 bg-[#cd9429] text-white rounded-lg font-bold hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
-                Free Consultation <ArrowRight size={20} weight="bold" />
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Link to="/apply" className="btn-primary">
+                Apply Now <ArrowRight size={18} weight="bold" />
               </Link>
-              <Link to="/services" className="px-8 py-3 border-2 border-[#cd9429] text-[#cd9429] rounded-lg font-bold hover:bg-[#cd9429] hover:text-white transition-all duration-300">
-                Explore Services
+              <Link to="/contact" className="btn-secondary">
+                Free Counselling
               </Link>
             </div>
-          </div>
-
-          <div className="hidden md:flex justify-center">
-            <div className="relative w-full h-96">
-              <div className="absolute -inset-2 rounded-3xl bg-gradient-to-br from-[#cd9429]/30 via-white/10 to-[#054374]/30 blur-xl opacity-70"></div>
-              <div className="relative h-full w-full rounded-3xl overflow-hidden border border-white/20 shadow-2xl">
-                <img
-                  src={IMAGES.home.hero}
-                  alt="Students planning overseas education"
-                  className="h-full w-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#054374]/70 via-transparent to-[#cd9429]/40" />
-                <div className="absolute bottom-6 left-6 bg-white/90 text-[#054374] px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
-                  Trusted by global learners
-                </div>
+            <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm text-[#5b6472]">
+              <div className="flex items-center gap-2">
+                <CheckCircle size={18} weight="regular" className="text-[#cd9429]" />
+                Transparent counselling
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle size={18} weight="regular" className="text-[#cd9429]" />
+                Verified partners
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle size={18} weight="regular" className="text-[#cd9429]" />
+                Visa-ready support
               </div>
             </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="relative"
+          >
+            <div className="absolute -inset-4 rounded-[32px] bg-gradient-to-br from-[#054374]/10 via-white to-[#cd9429]/10 blur-xl" />
+            <div className="relative rounded-[32px] overflow-hidden border border-[#e6e8ec] shadow-lg">
+              <img
+                src={IMAGES.home.hero}
+                alt="Professional counselling session"
+                className="h-[280px] md:h-[420px] w-full object-cover"
+              />
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* DESTINATIONS */}
+      <section className="section-pad bg-[#f6f7f9]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex items-end justify-between gap-6 flex-wrap">
+            <div>
+              <h2 className="section-title">Study destinations</h2>
+              <p className="section-subtitle">
+                Choose from leading global education hubs supported by expert counsellors.
+              </p>
+            </div>
+            <Link to="/countries" className="btn-secondary">
+              View All Destinations
+            </Link>
+          </div>
+          <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {destinations.map((dest) => (
+              <Link key={dest.slug} to={`/study/${dest.slug}`} className="card overflow-hidden hover:shadow-lg transition">
+                <img src={dest.image} alt={dest.name} className="h-40 w-full object-cover" />
+                <div className="p-5">
+                  <h3 className="text-lg font-semibold text-[#054374]">{dest.name}</h3>
+                  <p className="mt-2 text-sm text-[#5b6472]">{dest.note}</p>
+                  <span className="mt-4 inline-flex items-center gap-2 text-[#cd9429] font-semibold">
+                    Explore <ArrowRight size={16} weight="bold" />
+                  </span>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* STATS */}
-      <section className="bg-white">
-        <StatsSection />
-      </section>
-
       {/* WHY CHOOSE US */}
-      <section className="bg-[#F4F6FB] py-24">
+      <section className="section-pad">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center text-[#054374] mb-4">Why Choose Premass Overseas</h2>
-          <p className="text-center text-slate-900 max-w-3xl mx-auto mb-16">
-            Ethical guidance, regulatory accuracy, and long-term student success.
+          <h2 className="section-title text-center">Why Premass Overseas</h2>
+          <p className="section-subtitle text-center mx-auto">
+            Professional, outcome-focused guidance backed by experienced counsellors.
           </p>
-
-          <div className="grid md:grid-cols-2 gap-10">
-            {[ // attach images to each card
-              {
-                title: "Expert Counselling",
-                subtitle: "Profile-first guidance built on outcomes",
-                icon: <Target size={22} weight="duotone" />,
-                bullets: [
-                  "Personalized pathways for every student profile",
-                  "Data-driven course and university recommendations",
-                  "Dedicated counsellors with global expertise",
-                ],
-                img: IMAGES.home.whyChoose.counselling,
-              },
-              {
-                title: "Accurate Documentation",
-                subtitle: "Compliance and precision at every step",
-                icon: <Clipboard size={22} weight="duotone" />,
-                bullets: [
-                  "Error-free SOP/LOR drafting and reviews",
-                  "Visa-ready checklists and filing support",
-                  "Country-specific compliance guidance",
-                ],
-                img: IMAGES.home.whyChoose.documentation,
-              },
-              {
-                title: "Global Reach",
-                subtitle: "Top destinations with verified partners",
-                icon: <Globe size={22} weight="duotone" />,
-                bullets: [
-                  "UK, Europe, Canada, Australia, USA, and more",
-                  "Scholarship and funding opportunity mapping",
-                  "Local alumni and mentor connect",
-                ],
-                img: IMAGES.home.whyChoose.reach,
-              },
-              {
-                title: "Career-Focused",
-                subtitle: "Outcome-oriented planning",
-                icon: <TrendUp size={22} weight="duotone" />,
-                bullets: [
-                  "Programs aligned to employability and PR pathways",
-                  "Interview prep, mock visa, and job-readiness coaching",
-                  "Post-arrival support for smooth settlement",
-                ],
-                img: IMAGES.home.whyChoose.career,
-              },
-            ].map((card, idx) => (
-              <div key={idx} className="p-8 bg-white rounded-3xl shadow-lg border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition group">
-                <div className="h-36 w-full rounded-2xl overflow-hidden mb-5">
-                  <img src={card.img} alt={card.title} className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-300" />
+          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {whyChoose.map((item) => (
+              <div key={item.title} className="card p-6 hover:shadow-md transition">
+                <div className="w-12 h-12 rounded-xl bg-[#054374]/10 text-[#054374] flex items-center justify-center">
+                  {item.icon}
                 </div>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#cd9429]/20 via-orange-500/10 to-[#cd9429]/5 text-[#cd9429] flex items-center justify-center group-hover:from-[#cd9429] group-hover:via-orange-500 group-hover:to-[#cd9429] group-hover:text-white group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-[#cd9429]/30 transition-all duration-300">
-                    {card.icon}
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-[#054374] group-hover:text-[#cd9429] transition">{card.title}</h3>
-                    <p className="text-sm text-gray-500">{card.subtitle}</p>
-                  </div>
-                </div>
-                <ul className="space-y-2 text-slate-900">
-                  {card.bullets.map((bullet) => (
-                    <li key={bullet} className="flex gap-2">
-                      <CheckCircle size={20} weight="duotone" className="text-[#cd9429] mt-1 flex-shrink-0" />
-                      {bullet}
-                    </li>
-                  ))}
-                </ul>
+                <h3 className="mt-4 text-lg font-semibold text-[#054374]">{item.title}</h3>
+                <p className="mt-2 text-sm text-[#5b6472]">{item.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* SERVICES */}
-      <section className="bg-white py-24">
+      {/* SERVICES OVERVIEW */}
+      <section className="section-pad bg-[#f6f7f9]">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center text-[#054374] mb-4">Our Core Services</h2>
-          <p className="text-center text-slate-900 max-w-3xl mx-auto mb-16">
-            End-to-end overseas education support at every stage of your journey.
+          <h2 className="section-title text-center">Services overview</h2>
+          <p className="section-subtitle text-center mx-auto">
+            End-to-end support from counselling to visa success.
           </p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((category) => (
-              <div key={category.slug} className="bg-white rounded-2xl shadow-md border border-gray-100 p-8 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
-                <div className="h-32 w-full rounded-2xl overflow-hidden mb-4">
-                  <img
-                    src={serviceImages[category.slug] || serviceImages.countries}
-                    alt={category.category}
-                    className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+              <div key={category.slug} className="card p-6">
+                <div className="flex items-center gap-3 text-[#054374]">
+                  <BookOpen size={22} weight="regular" />
+                  <h3 className="text-lg font-semibold">{category.category}</h3>
                 </div>
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#cd9429]/20 via-orange-500/10 to-[#cd9429]/5 flex items-center justify-center text-[#cd9429] text-3xl mb-3 group-hover:from-[#cd9429] group-hover:via-orange-500 group-hover:to-[#cd9429] group-hover:text-white group-hover:scale-110 group-hover:shadow-xl group-hover:shadow-[#cd9429]/30 transition-all duration-300">{serviceIcons[category.slug] ?? <Globe size={32} weight="duotone" />}</div>
-                <h3 className="text-xl font-bold text-[#054374] mb-3 group-hover:text-[#cd9429] transition">{category.category}</h3>
-                <ul className="space-y-2 text-sm text-slate-900 mb-5">
+                <ul className="mt-4 space-y-2 text-sm text-[#5b6472]">
                   {category.items.slice(0, 3).map((item) => (
-                    <li key={item.slug} className="flex items-start gap-2 group/item">
-                      <span className="text-[#cd9429] mt-1 group-hover/item:translate-x-1 transition-transform">→</span>
-                      <span className="relative font-semibold">
-                        {item.name}
-                        <span className="absolute left-0 right-0 -bottom-0.5 h-0.5 bg-[#054374] scale-x-0 group-hover/item:scale-x-100 origin-left transition-transform duration-200" />
-                      </span>
+                    <li key={item.slug} className="flex items-center gap-2">
+                      <span className="text-[#cd9429]">•</span>
+                      {item.name}
                     </li>
                   ))}
                 </ul>
-                <Link to={`/services/${category.slug}`} className="text-[#cd9429] font-bold hover:text-[#054374] inline-flex items-center gap-2 group/link">
-                  View Services
-                  <ArrowRight size={20} weight="bold" className="group-hover/link:translate-x-1 transition-transform" />
+                <Link to={`/services/${category.slug}`} className="mt-5 inline-flex items-center gap-2 text-[#054374] font-semibold">
+                  View details <ArrowRight size={16} weight="bold" />
                 </Link>
               </div>
             ))}
@@ -199,14 +251,79 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FINAL CTA */}
-      <section className="bg-[#cd9429] text-white py-20">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold mb-4">Start Your Global Education Journey Today</h2>
-          <p className="text-lg text-white/90 mb-8">Connect with our expert counsellors for personalized guidance.</p>
-          <Link to="/contact" className="inline-block px-10 py-4 bg-white text-[#054374] rounded-lg font-bold text-lg hover:shadow-lg hover:-translate-y-1 transition">
-            Get Your Free Consultation
-          </Link>
+      {/* PROCESS */}
+      <section className="section-pad">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="section-title text-center">Process timeline</h2>
+          <p className="section-subtitle text-center mx-auto">
+            A clear six-step journey to keep your application on track.
+          </p>
+          <div className="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {processSteps.map((step, index) => (
+              <div key={step} className="card p-6">
+                <div className="text-sm font-semibold text-[#cd9429]">Step {index + 1}</div>
+                <h3 className="mt-3 text-lg font-semibold text-[#054374]">{step}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section className="section-pad bg-[#f6f7f9]">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="section-title text-center">Student testimonials</h2>
+          <p className="section-subtitle text-center mx-auto">
+            Trusted by students for structured guidance and transparency.
+          </p>
+          <div className="mt-10 grid md:grid-cols-3 gap-6">
+            {testimonials.map((testimonial) => (
+              <div key={testimonial.name} className="card p-6">
+                <p className="text-sm text-[#5b6472]">"{testimonial.quote}"</p>
+                <div className="mt-4">
+                  <p className="font-semibold text-[#054374]">{testimonial.name}</p>
+                  <p className="text-xs text-[#5b6472]">{testimonial.program}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PARTNERS */}
+      <section className="section-pad">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="section-title text-center">University partners</h2>
+          <p className="section-subtitle text-center mx-auto">
+            Collaborations with trusted institutions and partner networks worldwide.
+          </p>
+          <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {partners.map((partner) => (
+              <div key={partner} className="card p-4 text-center text-xs text-[#5b6472]">
+                {partner}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="section-pad bg-[#054374] text-white">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <h2 className="text-3xl md:text-4xl font-semibold">
+            Ready to plan your overseas education journey?
+          </h2>
+          <p className="mt-4 text-white/80">
+            Speak with our counsellors and get a personalized action plan today.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <Link to="/apply" className="btn-accent">
+              Apply Now
+            </Link>
+            <Link to="/contact" className="btn-secondary">
+              Free Counselling
+            </Link>
+          </div>
         </div>
       </section>
     </main>
