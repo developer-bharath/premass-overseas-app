@@ -1,4 +1,4 @@
-import { GraduationCap, BookOpen, Certificate, Stethoscope } from "phosphor-react";
+import { GraduationCap, BookOpen, ShieldCheck, Briefcase } from "phosphor-react";
 import { IMAGES } from "../data/images";
 
 const courseSections = [
@@ -14,12 +14,12 @@ const courseSections = [
   },
   {
     title: "MBBS",
-    icon: <Stethoscope size={22} weight="regular" />,
+    icon: <ShieldCheck size={22} weight="regular" />,
     items: ["EU Medical Programs", "UK Medical Pathways", "Australia Graduate Medicine", "Global Pre-Med Routes"],
   },
   {
     title: "Diploma / Pathway",
-    icon: <Certificate size={22} weight="regular" />,
+    icon: <Briefcase size={22} weight="regular" />,
     items: ["Foundation programs", "Credit transfer options", "One-year diplomas", "Language pathways"],
   },
 ];

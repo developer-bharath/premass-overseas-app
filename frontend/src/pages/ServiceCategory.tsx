@@ -24,7 +24,8 @@ export default function ServiceCategory() {
     );
   }
 
-  const heroImage = IMAGES.home.services[activeCategory.slug] || IMAGES.home.hero;
+  const heroImage =
+    IMAGES.home.services[activeCategory.slug as keyof typeof IMAGES.home.services] || IMAGES.home.hero;
 
   return (
     <section className="bg-white">
