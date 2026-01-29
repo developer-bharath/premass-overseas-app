@@ -44,7 +44,7 @@ export default function ServiceDetail() {
 
   const heroImage =
     content?.hero?.image ||
-    IMAGES.home.services[activeCategory.slug] ||
+    IMAGES.home.services[activeCategory.slug as keyof typeof IMAGES.home.services] ||
     IMAGES.home.hero;
 
   return (
