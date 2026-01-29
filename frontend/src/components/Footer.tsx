@@ -3,8 +3,6 @@ import { LinkedinLogo, InstagramLogo, FacebookLogo, YoutubeLogo, Phone, Envelope
 import { STUDY_COUNTRIES } from "../data/studyAbroad";
 import logo from "../logo.svg";
 
-const BUILD_MARKER = "premass-ui-deploy-2025-03-08-a";
-
 export default function Footer() {
   return (
     <footer className="bg-[#054374] text-white">
@@ -100,10 +98,7 @@ export default function Footer() {
       {/* BOTTOM BAR */}
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-2 text-sm text-gray-300">
-          <div className="text-center md:text-left">
-            <p className="font-medium">© 2026 Premass Overseas. All rights reserved.</p>
-            <p className="text-[10px] text-white/40 mt-1">Build: {BUILD_MARKER}</p>
-          </div>
+          <p className="font-medium">© 2026 Premass Overseas. All rights reserved.</p>
           <div className="flex gap-6 mt-4 md:mt-0">
             <FooterLink to="#" label="Privacy Policy" />
             <FooterLink to="#" label="Terms of Service" />
